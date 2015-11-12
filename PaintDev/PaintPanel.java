@@ -1,9 +1,7 @@
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
-
 import javax.swing.border.*;
 
 public class PaintPanel extends JPanel {
@@ -19,7 +17,7 @@ public class PaintPanel extends JPanel {
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
 
 	private Vector<Line2D.Double> allStrokes;
-
+	//PaintPanel ip;
 	Image img;
 	private int x;
 	private int y;
@@ -28,17 +26,18 @@ public class PaintPanel extends JPanel {
 	private int xOffset;
 	private int yOffset;
 	final int INC = 10;
+	
 	public PaintPanel() {
 		allStrokes = new Vector<Line2D.Double>();
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		//width = img.getWidth(this);
+		//height = img.getHeight(this);
+		width = 250;
+		height = 250;
+		xOffset = 0;
+		yOffset = 0;
 	}
-
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		paintInkStrokes(g);
-	}
-
 	public Color getColor() {
 		return this.LINE_COLOR;
 	}
@@ -91,16 +90,16 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void addImage(Image image) {
+		img  = image;
 		MediaTracker mt = new MediaTracker(this);
-		mt.addImage(image, 0);
-
 		try {
 			mt.waitForAll();
 		} catch (InterruptedException e) {
 			System.out.printf("Failed to print image: %s\n", image.toString());
 		}
 		Graphics2D g2 = (Graphics2D) this.getGraphics();
-		g2.drawImage(image, 0, 0, this);
+		g2.drawImage(image,0 , 0 ,width, height,this);
+		//g2.drawImage(image ,0 , 0 , this);
 	}
 	public Shape getImage(){
 		Shape paint = g2.getClip();
@@ -111,5 +110,96 @@ public class PaintPanel extends JPanel {
 		allStrokes.clear();
 		this.repaint();
 	}
-	
+	public void clearImage(){
+		Graphics2D graphics = (Graphics2D) this.getGraphics();
+		System.out.println(graphics.toString());
+		graphics.clearRect(x, y, width, height);
+	}
+	@Override
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g); // paint background
+		paintInkStrokes(g);
+		x = this.getWidth() / 2 - width / 2 + xOffset / 2;
+		y = this.getHeight() / 2 - height / 2 + yOffset / 2;
+		g.drawImage(img, x, y, width, height, this);
+	}
+
+	public void makeBigger()
+	{
+		width = width + INC;
+		height = height + INC;
+		setPreferredSize(new Dimension(width, height));
+		this.repaint();
+	}
+
+	public void makeSmaller()
+	{
+		width = width - INC;
+		height = height - INC;
+		setPreferredSize(new Dimension(width, height));
+		this.repaint();
+	}
+
+	public void makeWider()
+	{
+		width = width + INC;
+		setPreferredSize(new Dimension(width, height));
+		this.repaint();
+	}
+
+	public void makeNarrower()
+	{
+		width = width - INC;
+		setPreferredSize(new Dimension(width, height));
+		this.repaint();
+	}
+
+	public void makeTaller()
+	{
+		height = height + 10;
+		setPreferredSize(new Dimension(width, height));
+		this.repaint();
+	}
+
+	public void makeShorter()
+	{
+		height = height - 10;
+		setPreferredSize(new Dimension(width, height));
+		this.repaint();
+	}
+
+	public void moveUp()
+	{
+		yOffset = yOffset - INC;
+		this.repaint();
+	}
+
+	public void moveDown()
+	{
+		yOffset = yOffset + INC;
+		this.repaint();
+	}
+
+	public void moveLeft()
+	{
+		xOffset = xOffset - INC;
+		this.repaint();
+	}
+
+	public void moveRight()
+	{
+		xOffset = xOffset + INC;
+		this.repaint();
+	}
+
+	public void resetImage()
+	{
+		width = img.getWidth(this);
+		height = img.getHeight(this);
+		setPreferredSize(new Dimension(width, height));
+		xOffset = 0;
+		yOffset = 0;
+		this.repaint();
+	}
 }
