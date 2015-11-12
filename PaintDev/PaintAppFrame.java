@@ -1,6 +1,7 @@
 import java.io.*;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -26,7 +27,9 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 			KeyEvent.VK_R };
 	private JButton tbButtons[];
 	//-----------------------------------------
+	private Image image;
 	private PaintPanel paintPanel;
+	private PaintPanel paintPanel2;
 	private JPanel content; //the main panel
 	private JPanel paintCanvas;
 	//-----------------------------------------
@@ -55,6 +58,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	private JToolBar toolBar;
 	private JMenuItem position;
 	JPanel popUpToolBar;
+	private JMenuItem clearImage;
 
 	PaintAppFrame() {
 		 file = new File(".");
@@ -90,6 +94,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		loadImage.setActionCommand("image");
 		loadImage.addActionListener(this);
 		//added the menu goes here
+		image = Toolkit.getDefaultToolkit().getImage(".");
 		paintPanel = new PaintPanel();
 		paintPanel.addMouseMotionListener(this);
 		paintPanel.addMouseListener(this);
@@ -163,7 +168,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		saveAs = new JMenuItem("Save as...", newFileImage);
 		saveAs.setMnemonic(KeyEvent.VK_A);
 		saveAs.addActionListener(this);
-		saveAs.setEnabled(false);
+		saveAs.setEnabled(true);
 		fileMenu.add(save);
 		fileMenu.add(saveAs);
 		//<exit>
@@ -196,9 +201,15 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		clear.setMnemonic(KeyEvent.VK_C);
 		clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C , ActionEvent.CTRL_MASK));
 		clear.addActionListener(this);
+		//
+		clearImage = new JMenuItem("Clear Image");
+		clearImage.setMnemonic(KeyEvent.VK_I);
+		clearImage.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I , ActionEvent.CTRL_MASK));
+		clearImage.addActionListener(this);
 		editMenu.add(Undo);
 		editMenu.add(Redo);
 		editMenu.add(clear);
+		editMenu.add(clearImage);
 		editMenu.setMnemonic(KeyEvent.VK_T);
 		addDropDownToolBar();
 	}
@@ -211,7 +222,48 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 			tbButtons[i] = new JButton(new ImageIcon(BUTTON_ICONS[i]));
 			tbButtons[i].setMargin(new Insets(0, 0, 0, 0));
 			tbButtons[i].setName(BUTTON_NAMES[i]);
-			tbButtons[i].addActionListener(this);
+			tbButtons[i].addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					String source = ((JButton)e.getSource()).getName();
+					
+					if (source.equals(BUTTON_NAMES[0])){ // 'bigger'
+						System.out.println("bigger");
+						paintPanel.makeBigger();
+					}
+
+					else if (source.equals(BUTTON_NAMES[1])){ // 'smaller'
+						System.out.println("smaller");
+						paintPanel.makeSmaller();
+					}
+
+					else if (source.equals(BUTTON_NAMES[2])) // 'wider'
+						paintPanel.makeWider();
+
+					else if (source.equals(BUTTON_NAMES[3])) // 'narrower'
+						paintPanel.makeNarrower();
+
+					else if (source.equals(BUTTON_NAMES[4])) // 'taller'
+						paintPanel.makeTaller();
+
+					else if (source.equals(BUTTON_NAMES[5])) // 'shorter'
+						paintPanel.makeShorter();
+
+					else if (source.equals(BUTTON_NAMES[6])) // 'up
+						paintPanel.moveUp();
+
+					else if (source.equals(BUTTON_NAMES[7])) // 'down'
+						paintPanel.moveDown();
+
+					else if (source.equals(BUTTON_NAMES[8])) // 'left'
+						paintPanel.moveLeft();
+
+					else if (source.equals(BUTTON_NAMES[9])) // 'right'
+						paintPanel.moveRight();
+				}
+			});
 			tbButtons[i].setToolTipText(BUTTON_NAMES[i]);
 			tbButtons[i].setMnemonic(MNEMONICS[i]);
 			tb.add(tbButtons[i]);
@@ -224,7 +276,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	public void mouseDragged(MouseEvent me) {
 		int x = me.getX();
 		int y = me.getY();
-		System.out.println(x +"---->"+y);
+		//System.out.println(x +"---->"+y);
 		if (SwingUtilities.isLeftMouseButton(me)) {
 			stroke[sampleCount] = new Point(x, y);
 			int x1 = (int) stroke[sampleCount - 1].getX();
@@ -327,6 +379,8 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 			}
 		}else if(source == position){
 			System.out.println("DropDownToolBar");
+		}else if(source == clearImage){
+			paintPanel.clearImage();
 		}
 	}
 	protected void openFile(File file2) {
@@ -374,8 +428,12 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		if (imageSelector.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
 			File imageFile = imageSelector.getSelectedFile();
 			Toolkit toolkit = Toolkit.getDefaultToolkit();
-			Image image = toolkit.getImage(imageFile.getAbsolutePath());
+			image = toolkit.getImage(imageFile.getAbsolutePath());
+			int h = image.getHeight(this);
+			int w = image.getWidth(this);
+			setPreferredSize(new Dimension(w,h));
 			paintPanel.addImage(image);
+			System.out.println(paintPanel);
 		}
 	}
 }
