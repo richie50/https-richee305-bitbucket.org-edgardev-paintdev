@@ -15,6 +15,9 @@ public class PaintPanel extends JPanel {
 
 	private Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
+	
+		private Stroke ERASER_STROKE = new BasicStroke(10.0f, 
+			BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
 	private Vector<Line2D.Double> allStrokes;
 	//PaintPanel ip;
@@ -52,6 +55,12 @@ public class PaintPanel extends JPanel {
 
 	public void setThinBrush() {
 		this.LINE_STROKE = this.THIN_LINE_STROKE;
+	}
+	
+	public void setEraser(){
+
+		this.LINE_COLOR = Color.WHITE;
+				
 	}
 
 	/*
