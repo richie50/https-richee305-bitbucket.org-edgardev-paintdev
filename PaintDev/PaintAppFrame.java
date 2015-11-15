@@ -38,6 +38,9 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	private JButton thinBrush;
 	private JButton changeColor;
 	private JButton loadImage;
+	private JButton squareButton;
+	private JButton circleButton;
+	private JButton eraserButton;
 	private Point[] stroke;
 	private int strokeCount;
 	private int sampleCount;
@@ -73,45 +76,66 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 
 		stroke = new Point[MAX_SAMPLES];
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		Icon clearIcon = new ImageIcon("clear.png");
+		Icon brushIcon = new ImageIcon("brush.gif");
+		Icon pencilIcon = new ImageIcon("pencil.gif");
+		Icon rgbIcon = new ImageIcon("rgb.png");
+		Icon loadIcon = new ImageIcon("load.png");
+		Icon squareIcon = new ImageIcon("square.png");
+		Icon circleIcon = new ImageIcon("circle.png");
+		Icon eraserIcon = new ImageIcon("eraser.png");
 
-		clearButton = new JButton("CLEAR");
-		clearButton.setActionCommand("clear");
+		clearButton = new JButton(clearIcon);
+	    clearButton.setActionCommand("clear");
 		clearButton.addActionListener(this);
-
-		thickBrush = new JButton("BRUSH");
+		
+		thickBrush = new JButton(brushIcon);
 		thickBrush.setActionCommand("thick");
 		thickBrush.addActionListener(this);
 
-		thinBrush = new JButton("PENCIL");
+		thinBrush = new JButton(pencilIcon);
 		thinBrush.setActionCommand("thin");
 		thinBrush.addActionListener(this);
 
-		changeColor = new JButton("CHANGE COLOR");
+		changeColor = new JButton(rgbIcon);
 		changeColor.setActionCommand("color");
 		changeColor.addActionListener(this);
 
-		loadImage = new JButton("LOAD IMAGE");
+		loadImage = new JButton(loadIcon);
 		loadImage.setActionCommand("image");
 		loadImage.addActionListener(this);
+		
+		squareButton = new JButton(squareIcon);
+		squareButton.setActionCommand("square");
+		squareButton.addActionListener(this);
+		
+		circleButton = new JButton(circleIcon);
+		circleButton.setActionCommand("circle");
+		circleButton.addActionListener(this);
+		
+		eraserButton = new JButton(eraserIcon);
+		eraserButton.setActionCommand("eraser");
+		eraserButton.addActionListener(this);
+		
 		//added the menu goes here
 		image = Toolkit.getDefaultToolkit().getImage(".");
 		paintPanel = new PaintPanel();
 		paintPanel.addMouseMotionListener(this);
 		paintPanel.addMouseListener(this);
 		//make this a toolbar 
-		JPanel buttons = new JPanel(new BorderLayout());
+		JPanel buttons = new JPanel(new GridLayout());
 		buttons.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-		buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
-		buttons.add(Box.createRigidArea(new Dimension(0, 3)));
-		buttons.add(clearButton);
-		buttons.add(Box.createRigidArea(new Dimension(0, 3)));
+	    buttons.setLayout(new GridLayout(6, 2));
+
+	    buttons.add(clearButton);
 		buttons.add(thickBrush);
-		buttons.add(Box.createRigidArea(new Dimension(0, 3)));
 		buttons.add(thinBrush);
-		buttons.add(Box.createRigidArea(new Dimension(0, 3)));
 		buttons.add(changeColor);
-		buttons.add(Box.createRigidArea(new Dimension(0, 3)));
 		buttons.add(loadImage);
+		buttons.add(squareButton);
+		buttons.add(circleButton);
+		buttons.add(eraserButton);
 
 		paintCanvas = new JPanel(new BorderLayout());
 		paintCanvas.add(paintPanel, "Center");
