@@ -364,6 +364,9 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		case "image":
 			this.loadImage();
 			break;
+		case "eraser":
+			paintPanel.setEraser();
+			break;
 
 		}
 		if(source == open){
