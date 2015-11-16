@@ -6,20 +6,17 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
-public class a2
-{
-    public static void main(String[] args) {
-    	try
-		{
+public class a2 {
+	public static void main(String[] args) {
+		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 		}
-        PaintAppFrame paintFrame = new PaintAppFrame();
-        paintFrame.setTitle("Paint");
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		System.out.println(screenSize.getHeight()+" "+screenSize.getWidth());
+		PaintAppFrame paintFrame = new PaintAppFrame();
+		paintFrame.setTitle("Paint");
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		System.out.println(screenSize.getHeight() + " " + screenSize.getWidth());
 		paintFrame.setSize(screenSize);
-        paintFrame.setVisible(true);
-    }
+		paintFrame.setVisible(true);
+	}
 }

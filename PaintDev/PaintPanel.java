@@ -127,6 +127,7 @@ public class PaintPanel extends JPanel {
 		Graphics2D graphics = (Graphics2D) this.getGraphics();
 		System.out.println(graphics.toString());
 		graphics.clearRect(x, y, width, height);
+		this.repaint();
 	}
 
 	@Override

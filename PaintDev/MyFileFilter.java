@@ -9,35 +9,36 @@ public class MyFileFilter extends FileFilter {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String array[];
-		
-		public MyFileFilter(String[] extensions) {
-			// TODO Auto-generated constructor stub
-			array = extensions;
+
+	public MyFileFilter(String[] extensions) {
+		// TODO Auto-generated constructor stub
+		array = extensions;
+	}
+
+	@Override
+	public boolean accept(File f) {
+		// TODO Auto-generated method stub
+		if (f.isDirectory()) {
+			return true;
 		}
-		@Override
-		public boolean accept(File f) {
-			// TODO Auto-generated method stub
-			if(f.isDirectory()){
+		// show the extensions
+		for (int j = 0; j < array.length; j++) {
+			if (f.getName().toLowerCase().indexOf(array[j].toLowerCase()) > 0) {
 				return true;
 			}
-			//show the extensions
-			for(int j = 0; j < array.length; j++){
-				if(f.getName().toLowerCase().indexOf(array[j].toLowerCase())> 0){
-					return true;
-				}
-			}
-			return false;
 		}
+		return false;
+	}
 
-		@Override
-		public String getDescription() {
-			// TODO Auto-generated method stub
-			String tmp = "";
-			for (int i = 0; i < array.length; ++i){
-				tmp += "*" + array[i] + " ";
-				System.out.println(tmp);
-			}
-			return tmp;
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		String tmp = "";
+		for (int i = 0; i < array.length; ++i) {
+			tmp += "*" + array[i] + " ";
+			System.out.println(tmp);
 		}
-		
+		return tmp;
+	}
+
 }
