@@ -46,7 +46,7 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void setColor(Color color) {
-		this.LINE_COLOR = color;
+		color = new Color(0, 0, 0);
 	}
 
 	public void setThickBrush() {
@@ -58,8 +58,7 @@ public class PaintPanel extends JPanel {
 	}
 	
 	public void setEraser(){
-
-		this.LINE_COLOR = Color.WHITE;
+		this.LINE_COLOR = new Color(255, 255, 255);
 				
 	}
 

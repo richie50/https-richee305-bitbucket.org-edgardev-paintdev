@@ -15,9 +15,9 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	static final long serialVersionUID = 2L;
 	final String TITLE = "DemoFileMenu";
 	final int MAX_SAMPLES = 500;
-	final String[] BUTTON_ICONS = { "tbBigger.gif", "tbSmaller.gif", "tbWider.gif",
-			"tbNarrower.gif", "tbTaller.gif", "tbShorter.gif", "tbUp.gif", "tbDown.gif",
-			"tbLeft.gif", "tbRight.gif" };
+	final String[] BUTTON_ICONS = { "bigger.png", "smaller.png", "wider.png",
+			"narrow.png", "taller.png", "shorter.png", "up.png", "down.png",
+			"left.png", "right.png" };
 
 	final String[] BUTTON_NAMES = { "Bigger", "Smaller", "Wider", "Narrower", "Taller", "Shorter",
 			"Up", "Down", "Left", "Right" };
