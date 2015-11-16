@@ -78,13 +78,13 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		Icon clearIcon = new ImageIcon("clear.png");
-		Icon brushIcon = new ImageIcon("brush.gif");
-		Icon pencilIcon = new ImageIcon("pencil.gif");
-		Icon rgbIcon = new ImageIcon("rgb.png");
-		Icon loadIcon = new ImageIcon("load.png");
+		Icon brushIcon = new ImageIcon("brush.png");
+		Icon pencilIcon = new ImageIcon("pencil.png");
+		Icon rgbIcon = new ImageIcon("color.png");
+		Icon loadIcon = new ImageIcon("open.png");
 		Icon squareIcon = new ImageIcon("square.png");
 		Icon circleIcon = new ImageIcon("circle.png");
-		Icon eraserIcon = new ImageIcon("eraser.png");
+		Icon eraserIcon = new ImageIcon("erase.png");
 
 		clearButton = new JButton(clearIcon);
 	    clearButton.setActionCommand("clear");
@@ -126,7 +126,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		//make this a toolbar 
 		JPanel buttons = new JPanel(new GridLayout());
 		buttons.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-	    buttons.setLayout(new GridLayout(6, 2));
+	    buttons.setLayout(new GridLayout(10, 2));
 
 	    buttons.add(clearButton);
 		buttons.add(thickBrush);
