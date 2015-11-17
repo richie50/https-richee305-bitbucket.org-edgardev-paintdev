@@ -255,13 +255,77 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	public void addDropDownToolBar() {
 		cd = new WordArtCustomDialog(this);
 		int n = BUTTON_ICONS.length;
+		int i = 0;
 		tbButtons = new JButton[n];
 		JToolBar tb = new JToolBar();
-		for (int i = 0; i < n; ++i) {
+		for (i = 0; i < n; ++i) {
 			tbButtons[i] = new JButton(new ImageIcon(BUTTON_ICONS[i]));
 			tbButtons[i].setMargin(new Insets(0, 0, 0, 0));
 			tbButtons[i].setName(BUTTON_NAMES[i]);
-			tbButtons[i].addActionListener(new ActionListener() {
+			if(i == 10){
+				tbButtons[i].addMouseListener(new PopupListener());
+				System.out.println("Word ART");
+				message = "";
+				messageFont = new Font("Arial", Font.PLAIN, 26);
+				foreColor = Color.black;
+				backColor = Color.white;
+				messageField = new JLabel(message);
+				paintPanel.add(messageField);
+				MouseListener fireCustomDialoag = new MouseListener() {
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+					}
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+					}
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+					}
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+					}
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// TODO Auto-generated method stub
+						Object source = (JLabel) e.getSource();
+						System.out.println("DIALOG.....");
+						int j = cd.showCustomDialog(null, messageFont,
+								foreColor, backColor);
+						if (source == messageField) {
+							if (j == WordArtCustomDialog.APPLY_OPTION) {
+								messageFont = cd.getFont();
+								foreColor = cd.getForeColor();
+								backColor = cd.getBackColor();
+
+								messageField
+										.setPreferredSize(messageField
+												.getPreferredSize());
+								// messageField.setEditable(true);
+								messageField
+										.setHorizontalAlignment(SwingConstants.CENTER);
+								// messageField
+								// .setAlignmentX(Component.CENTER_ALIGNMENT);
+								messageField
+										.setToolTipText("Right click to change message");
+								messageField.setText(message);
+								messageField.setFont(messageFont);
+								messageField.setForeground(foreColor);
+								messageField.setBackground(backColor);
+								paintPanel.add(messageField);
+							}
+						}
+					}
+				};
+				messageField.addMouseListener(fireCustomDialoag);
+				paintPanel.add(messageField);
+			}
+			else {
+				System.out.println(i);
+				tbButtons[i].addActionListener(new ActionListener() {		
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
@@ -300,77 +364,9 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 
 					else if (source.equals(BUTTON_NAMES[9])) // 'right'
 						paintPanel.moveRight();
-					else if (source.equals(BUTTON_NAMES[10])) {
-						System.out.println("Word ART");
-						tbButtons[10].addMouseListener(new PopupListener());
-						message = "RAPTORS";
-						messageFont = new Font("Arial", Font.PLAIN, 26);
-						foreColor = Color.black;
-						backColor = Color.white;
-						messageField = new JLabel(message);
-						MouseListener fireCustomDialoag = new MouseListener() {
-
-							@Override
-							public void mouseReleased(MouseEvent e) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void mousePressed(MouseEvent e) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void mouseExited(MouseEvent e) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void mouseEntered(MouseEvent e) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void mouseClicked(MouseEvent e) {
-								// TODO Auto-generated method stub
-								Object source = (JLabel) e.getSource();
-								int j = cd.showCustomDialog(null, messageFont,
-										foreColor, backColor);
-								if (source == messageField) {
-									if (j == WordArtCustomDialog.APPLY_OPTION) {
-										messageFont = cd.getFont();
-										foreColor = cd.getForeColor();
-										backColor = cd.getBackColor();
-
-										messageField
-												.setPreferredSize(messageField
-														.getPreferredSize());
-										// messageField.setEditable(true);
-										messageField
-												.setHorizontalAlignment(SwingConstants.CENTER);
-										// messageField
-										// .setAlignmentX(Component.CENTER_ALIGNMENT);
-										messageField
-												.setToolTipText("Right click to change message");
-										messageField.setText(message);
-										messageField.setFont(messageFont);
-										messageField.setForeground(foreColor);
-										messageField.setBackground(backColor);
-										paintPanel.add(messageField);
-									}
-								}
-							}
-						};
-						messageField.addMouseListener(fireCustomDialoag);
-						paintPanel.add(messageField);
-						// messageField.addMouseListener(new PopupLister());
-					}
 				}
 			});
+		}
 			tbButtons[i].setToolTipText(BUTTON_NAMES[i]);
 			tbButtons[i].setMnemonic(MNEMONICS[i]);
 			tb.add(tbButtons[i]);
@@ -603,9 +599,12 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 
 	class PopupListener extends MouseAdapter {
 		@Override
-		public void mousePressed(MouseEvent me) {
-			String tmp = JOptionPane.showInputDialog(message,
-					"Enter new message");
+		public void mouseClicked(MouseEvent me) {
+			JLabel s = new JLabel("Enter new message");
+			Font font =  new Font(Font.MONOSPACED , Font.BOLD | Font.ITALIC , 20);
+			s.setFont(font);
+			String tmp = JOptionPane.showInputDialog(message, s.getText());
+			//String tmp = (String) JOptionPane.showInputDialog(messageField, s.getText(), "Your Text goes here" ,1 , new ImageIcon(), null , 0);
 			if (tmp != null && tmp.length() > 0) {
 				message = tmp;
 				updateMessage();
