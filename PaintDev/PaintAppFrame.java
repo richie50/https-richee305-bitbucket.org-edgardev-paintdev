@@ -59,12 +59,13 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	private JButton thinBrush;
 	private JButton changeColor;
 	private JButton loadImage;
-	private JButton squareButton;
+	private JButton rectButton;
 	private JButton circleButton;
 	private JButton eraserButton;
 	private Point[] stroke;
 	private int strokeCount;
 	private int sampleCount;
+	
 	// Menu
 	File file;
 	ImageFileChooser imageChooser;
@@ -129,13 +130,13 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		paintPanel.addMouseListener(this);
 		// make this a toolbar and images
 		Icon clearIcon = new ImageIcon("clear.png");
-		Icon brushIcon = new ImageIcon("brush.gif");
-		Icon pencilIcon = new ImageIcon("pencil.gif");
-		Icon rgbIcon = new ImageIcon("rgb.png");
-		Icon loadIcon = new ImageIcon("load.png");
-		Icon squareIcon = new ImageIcon("square.png");
+		Icon brushIcon = new ImageIcon("brush.png");
+		Icon pencilIcon = new ImageIcon("pencil.png");
+		Icon rgbIcon = new ImageIcon("color.png");
+		Icon loadIcon = new ImageIcon("open.png");
+		Icon rectIcon = new ImageIcon("rectangle.png");
 		Icon circleIcon = new ImageIcon("circle.png");
-		Icon eraserIcon = new ImageIcon("eraser.png");
+		Icon eraserIcon = new ImageIcon("erase.png");
 		clearButton = new JButton(clearIcon);
 	    clearButton.setActionCommand("clear");
 		clearButton.addActionListener(this);
@@ -156,9 +157,9 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		loadImage.setActionCommand("image");
 		loadImage.addActionListener(this);
 		
-		squareButton = new JButton(squareIcon);
-		squareButton.setActionCommand("square");
-		squareButton.addActionListener(this);
+		rectButton = new JButton(rectIcon);
+		rectButton.setActionCommand("rectangle");
+		rectButton.addActionListener(this);
 		
 		circleButton = new JButton(circleIcon);
 		circleButton.setActionCommand("circle");
@@ -176,7 +177,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		buttons.add(thinBrush);
 		buttons.add(changeColor);
 		buttons.add(loadImage);
-		buttons.add(squareButton);
+		buttons.add(rectButton);
 		buttons.add(circleButton);
 		buttons.add(eraserButton);
 
@@ -445,6 +446,8 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	}
 
 	public void mouseDragged(MouseEvent me) {
+		
+		
 		int x = me.getX();
 		int y = me.getY();
 		// System.out.println(x +"---->"+y);
@@ -460,6 +463,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 			// draw ink trail from previous point to current point
 			paintPanel.drawInk(x1, y1, x2, y2);
 		}
+		
 	}
 
 	public void mouseMoved(MouseEvent me) {
@@ -511,7 +515,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		case "image":
 			this.loadImage();
 			break;
-		case "square":
+		case "rectangle":
 			paintPanel.drawRect();
 			break;	
 
