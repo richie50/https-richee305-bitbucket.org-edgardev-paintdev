@@ -1,24 +1,33 @@
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.*;
 import java.util.*;
+
 import javax.swing.border.*;
 
 public class PaintPanel extends JPanel {
 	static final long serialVersionUID = 1L;
 	Graphics2D g2; // only possible way i could get a reference to the image we
 					// draw
-	private Stroke THIN_LINE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+	private Stroke THIN_LINE_STROKE = new BasicStroke(2.0f,
+			BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
-	private Stroke THICK_LINE_STROKE = new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-
+	private Stroke THICK_LINE_STROKE = new BasicStroke(5.0f,
+			BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 	private Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
-
-	private Color prevColor;
-
 	private Vector<Line2D.Double> allStrokes;
-
+	private static ArrayList<Shape> rects = new ArrayList<Shape>();
+	private static Point mouseStart;
+	private static Point mouseEnd;
+	Rectangle rect;
+	Graphics2D gr;
 	Image img;
 	private int x;
 	private int y;
@@ -49,20 +58,15 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void setThickBrush() {
-		this.LINE_COLOR = this.prevColor;
 		this.LINE_STROKE = this.THICK_LINE_STROKE;
 	}
 
 	public void setThinBrush() {
-		this.LINE_COLOR = this.prevColor;
 		this.LINE_STROKE = this.THIN_LINE_STROKE;
 	}
-
-	public void setEraser() {
-		prevColor = this.LINE_COLOR;
-		this.LINE_COLOR = Color.WHITE;
+	public void setRectangle(){
+		
 	}
-
 	/*
 	 * Paint all the line segments stored in the vector
 	 */
@@ -93,7 +97,6 @@ public class PaintPanel extends JPanel {
 		g2.setColor(LINE_COLOR); // set the inking color
 		Stroke s = g2.getStroke(); // save current stroke
 		g2.setStroke(LINE_STROKE); // set desired stroke
-
 		g2.draw(inkSegment); // draw it!
 		g2.setStroke(s); // restore stroke
 		allStrokes.add(inkSegment); // add to vector
@@ -127,13 +130,13 @@ public class PaintPanel extends JPanel {
 		Graphics2D graphics = (Graphics2D) this.getGraphics();
 		System.out.println(graphics.toString());
 		graphics.clearRect(x, y, width, height);
-		this.repaint();
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // paint background
 		paintInkStrokes(g);
+		paintShapes(g);
 		x = this.getWidth() / 2 - width / 2 + xOffset / 2;
 		y = this.getHeight() / 2 - height / 2 + yOffset / 2;
 		g.drawImage(img, x, y, width, height, this);
@@ -204,5 +207,58 @@ public class PaintPanel extends JPanel {
 		xOffset = 0;
 		yOffset = 0;
 		this.repaint();
+	}
+
+	public void drawRect() {
+		System.out.println("drawRect()");
+		addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				mouseStart = new Point(e.getX(), e.getY());
+				mouseEnd = mouseStart;
+				repaint();
+
+			}
+
+			public void mouseReleased(MouseEvent e) {
+				Shape r = createRect(mouseStart.x, mouseStart.y, e.getX(), e.getY());
+				rects.add(r);
+				mouseStart = null;
+				mouseEnd = null;
+				repaint();
+			}
+		});
+
+		addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseDragged(MouseEvent e) {
+				mouseEnd = new Point(e.getX(), e.getY());
+				repaint();
+				System.out.println("rect dragged");
+			}
+		});
+	}
+	
+	
+	public void paintShapes(Graphics g) {
+		gr = (Graphics2D) g;
+		System.out.println("paintShapes(G)");
+
+		for (Shape s : rects) {
+			gr.setPaint(this.LINE_COLOR);
+			gr.draw(s);
+			//add(this);
+			// gr.setPaint(this.LINE_COLOR);
+			// gr.fill(s);
+		}
+
+		if (mouseStart != null && mouseEnd != null) {
+			gr.setPaint(Color.RED);
+			Shape r = createRect(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
+			gr.draw(r);
+		}
+	}
+
+	public Rectangle2D.Float createRect(int x1, int y1, int x2, int y2) {
+		return new Rectangle2D.Float(Math.min(x1, x2),
+				Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
 	}
 }
