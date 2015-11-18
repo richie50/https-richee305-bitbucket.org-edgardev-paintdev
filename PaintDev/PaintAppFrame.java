@@ -7,6 +7,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.util.*;
 
 import javax.swing.border.*;
@@ -32,7 +36,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	final String[] BUTTON_ICONS = { "tbBigger.gif", "tbSmaller.gif",
 			"tbWider.gif", "tbNarrower.gif", "tbTaller.gif", "tbShorter.gif",
 			"tbUp.gif", "tbDown.gif", "tbLeft.gif", "tbRight.gif",
-			"word_art.PNG" };
+			"word_ar.PNG" };
 
 	final String[] BUTTON_NAMES = { "Bigger", "Smaller", "Wider", "Narrower",
 			"Taller", "Shorter", "Up", "Down", "Left", "Right", "wordArt" };
@@ -55,6 +59,9 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	private JButton thinBrush;
 	private JButton changeColor;
 	private JButton loadImage;
+	private JButton squareButton;
+	private JButton circleButton;
+	private JButton eraserButton;
 	private Point[] stroke;
 	private int strokeCount;
 	private int sampleCount;
@@ -71,6 +78,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	private JMenuItem Undo;
 	private JMenuItem Redo;
 	private JMenuItem clear;
+	private JMenuItem print;
 	private JMenu toolsMenu;
 	// toolbar
 	private JMenuItem position;
@@ -78,6 +86,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 	private JMenuItem clearImage;
 	private MyFileFilter fileExtensions;
 	private String fileExist;
+	
 
 	PaintAppFrame() {
 		file = new File(System.getProperty("user.dir"));
@@ -118,20 +127,58 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		paintPanel = new PaintPanel();
 		paintPanel.addMouseMotionListener(this);
 		paintPanel.addMouseListener(this);
-		// make this a toolbar
-		JPanel buttons = new JPanel(new BorderLayout());
+		// make this a toolbar and images
+		Icon clearIcon = new ImageIcon("clear.png");
+		Icon brushIcon = new ImageIcon("brush.gif");
+		Icon pencilIcon = new ImageIcon("pencil.gif");
+		Icon rgbIcon = new ImageIcon("rgb.png");
+		Icon loadIcon = new ImageIcon("load.png");
+		Icon squareIcon = new ImageIcon("square.png");
+		Icon circleIcon = new ImageIcon("circle.png");
+		Icon eraserIcon = new ImageIcon("eraser.png");
+		clearButton = new JButton(clearIcon);
+	    clearButton.setActionCommand("clear");
+		clearButton.addActionListener(this);
+		
+		thickBrush = new JButton(brushIcon);
+		thickBrush.setActionCommand("thick");
+		thickBrush.addActionListener(this);
+
+		thinBrush = new JButton(pencilIcon);
+		thinBrush.setActionCommand("thin");
+		thinBrush.addActionListener(this);
+
+		changeColor = new JButton(rgbIcon);
+		changeColor.setActionCommand("color");
+		changeColor.addActionListener(this);
+
+		loadImage = new JButton(loadIcon);
+		loadImage.setActionCommand("image");
+		loadImage.addActionListener(this);
+		
+		squareButton = new JButton(squareIcon);
+		squareButton.setActionCommand("square");
+		squareButton.addActionListener(this);
+		
+		circleButton = new JButton(circleIcon);
+		circleButton.setActionCommand("circle");
+		circleButton.addActionListener(this);
+		
+		eraserButton = new JButton(eraserIcon);
+		eraserButton.setActionCommand("eraser");
+		eraserButton.addActionListener(this);
+		JPanel buttons = new JPanel(new GridLayout());
 		buttons.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-		buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
-		buttons.add(Box.createRigidArea(new Dimension(0, 3)));
-		buttons.add(clearButton);
-		buttons.add(Box.createRigidArea(new Dimension(0, 3)));
+	    buttons.setLayout(new GridLayout(6, 2));
+
+	    buttons.add(clearButton);
 		buttons.add(thickBrush);
-		buttons.add(Box.createRigidArea(new Dimension(0, 3)));
 		buttons.add(thinBrush);
-		buttons.add(Box.createRigidArea(new Dimension(0, 3)));
 		buttons.add(changeColor);
-		buttons.add(Box.createRigidArea(new Dimension(0, 3)));
 		buttons.add(loadImage);
+		buttons.add(squareButton);
+		buttons.add(circleButton);
+		buttons.add(eraserButton);
 
 		paintCanvas = new JPanel(new BorderLayout());
 		paintCanvas.add(paintPanel, "Center");
@@ -144,7 +191,7 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		content.add(buttons, BorderLayout.WEST);
 		content.add(paintCanvas, BorderLayout.CENTER);
 		this.setContentPane(content);
-		// menu
+		// menu 
 		JMenuBar menuBar = new JMenuBar();
 		this.setJMenuBar(menuBar); // makes the menu bar
 		// add the File Menu
@@ -198,6 +245,19 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		saveAs.setEnabled(true);
 		fileMenu.add(save);
 		fileMenu.add(saveAs);
+		//print
+		newFileImage = new ImageIcon("save2_icon.PNG");
+		img = newFileImage.getImage();
+		img = img
+				.getScaledInstance(30, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		newFileImage = new ImageIcon(img);
+		print = new JMenuItem("Print...", newFileImage);
+		print.setMnemonic(KeyEvent.VK_P);
+		print.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P,
+				ActionEvent.CTRL_MASK));
+		print.addActionListener(this);
+		print.setEnabled(true);
+		fileMenu.add(print);
 		// <exit>
 		newFileImage = new ImageIcon("exit_icon.PNG");
 		img = newFileImage.getImage();
@@ -451,6 +511,9 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 		case "image":
 			this.loadImage();
 			break;
+		case "square":
+			paintPanel.drawRect();
+			break;	
 
 		}
 		if (source == open) {
@@ -519,6 +582,21 @@ public class PaintAppFrame extends JFrame implements MouseListener,
 			paintPanel.clearImage();
 		} else if (source == clear) {
 			paintPanel.clear();
+		}else if(source == print){
+			BufferedImage imageToPrint = new BufferedImage(paintPanel.getWidth(),paintPanel.getHeight(), BufferedImage.TYPE_INT_RGB);
+			Printer painter = new Printer(imageToPrint);
+			boolean observer = painter.imageUpdate(imageToPrint, ImageObserver.ALLBITS, 0, 0, imageToPrint.getWidth(), imageToPrint.getHeight());
+			PrinterJob job = PrinterJob.getPrinterJob();
+			PageFormat format = job.pageDialog(job.defaultPage());
+			job.setPrintable(painter);
+			boolean ok_to_print = job.printDialog();
+			if(ok_to_print && observer){
+				try{
+					job.print();
+				}catch(PrinterException ex){
+					ex.getCause();
+				}
+			}
 		}
 	}
 
