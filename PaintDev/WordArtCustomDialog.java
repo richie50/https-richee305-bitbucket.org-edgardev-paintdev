@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -241,6 +243,7 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 		example.setFont(fontArg);
 		example.setForeground(foreColorArg);
 		example.setBackground(backColorArg);
+		example.setEditable(true);
 
 		// show the dialog
 
@@ -251,5 +254,8 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 		// pressed.
 
 		return userResponse;
+	}
+	public String getExampleText(){
+		return example.getText();
 	}
 }

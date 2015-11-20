@@ -1,3 +1,5 @@
+
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -11,16 +13,14 @@ public class PaintPanel extends JPanel {
 	private Stroke THIN_LINE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
 	private Stroke THICK_LINE_STROKE = new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-	private Stroke ERASER_STROKE = new BasicStroke(10.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+	private Stroke ERASER_STROKE = new BasicStroke(10.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND);
 
 	static Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
-
+	private Vector<Entity> vectorForString;
 	private Vector<Line2D.Double> allStrokes;
 	private Vector<Line2D.Double> eraserStrokes;
-
 	private Vector<Line2D.Double> redoAllStrokes;
-
 	private Color prevColor;
 
 	Rectangle rect;
@@ -37,6 +37,7 @@ public class PaintPanel extends JPanel {
 
 	public PaintPanel() {
 		redoAllStrokes = new Vector<Line2D.Double>();
+		vectorForString = new Vector<Entity>();
 		allStrokes = new Vector<Line2D.Double>();
 		eraserStrokes = new Vector<Line2D.Double>();
 		this.setBackground(Color.WHITE);
@@ -181,6 +182,7 @@ public class PaintPanel extends JPanel {
 		PaintAppFrame.paintRoundRectangle(g);
 		PaintAppFrame.paintRoundRectangleFill(g);
 		PaintAppFrame.paintLine(g);
+		paintEntities(g);
 
 		x = this.getWidth() / 2 - width / 2 + xOffset / 2;
 		y = this.getHeight() / 2 - height / 2 + yOffset / 2;
@@ -274,6 +276,30 @@ public class PaintPanel extends JPanel {
 			repaint();
 			redoAllStrokes.removeAllElements();
 		}
-
+	}
+	//RIchmond changes dont touch
+	public void addWordArt(String s){
+		Graphics2D g = (Graphics2D)this.getGraphics();
+		g.drawString(s, x, y);
+	}
+	public void customePaint(Object obj , int type , int x , int y , Font f , Color b , Color c){
+		vectorForString.addElement(new Entity(obj, type, x, y , f , b , c));
+		this.repaint();
+	}
+	private void paintEntities(Graphics g){
+		Graphics2D g2 = (Graphics2D)g;
+		for(int i = 0 ; i < vectorForString.size() ; i++){
+			Entity e = (Entity)vectorForString.elementAt(i);
+			int x = e.getX();
+			int y = e.getY();
+			switch (e.getType()){
+			case Entity.STRING:
+				g2.setColor(e.getForeColor());
+				g2.setBackground(e.getBackColor());
+				g2.setFont(e.getFont());
+				g2.drawString((String)e.Entity(), x, y);
+				break;
+			}
+		}
 	}
 }

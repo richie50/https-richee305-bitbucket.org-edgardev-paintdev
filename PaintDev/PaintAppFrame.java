@@ -1,3 +1,5 @@
+
+
 import java.io.*;
 
 import javax.imageio.ImageIO;
@@ -11,10 +13,11 @@ import java.awt.image.ImageObserver;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.*;
-
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Polygon;
 import java.awt.event.ActionEvent;
@@ -25,6 +28,7 @@ import java.awt.event.MouseListener;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -34,7 +38,6 @@ import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import javax.swing.undo.UndoableEditSupport;
-
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionListener, ActionListener {
@@ -46,12 +49,15 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	Color backColor;
 
 	static int flag = 0;
+	int FLAG = 0;
+	private int textX;
+	private int textY;
 	// ------------------------------------------------------------------------
 	final String TITLE = "DemoFileMenu";
 	final int MAX_SAMPLES = 500;
 	final String[] BUTTON_ICONS = { "icons/bigger.png", "icons/smaller.png", "icons/wider.png", "icons/narrow.png",
 			"icons/taller.png", "icons/shorter.png", "icons/up.png", "icons/down.png", "icons/left.png",
-			"icons/right.png", "word_ar.PNG" };
+			"icons/right.png", "icons/word_art.PNG" };
 
 	final String[] BUTTON_NAMES = { "Bigger", "Smaller", "Wider", "Narrower", "Taller", "Shorter", "Up", "Down", "Left",
 			"Right", "wordArt" };
@@ -402,54 +408,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				foreColor = Color.black;
 				backColor = Color.white;
 				messageField = new JLabel(message);
-				paintPanel.add(messageField);
-				MouseListener fireCustomDialoag = new MouseListener() {
-					@Override
-					public void mouseReleased(MouseEvent e) {
-					}
-
-					@Override
-					public void mousePressed(MouseEvent e) {
-					}
-
-					@Override
-					public void mouseExited(MouseEvent e) {
-
-					}
-
-					@Override
-					public void mouseEntered(MouseEvent e) {
-
-					}
-
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						Object source = (JLabel) e.getSource();
-						System.out.println("DIALOG.....");
-						int j = cd.showCustomDialog(null, messageFont, foreColor, backColor);
-						if (source == messageField) {
-							if (j == WordArtCustomDialog.APPLY_OPTION) {
-								messageFont = cd.getFont();
-								foreColor = cd.getForeColor();
-								backColor = cd.getBackColor();
-
-								messageField.setPreferredSize(messageField.getPreferredSize());
-								// messageField.setEditable(true);
-								messageField.setHorizontalAlignment(SwingConstants.CENTER);
-								// messageField
-								// .setAlignmentX(Component.CENTER_ALIGNMENT);
-								messageField.setToolTipText("Right click to change message");
-								messageField.setText(message);
-								messageField.setFont(messageFont);
-								messageField.setForeground(foreColor);
-								messageField.setBackground(backColor);
-								paintPanel.add(messageField);
-							}
-						}
-					}
-				};
-				messageField.addMouseListener(fireCustomDialoag);
-				paintPanel.add(messageField);
+				//paintPanel.add(messageField);
+				//paintPanel.add(messageField);
 			} else {
 				System.out.println(i);
 				tbButtons[i].addActionListener(new ActionListener() {
@@ -586,6 +546,12 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	public void mouseClicked(MouseEvent me) {
+		if(FLAG == 1){
+			textX = me.getX();
+			textY = me.getY();
+			paintPanel.customePaint(cd.getExampleText(), 0x0, textX, textY , messageFont , backColor , foreColor);
+			//FLAG = 0;
+		}
 	}
 
 	public void mouseEntered(MouseEvent me) {
@@ -595,10 +561,15 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	public void mousePressed(MouseEvent me) {
+//		textX = me.getX();
+//		textY = me.getY();
+//		System.out.println("MOUSE PRESSED =>" + textX +"-----"+textY);
 		if (flag == 0) {
 			int x = me.getX();
 			int y = me.getY();
-
+			textX = me.getX();
+			textY = me.getY();
+			System.out.println("MOUSE PRESSED =>" + textX +"-----"+textY);
 			stroke[sampleCount] = new Point(x, y);
 			if (sampleCount < MAX_SAMPLES - 1) {
 				++sampleCount;
@@ -726,56 +697,69 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		switch (command) {
 		case "clear":
 			paintPanel.clear();
+			FLAG = 0;
 			break;
 		case "thick":
 			flag = 0;
+			FLAG = 0;
 			paintPanel.setThickBrush();
 			break;
 		case "thin":
 			flag = 0;
+			FLAG = 0;
 			paintPanel.setThinBrush();
 			break;
 		case "color":
 			this.setPaintColor();
+			FLAG = 0;
 			break;
 		case "image":
 			this.loadImage();
+			FLAG = 0;
 			break;
 		case "rectangle":
 			flag = 1;
+			FLAG = 0;
 			this.paintRect(gr);
 			break;
 		case "circle":
 			flag = 2;
+			FLAG = 0;
 			this.paintCircle(gr);
 			break;
 
 		case "rectanglefill":
 			flag = 3;
+			FLAG = 0;
 			this.paintRectFill(gr);
 			break;
 		case "circlefill":
 			flag = 4;
+			FLAG = 0;
 			this.paintFillCircle(gr);
 			break;
 
 		case "roundrectangle":
 			flag = 5;
+			FLAG = 0;
 			this.paintRoundRectangle(gr);
 			break;
 
 		case "roundrectanglefill":
 			flag = 6;
+			FLAG = 0;
 			this.paintRoundRectangleFill(gr);
 			break;
 
 		case "line":
 			flag = 7;
+			FLAG = 0;
 			this.paintLine(gr);
 			break;
 
 		case "eraser":
 			flag = 8;
+			FLAG = 0;
 			paintPanel.setEraser();
 			break;
 
@@ -939,17 +923,14 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	class PopupListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent me) {
-			JLabel s = new JLabel("Enter new message");
-			Font font = new Font(Font.MONOSPACED, Font.BOLD | Font.ITALIC, 20);
-			s.setFont(font);
-			String tmp = JOptionPane.showInputDialog(message, s.getText());
-			// String tmp = (String) JOptionPane.showInputDialog(messageField,
-			// s.getText(), "Your Text goes here" ,1 , new ImageIcon(), null ,
-			// 0);
-			if (tmp != null && tmp.length() > 0) {
-				message = tmp;
-				updateMessage();
-				paintPanel.add(messageField);
+			System.out.println("DIALOG.....");
+			int j = cd.showCustomDialog(null, messageFont,
+					foreColor, backColor);
+				if (j == WordArtCustomDialog.APPLY_OPTION) {
+					messageFont = cd.getFont();
+					foreColor = cd.getForeColor();
+					backColor = cd.getBackColor();
+					FLAG = 1;
 			}
 		}
 	}
