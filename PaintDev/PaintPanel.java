@@ -1,5 +1,4 @@
 
-
 import javax.swing.*;
 
 import java.awt.*;
@@ -21,7 +20,7 @@ public class PaintPanel extends JPanel {
 	private Vector<Line2D.Double> allStrokes;
 	private Vector<Line2D.Double> eraserStrokes;
 	private Vector<Line2D.Double> redoAllStrokes;
-	private Color prevColor;
+	private static ArrayList<Shape> redoStruct = new ArrayList<Shape>();
 
 	Rectangle rect;
 
@@ -257,8 +256,65 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void undo() {
+		/* undo method for rectStruct */
+		if (!PaintAppFrame.rectStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.rectStruct.size(); i++) {
+				this.redoStruct.add(PaintAppFrame.rectStruct.get(i));
+			}
+			int size = PaintAppFrame.rectStruct.size() - 1;
+			PaintAppFrame.rectStruct.remove(size);
+			repaint();
+		}
+		if (!PaintAppFrame.circStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.circStruct.size(); i++) {
+				this.redoStruct.add(PaintAppFrame.circStruct.get(i));
+			}
+			int size = PaintAppFrame.circStruct.size() - 1;
+			PaintAppFrame.circStruct.remove(size);
+			repaint();
+		}
+		if (!PaintAppFrame.rectFillStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.rectFillStruct.size(); i++) {
+				this.redoStruct.add(PaintAppFrame.rectFillStruct.get(i));
+			}
+			int size = PaintAppFrame.rectFillStruct.size() - 1;
+			PaintAppFrame.rectFillStruct.remove(size);
+			repaint();
+		}
+		if (!PaintAppFrame.circFillStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.circFillStruct.size(); i++) {
+				this.redoStruct.add(PaintAppFrame.circFillStruct.get(i));
+			}
+			int size = PaintAppFrame.circFillStruct.size() - 1;
+			PaintAppFrame.circFillStruct.remove(size);
+			repaint();
+		}
+		if (!PaintAppFrame.roundRectStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.roundRectStruct.size(); i++) {
+				this.redoStruct.add(PaintAppFrame.roundRectStruct.get(i));
+			}
+			int size = PaintAppFrame.roundRectStruct.size() - 1;
+			PaintAppFrame.roundRectStruct.remove(size);
+			repaint();
+		}
+		if (!PaintAppFrame.roundRectFillStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.roundRectFillStruct.size(); i++) {
+				this.redoStruct.add(PaintAppFrame.roundRectFillStruct.get(i));
+			}
+			int size = PaintAppFrame.roundRectFillStruct.size() - 1;
+			PaintAppFrame.roundRectFillStruct.remove(size);
+			repaint();
+		}
+		if (!PaintAppFrame.lineStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.lineStruct.size(); i++) {
+				this.redoStruct.add(PaintAppFrame.lineStruct.get(i));
+			}
+			int size = PaintAppFrame.lineStruct.size() - 1;
+			PaintAppFrame.lineStruct.remove(size);
+			repaint();
+		}
 		if (!allStrokes.isEmpty()) {
-			for (int i = 0; i < allStrokes.size() - 1; i++) {
+			for (int i = 0; i < allStrokes.size(); i++) {
 				redoAllStrokes.addElement(allStrokes.elementAt(i));
 			}
 			int size = allStrokes.size() - 1;
@@ -269,35 +325,79 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void redo() {
+		if (!PaintAppFrame.rectStruct.isEmpty() && !redoStruct.isEmpty()) {
+			for (int i = 0; i < redoStruct.size(); i++) {
+				PaintAppFrame.rectStruct.add(redoStruct.get(i));
+			}
+			repaint();
+		}
+		if (!PaintAppFrame.circStruct.isEmpty() && !redoStruct.isEmpty()) {
+			for (int i = 0; i < redoStruct.size(); i++) {
+				PaintAppFrame.circStruct.add(redoStruct.get(i));
+			}
+			repaint();
+		}
+		if (!PaintAppFrame.rectFillStruct.isEmpty() && !redoStruct.isEmpty()) {
+			for (int i = 0; i < redoStruct.size(); i++) {
+				PaintAppFrame.rectFillStruct.add(redoStruct.get(i));
+			}
+			repaint();
+		}
+		if (!PaintAppFrame.circFillStruct.isEmpty() && !redoStruct.isEmpty()) {
+			for (int i = 0; i < redoStruct.size(); i++) {
+				PaintAppFrame.circFillStruct.add(redoStruct.get(i));
+			}
+			repaint();
+		}
+		if (!PaintAppFrame.roundRectStruct.isEmpty() && !redoStruct.isEmpty()) {
+			for (int i = 0; i < redoStruct.size(); i++) {
+				PaintAppFrame.roundRectStruct.add(redoStruct.get(i));
+			}
+			repaint();
+		}
+		if (!PaintAppFrame.roundRectFillStruct.isEmpty() && !redoStruct.isEmpty()) {
+			for (int i = 0; i < redoStruct.size(); i++) {
+				PaintAppFrame.roundRectFillStruct.add(redoStruct.get(i));
+			}
+			repaint();
+		}
+		if (!PaintAppFrame.lineStruct.isEmpty() && !redoStruct.isEmpty()) {
+			for (int i = 0; i < redoStruct.size(); i++) {
+				PaintAppFrame.lineStruct.add(redoStruct.get(i));
+			}
+			repaint();
+		}
 		if (!allStrokes.isEmpty() && !redoAllStrokes.isEmpty()) {
-			for (int i = 0; i < redoAllStrokes.size() - 1; i++) {
+			for (int i = 0; i < redoAllStrokes.size(); i++) {
 				allStrokes.addElement(redoAllStrokes.elementAt(i));
 			}
 			repaint();
-			redoAllStrokes.removeAllElements();
 		}
 	}
-	//RIchmond changes dont touch
-	public void addWordArt(String s){
-		Graphics2D g = (Graphics2D)this.getGraphics();
+
+	// RIchmond changes dont touch
+	public void addWordArt(String s) {
+		Graphics2D g = (Graphics2D) this.getGraphics();
 		g.drawString(s, x, y);
 	}
-	public void customePaint(Object obj , int type , int x , int y , Font f , Color b , Color c){
-		vectorForString.addElement(new Entity(obj, type, x, y , f , b , c));
+
+	public void customePaint(Object obj, int type, int x, int y, Font f, Color b, Color c) {
+		vectorForString.addElement(new Entity(obj, type, x, y, f, b, c));
 		this.repaint();
 	}
-	private void paintEntities(Graphics g){
-		Graphics2D g2 = (Graphics2D)g;
-		for(int i = 0 ; i < vectorForString.size() ; i++){
-			Entity e = (Entity)vectorForString.elementAt(i);
+
+	private void paintEntities(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		for (int i = 0; i < vectorForString.size(); i++) {
+			Entity e = (Entity) vectorForString.elementAt(i);
 			int x = e.getX();
 			int y = e.getY();
-			switch (e.getType()){
+			switch (e.getType()) {
 			case Entity.STRING:
 				g2.setColor(e.getForeColor());
 				g2.setBackground(e.getBackColor());
 				g2.setFont(e.getFont());
-				g2.drawString((String)e.Entity(), x, y);
+				g2.drawString((String) e.Entity(), x, y);
 				break;
 			}
 		}

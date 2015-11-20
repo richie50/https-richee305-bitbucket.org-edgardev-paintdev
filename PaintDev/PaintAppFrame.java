@@ -1,5 +1,4 @@
 
-
 import java.io.*;
 
 import javax.imageio.ImageIO;
@@ -57,7 +56,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	final int MAX_SAMPLES = 500;
 	final String[] BUTTON_ICONS = { "icons/bigger.png", "icons/smaller.png", "icons/wider.png", "icons/narrow.png",
 			"icons/taller.png", "icons/shorter.png", "icons/up.png", "icons/down.png", "icons/left.png",
-			"icons/right.png", "icons/word_art.PNG" };
+			"icons/right.png", "icons/wordArt.PNG" };
 
 	final String[] BUTTON_NAMES = { "Bigger", "Smaller", "Wider", "Narrower", "Taller", "Shorter", "Up", "Down", "Left",
 			"Right", "wordArt" };
@@ -115,13 +114,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private MyFileFilter fileExtensions;
 	private String fileExist;
 
-	static ArrayList<Shape> rectStruct = new ArrayList<Shape>();
-	private static ArrayList<Shape> circStruct = new ArrayList<Shape>();
-	private static ArrayList<Shape> rectFillStruct = new ArrayList<Shape>();
-	private static ArrayList<Shape> circFillStruct = new ArrayList<Shape>();
-	private static ArrayList<Shape> roundRectStruct = new ArrayList<Shape>();
-	private static ArrayList<Shape> roundRectFillStruct = new ArrayList<Shape>();
-	private static ArrayList<Shape> lineStruct = new ArrayList<Shape>();
+	public static ArrayList<Shape> rectStruct = new ArrayList<Shape>();
+	public static ArrayList<Shape> circStruct = new ArrayList<Shape>();
+	public static ArrayList<Shape> rectFillStruct = new ArrayList<Shape>();
+	public static ArrayList<Shape> circFillStruct = new ArrayList<Shape>();
+	public static ArrayList<Shape> roundRectStruct = new ArrayList<Shape>();
+	public static ArrayList<Shape> roundRectFillStruct = new ArrayList<Shape>();
+	public static ArrayList<Shape> lineStruct = new ArrayList<Shape>();
 
 	private static Point mouseStart;
 	private static Point mouseEnd;
@@ -186,19 +185,24 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		// make this a toolbar and images
 
-		Icon roundRectIcon = new ImageIcon("icons/roundrectangle.png");
-		Icon roundRectFillIcon = new ImageIcon("icons/roundrectanglefill.png");
+		Icon roundRectIcon = new ImageIcon("icons/rectEdge.png");
+		Icon roundRectFillIcon = new ImageIcon("icons/fullRectEdge.png");
 		Icon lineIcon = new ImageIcon("icons/line.png");
 		Icon clearIcon = new ImageIcon("icons/clear.png");
 		Icon brushIcon = new ImageIcon("icons/brush.png");
 		Icon pencilIcon = new ImageIcon("icons/pencil.png");
 		Icon rgbIcon = new ImageIcon("icons/color.png");
 		Icon loadIcon = new ImageIcon("icons/open.png");
-		Icon rectIcon = new ImageIcon("icons/rectangle.png");
-		Icon circleIcon = new ImageIcon("icons/circle.png");
 		Icon eraserIcon = new ImageIcon("icons/erase.png");
-		Icon rectfillIcon = new ImageIcon("icons/rectanglefill.png");
-		Icon circFillIcon = new ImageIcon("icons/fillcircle.png");
+		Icon rectIcon = new ImageIcon("icons/rect.png");
+		Icon circleIcon = new ImageIcon("icons/circ.png");
+		Icon rectfillIcon = new ImageIcon("icons/fullRect.png");
+		Icon circFillIcon = new ImageIcon("icons/fullCirc.png");
+		Icon undoIcon = new ImageIcon("icons/undo.png");
+		Icon redoIcon = new ImageIcon("icons/redo.png");
+
+		undoButton = new JButton(undoIcon);
+		redoButton = new JButton(redoIcon);
 
 		clearButton = new JButton(clearIcon);
 		clearButton.setActionCommand("clear");
@@ -261,9 +265,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		buttons.add(thinBrush);
 		buttons.add(changeColor);
 		buttons.add(loadImage);
+		buttons.add(eraserButton);
 		buttons.add(rectButton);
 		buttons.add(circleButton);
-		buttons.add(eraserButton);
 		buttons.add(rectfillButton);
 		buttons.add(circFillButton);
 		buttons.add(roundRectButton);
@@ -408,8 +412,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				foreColor = Color.black;
 				backColor = Color.white;
 				messageField = new JLabel(message);
-				//paintPanel.add(messageField);
-				//paintPanel.add(messageField);
+				// paintPanel.add(messageField);
+				// paintPanel.add(messageField);
 			} else {
 				System.out.println(i);
 				tbButtons[i].addActionListener(new ActionListener() {
@@ -546,11 +550,11 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	public void mouseClicked(MouseEvent me) {
-		if(FLAG == 1){
+		if (FLAG == 1) {
 			textX = me.getX();
 			textY = me.getY();
-			paintPanel.customePaint(cd.getExampleText(), 0x0, textX, textY , messageFont , backColor , foreColor);
-			//FLAG = 0;
+			paintPanel.customePaint(cd.getExampleText(), 0x0, textX, textY, messageFont, backColor, foreColor);
+			// FLAG = 0;
 		}
 	}
 
@@ -561,15 +565,15 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	public void mousePressed(MouseEvent me) {
-//		textX = me.getX();
-//		textY = me.getY();
-//		System.out.println("MOUSE PRESSED =>" + textX +"-----"+textY);
+		// textX = me.getX();
+		// textY = me.getY();
+		// System.out.println("MOUSE PRESSED =>" + textX +"-----"+textY);
 		if (flag == 0) {
 			int x = me.getX();
 			int y = me.getY();
 			textX = me.getX();
 			textY = me.getY();
-			System.out.println("MOUSE PRESSED =>" + textX +"-----"+textY);
+			System.out.println("MOUSE PRESSED =>" + textX + "-----" + textY);
 			stroke[sampleCount] = new Point(x, y);
 			if (sampleCount < MAX_SAMPLES - 1) {
 				++sampleCount;
@@ -924,13 +928,12 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		@Override
 		public void mouseClicked(MouseEvent me) {
 			System.out.println("DIALOG.....");
-			int j = cd.showCustomDialog(null, messageFont,
-					foreColor, backColor);
-				if (j == WordArtCustomDialog.APPLY_OPTION) {
-					messageFont = cd.getFont();
-					foreColor = cd.getForeColor();
-					backColor = cd.getBackColor();
-					FLAG = 1;
+			int j = cd.showCustomDialog(null, messageFont, foreColor, backColor);
+			if (j == WordArtCustomDialog.APPLY_OPTION) {
+				messageFont = cd.getFont();
+				foreColor = cd.getForeColor();
+				backColor = cd.getBackColor();
+				FLAG = 1;
 			}
 		}
 	}
