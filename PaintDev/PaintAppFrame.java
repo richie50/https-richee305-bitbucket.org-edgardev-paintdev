@@ -12,6 +12,29 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.*;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.Polygon;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.AbstractUndoableEdit;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
+import javax.swing.undo.UndoableEditSupport;
+
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionListener, ActionListener {
@@ -21,13 +44,14 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	Font messageFont;
 	Color foreColor;
 	Color backColor;
-	
+
 	static int flag = 0;
 	// ------------------------------------------------------------------------
 	final String TITLE = "DemoFileMenu";
 	final int MAX_SAMPLES = 500;
-	final String[] BUTTON_ICONS = { "tbBigger.gif", "tbSmaller.gif", "tbWider.gif", "tbNarrower.gif", "tbTaller.gif",
-			"tbShorter.gif", "tbUp.gif", "tbDown.gif", "tbLeft.gif", "tbRight.gif", "word_ar.PNG" };
+	final String[] BUTTON_ICONS = { "icons/bigger.png", "icons/smaller.png", "icons/wider.png", "icons/narrow.png",
+			"icons/taller.png", "icons/shorter.png", "icons/up.png", "icons/down.png", "icons/left.png",
+			"icons/right.png", "word_ar.PNG" };
 
 	final String[] BUTTON_NAMES = { "Bigger", "Smaller", "Wider", "Narrower", "Taller", "Shorter", "Up", "Down", "Left",
 			"Right", "wordArt" };
@@ -57,6 +81,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private JButton circleButton;
 	private JButton lineButton;
 	private JButton eraserButton;
+	private JButton undoButton;
+	private JButton redoButton;
 	private Point[] stroke;
 	private int sampleCount;
 	static Graphics2D gr;
@@ -82,7 +108,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private JMenuItem clearImage;
 	private MyFileFilter fileExtensions;
 	private String fileExist;
-	
 
 	static ArrayList<Shape> rectStruct = new ArrayList<Shape>();
 	private static ArrayList<Shape> circStruct = new ArrayList<Shape>();
@@ -91,7 +116,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private static ArrayList<Shape> roundRectStruct = new ArrayList<Shape>();
 	private static ArrayList<Shape> roundRectFillStruct = new ArrayList<Shape>();
 	private static ArrayList<Shape> lineStruct = new ArrayList<Shape>();
-
 
 	private static Point mouseStart;
 	private static Point mouseEnd;
@@ -107,6 +131,26 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		stroke = new Point[MAX_SAMPLES];
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		undoButton = new JButton("Undo");
+		undoButton.setActionCommand("undo");
+		undoButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				paintPanel.undo();
+			}
+		});
+
+		redoButton = new JButton("Redo");
+		redoButton.setActionCommand("Redo");
+		redoButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				paintPanel.redo();
+			}
+		});
 
 		clearButton = new JButton("CLEAR");
 		clearButton.setActionCommand("clear");
@@ -127,29 +171,29 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		loadImage = new JButton("LOAD IMAGE");
 		loadImage.setActionCommand("image");
 		loadImage.addActionListener(this);
-		
+
 		// added the menu goes here
 		image = Toolkit.getDefaultToolkit().getImage(".");
 		paintPanel = new PaintPanel();
 		paintPanel.addMouseMotionListener(this);
 		paintPanel.addMouseListener(this);
-		
-		
+
 		// make this a toolbar and images
-		Icon clearIcon = new ImageIcon("clear.png");
-		Icon brushIcon = new ImageIcon("brush.png");
-		Icon pencilIcon = new ImageIcon("pencil.png");
-		Icon rgbIcon = new ImageIcon("color.png");
-		Icon loadIcon = new ImageIcon("open.png");
-		Icon rectIcon = new ImageIcon("rectangle.png");
-		Icon circleIcon = new ImageIcon("circle.png");
-		Icon eraserIcon = new ImageIcon("erase.png");
-		Icon rectfillIcon = new ImageIcon("rectanglefill.png");
-		Icon circFillIcon = new ImageIcon("fillcircle.png");
-		Icon roundRectIcon = new ImageIcon("roundrectangle.png");
-		Icon roundRectFillIcon = new ImageIcon("roundrectanglefill.png");
-		Icon lineIcon = new ImageIcon("line.png");
-		
+
+		Icon roundRectIcon = new ImageIcon("icons/roundrectangle.png");
+		Icon roundRectFillIcon = new ImageIcon("icons/roundrectanglefill.png");
+		Icon lineIcon = new ImageIcon("icons/line.png");
+		Icon clearIcon = new ImageIcon("icons/clear.png");
+		Icon brushIcon = new ImageIcon("icons/brush.png");
+		Icon pencilIcon = new ImageIcon("icons/pencil.png");
+		Icon rgbIcon = new ImageIcon("icons/color.png");
+		Icon loadIcon = new ImageIcon("icons/open.png");
+		Icon rectIcon = new ImageIcon("icons/rectangle.png");
+		Icon circleIcon = new ImageIcon("icons/circle.png");
+		Icon eraserIcon = new ImageIcon("icons/erase.png");
+		Icon rectfillIcon = new ImageIcon("icons/rectanglefill.png");
+		Icon circFillIcon = new ImageIcon("icons/fillcircle.png");
+
 		clearButton = new JButton(clearIcon);
 		clearButton.setActionCommand("clear");
 		clearButton.addActionListener(this);
@@ -177,11 +221,11 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		rectfillButton = new JButton(rectfillIcon);
 		rectfillButton.setActionCommand("rectanglefill");
 		rectfillButton.addActionListener(this);
-		
+
 		roundRectButton = new JButton(roundRectIcon);
 		roundRectButton.setActionCommand("roundrectangle");
 		roundRectButton.addActionListener(this);
-		
+
 		roundRectFillButton = new JButton(roundRectFillIcon);
 		roundRectFillButton.setActionCommand("roundrectanglefill");
 		roundRectFillButton.addActionListener(this);
@@ -197,14 +241,14 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		eraserButton = new JButton(eraserIcon);
 		eraserButton.setActionCommand("eraser");
 		eraserButton.addActionListener(this);
-		
+
 		lineButton = new JButton(lineIcon);
 		lineButton.setActionCommand("line");
 		lineButton.addActionListener(this);
 
 		JPanel buttons = new JPanel(new GridLayout());
 		buttons.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-		buttons.setLayout(new GridLayout(6, 2));
+		buttons.setLayout(new GridLayout(16, 2));
 
 		buttons.add(clearButton);
 		buttons.add(thickBrush);
@@ -219,6 +263,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		buttons.add(roundRectButton);
 		buttons.add(roundRectFillButton);
 		buttons.add(lineButton);
+		buttons.add(undoButton);
+		buttons.add(redoButton);
 
 		paintCanvas = new JPanel(new BorderLayout());
 		paintCanvas.add(paintPanel, "Center");
@@ -368,12 +414,12 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 					@Override
 					public void mouseExited(MouseEvent e) {
-					
+
 					}
 
 					@Override
 					public void mouseEntered(MouseEvent e) {
-						
+
 					}
 
 					@Override
@@ -409,7 +455,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				tbButtons[i].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						
+
 						String source = ((JButton) e.getSource()).getName();
 
 						if (source.equals(BUTTON_NAMES[0])) { // 'bigger'
@@ -503,17 +549,16 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
 		}
-		
+
 		else if (flag == 5) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
 		}
-		
+
 		else if (flag == 6) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
-		}
-		else if (flag == 7) {
+		} else if (flag == 7) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
 		}
@@ -564,19 +609,19 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseEnd = mouseStart;
 			repaint();
 		}
-		
+
 		else if (flag == 5) {
 			mouseStart = new Point(me.getX(), me.getY());
 			mouseEnd = mouseStart;
 			repaint();
 		}
-		
+
 		else if (flag == 6) {
 			mouseStart = new Point(me.getX(), me.getY());
 			mouseEnd = mouseStart;
 			repaint();
 		}
-		
+
 		else if (flag == 7) {
 			mouseStart = new Point(me.getX(), me.getY());
 			mouseEnd = mouseStart;
@@ -618,7 +663,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseEnd = null;
 			repaint();
 		}
-		
+
 		else if (flag == 5) {
 			Shape r = createRoundRect(mouseStart.x, mouseStart.y, me.getX(), me.getY());
 			roundRectStruct.add(r);
@@ -626,7 +671,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseEnd = null;
 			repaint();
 		}
-		
+
 		else if (flag == 6) {
 			Shape r = createRoundRectFill(mouseStart.x, mouseStart.y, me.getX(), me.getY());
 			roundRectFillStruct.add(r);
@@ -634,7 +679,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseEnd = null;
 			repaint();
 		}
-		
+
 		else if (flag == 7) {
 			Shape r = createLine(mouseStart.x, mouseStart.y, me.getX(), me.getY());
 			lineStruct.add(r);
@@ -684,24 +729,24 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			flag = 4;
 			this.paintFillCircle(gr);
 			break;
-			
+
 		case "roundrectangle":
 			flag = 5;
 			this.paintRoundRectangle(gr);
 			break;
-			
+
 		case "roundrectanglefill":
 			flag = 6;
 			this.paintRoundRectangleFill(gr);
 			break;
-			
+
 		case "line":
 			flag = 7;
 			this.paintLine(gr);
 			break;
-			
+
 		case "eraser":
-//			paintPanel.setEraser();
+			// paintPanel.setEraser();
 			break;
 
 		}
@@ -757,7 +802,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 					} else {
 					}
 				} catch (FileNotFoundException e) {
-					
+
 					e.printStackTrace();
 				}
 			}
@@ -789,7 +834,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	protected void openFile(File file2) {
-		
+
 		this.setTitle(file2.getName() + " - " + TITLE);
 		// close.setEnabled(true);
 		save.setEnabled(true);
@@ -834,7 +879,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	private void loadImage() {
-		JFileChooser imageSelector = new JFileChooser(System.getProperty("user.dir"));  // try
+		JFileChooser imageSelector = new JFileChooser(System.getProperty("user.dir")); // try
 																						// using
 																						// this
 																						// property
@@ -884,18 +929,18 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		for (Shape s : rectStruct) {
 			gr.setPaint(PaintPanel.LINE_COLOR);
-            gr.setStroke(new BasicStroke(2));
+			gr.setStroke(new BasicStroke(2));
 
 			gr.draw(s);
 			// gr.setPaint(this.LINE_COLOR);
 			// gr.fill(s);
 		}
-		if(flag == 1){
-		if (mouseStart != null && mouseEnd != null) {
-			gr.setPaint(Color.RED);
-			Shape r = createRect(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
-			gr.draw(r);
-		}
+		if (flag == 1) {
+			if (mouseStart != null && mouseEnd != null) {
+				gr.setPaint(Color.RED);
+				Shape r = createRect(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
+				gr.draw(r);
+			}
 		}
 	}
 
@@ -904,18 +949,18 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		for (Shape s : rectFillStruct) {
 			gr.setPaint(PaintPanel.LINE_COLOR);
-            gr.setStroke(new BasicStroke(2));
+			gr.setStroke(new BasicStroke(2));
 
 			gr.draw(s);
 			gr.fill(s);
 		}
-		if(flag ==3){
+		if (flag == 3) {
 
-		if (mouseStart != null && mouseEnd != null) {
-			gr.setPaint(Color.RED);
-			Shape r = createFillRect(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
-			gr.draw(r);
-		}
+			if (mouseStart != null && mouseEnd != null) {
+				gr.setPaint(Color.RED);
+				Shape r = createFillRect(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
+				gr.draw(r);
+			}
 		}
 	}
 
@@ -924,20 +969,20 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		for (Shape s : circStruct) {
 			gr.setPaint(PaintPanel.LINE_COLOR);
-            gr.setStroke(new BasicStroke(2));
+			gr.setStroke(new BasicStroke(2));
 
 			gr.draw(s);
 			// gr.setPaint(PaintPanel.LINE_COLOR);
 			// gr.fill(s);
 		}
-		
-		if(flag == 2){
 
-		if (mouseStart != null && mouseEnd != null) {
-			gr.setPaint(Color.BLUE);
-			Shape r = createCircle(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
-			gr.draw(r);
-		}
+		if (flag == 2) {
+
+			if (mouseStart != null && mouseEnd != null) {
+				gr.setPaint(Color.BLUE);
+				Shape r = createCircle(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
+				gr.draw(r);
+			}
 		}
 	}
 
@@ -946,20 +991,20 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		for (Shape s : circFillStruct) {
 			gr.setPaint(PaintPanel.LINE_COLOR);
-            gr.setStroke(new BasicStroke(2));
+			gr.setStroke(new BasicStroke(2));
 
 			gr.draw(s);
 			gr.fill(s);
 		}
-		if(flag == 4){
-		if (mouseStart != null && mouseEnd != null) {
-			gr.setPaint(Color.RED);
-			Shape r = createFillCircle(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
-			gr.draw(r);
-		}
+		if (flag == 4) {
+			if (mouseStart != null && mouseEnd != null) {
+				gr.setPaint(Color.RED);
+				Shape r = createFillCircle(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
+				gr.draw(r);
+			}
 		}
 	}
-	
+
 	public static void paintRoundRectangle(Graphics g) {
 		gr = (Graphics2D) g;
 
@@ -967,61 +1012,59 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			gr.setPaint(Color.black);
 			gr.draw(s);
 		}
-		
-		if(flag == 5){
 
-		if (mouseStart != null && mouseEnd != null) {
-			gr.setPaint(Color.RED);
-			Shape r = createRoundRect(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
-			gr.draw(r);
-		}
+		if (flag == 5) {
+
+			if (mouseStart != null && mouseEnd != null) {
+				gr.setPaint(Color.RED);
+				Shape r = createRoundRect(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
+				gr.draw(r);
+			}
 		}
 	}
-	
+
 	public static void paintRoundRectangleFill(Graphics g) {
 		gr = (Graphics2D) g;
 
 		for (Shape s : roundRectFillStruct) {
 			gr.setPaint(Color.black);
-            gr.setStroke(new BasicStroke(2));
+			gr.setStroke(new BasicStroke(2));
 
 			gr.draw(s);
 			gr.fill(s);
 
 		}
-		
-		if(flag == 6){
 
-		if (mouseStart != null && mouseEnd != null) {
-			gr.setPaint(Color.RED);
-			Shape r = createRoundRectFill(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
-			gr.draw(r);
+		if (flag == 6) {
+
+			if (mouseStart != null && mouseEnd != null) {
+				gr.setPaint(Color.RED);
+				Shape r = createRoundRectFill(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
+				gr.draw(r);
+			}
 		}
-	}}
-	
+	}
+
 	public static void paintLine(Graphics g) {
 		gr = (Graphics2D) g;
 
 		for (Shape s : lineStruct) {
 			gr.setPaint(Color.black);
-            gr.setStroke(new BasicStroke(2));
+			gr.setStroke(new BasicStroke(2));
 
 			gr.draw(s);
 			gr.fill(s);
-			
 
 		}
 
-		if(flag == 7){
-		if (mouseStart != null && mouseEnd != null) {
-			gr.setPaint(Color.GREEN);
-			Shape r = createLine(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
-			gr.draw(r);
-		}
+		if (flag == 7) {
+			if (mouseStart != null && mouseEnd != null) {
+				gr.setPaint(Color.GREEN);
+				Shape r = createLine(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
+				gr.draw(r);
+			}
 		}
 	}
-	
-	
 
 	public static Rectangle2D.Float createRect(int x1, int y1, int x2, int y2) {
 		return new Rectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
@@ -1038,17 +1081,19 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	public static Ellipse2D.Float createFillCircle(int x1, int y1, int x2, int y2) {
 		return new Ellipse2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
 	}
-	
+
 	public static RoundRectangle2D.Float createRoundRect(int x1, int y1, int x2, int y2) {
-		return new RoundRectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2), 50, 50);
+		return new RoundRectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2), 50,
+				50);
 	}
-	
+
 	public static RoundRectangle2D.Float createRoundRectFill(int x1, int y1, int x2, int y2) {
-		return new RoundRectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2), 50, 50);
+		return new RoundRectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2), 50,
+				50);
 	}
-	
+
 	public static Line2D.Float createLine(int x1, int y1, int x2, int y2) {
-		return new Line2D.Float(x1,y1,x2,y2);
+		return new Line2D.Float(x1, y1, x2, y2);
 	}
 
 }

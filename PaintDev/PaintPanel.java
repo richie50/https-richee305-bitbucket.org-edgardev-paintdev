@@ -14,9 +14,10 @@ public class PaintPanel extends JPanel {
 	static Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
 	private Vector<Line2D.Double> allStrokes;
-	
-	private Color prevColor;
+	private Vector<Line2D.Double> redoAllStrokes;
+	public Stack redoStack = new Stack();
 
+	private Color prevColor;
 
 	Rectangle rect;
 	Graphics2D gr;
@@ -30,6 +31,7 @@ public class PaintPanel extends JPanel {
 	final int INC = 10;
 
 	public PaintPanel() {
+		redoAllStrokes = new Vector<Line2D.Double>();
 		allStrokes = new Vector<Line2D.Double>();
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -58,13 +60,11 @@ public class PaintPanel extends JPanel {
 		PaintPanel.LINE_COLOR = this.prevColor;
 		this.LINE_STROKE = this.THIN_LINE_STROKE;
 	}
-	
+
 	public void setEraser() {
 		prevColor = PaintPanel.LINE_COLOR;
 		PaintPanel.LINE_COLOR = Color.WHITE;
 	}
-	
-	
 
 	/*
 	 * Paint all the line segments stored in the vector
@@ -209,5 +209,28 @@ public class PaintPanel extends JPanel {
 		xOffset = 0;
 		yOffset = 0;
 		this.repaint();
+	}
+
+	public void undo() {
+		if (!allStrokes.isEmpty()) {
+			for (int i = 0; i < allStrokes.size() - 1; i++) {
+				redoAllStrokes.addElement(allStrokes.elementAt(i));
+			}
+			int size = allStrokes.size() - 1;
+			System.out.println(allStrokes.size());
+			allStrokes.remove(size);
+			repaint();
+		}
+	}
+
+	public void redo() {
+		if (!allStrokes.isEmpty() && !redoAllStrokes.isEmpty()) {
+			for (int i = 0; i < redoAllStrokes.size() - 1; i++) {
+				allStrokes.addElement(redoAllStrokes.elementAt(i));
+			}
+			repaint();
+			redoAllStrokes.removeAllElements();
+		}
+
 	}
 }

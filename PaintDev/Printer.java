@@ -8,43 +8,44 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 
-
-public class Printer implements Printable , ImageObserver{
+public class Printer implements Printable, ImageObserver {
 	private Graphics2D g2d;
 	private Image image;
-	
-	public Printer(Image TempImage){
+
+	public Printer(Image TempImage) {
 		this.image = TempImage;
 	}
 
 	@Override
-	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
-			throws PrinterException {
+	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 		// TODO Auto-generated method stub
-		/*if the page wants to print more than one page*/
-		g2d = (Graphics2D)graphics;
-		if(pageIndex > 0){
+		/* if the page wants to print more than one page */
+		g2d = (Graphics2D) graphics;
+		if (pageIndex > 0) {
 			return NO_SUCH_PAGE;
 		}
 		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-		//graphics.drawImage(image, image.getHeight(this), image.getWidth(this), this);
+		// graphics.drawImage(image, image.getHeight(this),
+		// image.getWidth(this), this);
 		graphics.drawString("HELLO WORlD", 100, 100);
 		return 0;
 	}
-	public Image getImage(){
+
+	public Image getImage() {
 		return this.image;
 	}
-	public void paintComponent(Graphics g){
-		g.drawImage(image,0 , 0 , this);
+
+	public void paintComponent(Graphics g) {
+		g.drawImage(image, 0, 0, this);
 	}
+
 	@Override
-	public boolean imageUpdate(Image img, int infoflags, int x, int y,
-			int width, int height) {
+	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 		// TODO Auto-generated method stub
-		if((infoflags & ALLBITS) != 0){
+		if ((infoflags & ALLBITS) != 0) {
 			return false;
 		}
 		return true;
 	}
-	
+
 }

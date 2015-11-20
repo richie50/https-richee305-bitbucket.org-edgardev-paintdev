@@ -36,8 +36,7 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 		this.setResizable(false);
 		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		String[] fontList = ge.getAvailableFontFamilyNames();
 		fontCombo = new JComboBox<String>(fontList);
 
@@ -45,8 +44,7 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 		bold = new JCheckBox("Bold");
 
 		sizeCombo = new JComboBox<String>(SZ);
-		((JLabel) sizeCombo.getRenderer())
-				.setHorizontalAlignment(SwingConstants.CENTER);
+		((JLabel) sizeCombo.getRenderer()).setHorizontalAlignment(SwingConstants.CENTER);
 		sizeCombo.setSelectedIndex(4);
 		sizeCombo.setPreferredSize(new Dimension(45, 21)); // tweek size
 
@@ -164,20 +162,17 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 			String s = (String) cb.getSelectedItem();
 			int newSize = Integer.parseInt(s);
 			Font tmp = example.getFont();
-			example.setFont(new Font(tmp.getFamily(), tmp.getStyle(),
-					newSize));
+			example.setFont(new Font(tmp.getFamily(), tmp.getStyle(), newSize));
 		}
 
 		else if (source == foreground) {
-			Color tmp = JColorChooser.showDialog(this, "Choose text color",
-					example.getForeground());
+			Color tmp = JColorChooser.showDialog(this, "Choose text color", example.getForeground());
 			if (tmp != null)
 				example.setForeground(tmp);
 		}
 
 		else if (source == background) {
-			Color tmp = JColorChooser.showDialog(this,
-					"Choose background color", example.getBackground());
+			Color tmp = JColorChooser.showDialog(this, "Choose background color", example.getBackground());
 			if (tmp != null)
 				example.setBackground(tmp);
 		}
@@ -216,8 +211,7 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 		return example.getBackground();
 	}
 
-	public int showCustomDialog(Frame f, Font fontArg, Color foreColorArg,
-			Color backColorArg) {
+	public int showCustomDialog(Frame f, Font fontArg, Color foreColorArg, Color backColorArg) {
 		this.setLocationRelativeTo(f);
 
 		// set the font combobox to the current font family name
@@ -257,5 +251,5 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 		// pressed.
 
 		return userResponse;
-		}
 	}
+}
