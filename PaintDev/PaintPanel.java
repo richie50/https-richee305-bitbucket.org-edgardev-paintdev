@@ -160,6 +160,28 @@ public class PaintPanel extends JPanel {
 
 	public void clear() {
 		allStrokes.clear();
+		if (!PaintAppFrame.circFillStruct.isEmpty()) {
+			PaintAppFrame.circFillStruct.clear();
+		}
+		if (!PaintAppFrame.circStruct.isEmpty()) {
+			PaintAppFrame.circStruct.clear();
+		}
+		if (!PaintAppFrame.lineStruct.isEmpty()) {
+			PaintAppFrame.lineStruct.clear();
+		}
+		if (!PaintAppFrame.rectFillStruct.isEmpty()) {
+			PaintAppFrame.rectFillStruct.clear();
+		}
+		if (!PaintAppFrame.roundRectFillStruct.isEmpty()) {
+			PaintAppFrame.roundRectFillStruct.clear();
+		}
+		if (!PaintAppFrame.roundRectStruct.isEmpty()) {
+			PaintAppFrame.roundRectStruct.clear();
+		}
+		if (!PaintAppFrame.rectStruct.isEmpty()) {
+			PaintAppFrame.rectStruct.clear();
+		}
+		clearImage();
 		this.repaint();
 	}
 
