@@ -257,62 +257,6 @@ public class PaintPanel extends JPanel {
 
 	public void undo() {
 		/* undo method for rectStruct */
-		if (!PaintAppFrame.rectStruct.isEmpty()) {
-			for (int i = 0; i < PaintAppFrame.rectStruct.size(); i++) {
-				this.redoStruct.add(PaintAppFrame.rectStruct.get(i));
-			}
-			int size = PaintAppFrame.rectStruct.size() - 1;
-			PaintAppFrame.rectStruct.remove(size);
-			repaint();
-		}
-		if (!PaintAppFrame.circStruct.isEmpty()) {
-			for (int i = 0; i < PaintAppFrame.circStruct.size(); i++) {
-				this.redoStruct.add(PaintAppFrame.circStruct.get(i));
-			}
-			int size = PaintAppFrame.circStruct.size() - 1;
-			PaintAppFrame.circStruct.remove(size);
-			repaint();
-		}
-		if (!PaintAppFrame.rectFillStruct.isEmpty()) {
-			for (int i = 0; i < PaintAppFrame.rectFillStruct.size(); i++) {
-				this.redoStruct.add(PaintAppFrame.rectFillStruct.get(i));
-			}
-			int size = PaintAppFrame.rectFillStruct.size() - 1;
-			PaintAppFrame.rectFillStruct.remove(size);
-			repaint();
-		}
-		if (!PaintAppFrame.circFillStruct.isEmpty()) {
-			for (int i = 0; i < PaintAppFrame.circFillStruct.size(); i++) {
-				this.redoStruct.add(PaintAppFrame.circFillStruct.get(i));
-			}
-			int size = PaintAppFrame.circFillStruct.size() - 1;
-			PaintAppFrame.circFillStruct.remove(size);
-			repaint();
-		}
-		if (!PaintAppFrame.roundRectStruct.isEmpty()) {
-			for (int i = 0; i < PaintAppFrame.roundRectStruct.size(); i++) {
-				this.redoStruct.add(PaintAppFrame.roundRectStruct.get(i));
-			}
-			int size = PaintAppFrame.roundRectStruct.size() - 1;
-			PaintAppFrame.roundRectStruct.remove(size);
-			repaint();
-		}
-		if (!PaintAppFrame.roundRectFillStruct.isEmpty()) {
-			for (int i = 0; i < PaintAppFrame.roundRectFillStruct.size(); i++) {
-				this.redoStruct.add(PaintAppFrame.roundRectFillStruct.get(i));
-			}
-			int size = PaintAppFrame.roundRectFillStruct.size() - 1;
-			PaintAppFrame.roundRectFillStruct.remove(size);
-			repaint();
-		}
-		if (!PaintAppFrame.lineStruct.isEmpty()) {
-			for (int i = 0; i < PaintAppFrame.lineStruct.size(); i++) {
-				this.redoStruct.add(PaintAppFrame.lineStruct.get(i));
-			}
-			int size = PaintAppFrame.lineStruct.size() - 1;
-			PaintAppFrame.lineStruct.remove(size);
-			repaint();
-		}
 		if (!allStrokes.isEmpty()) {
 			for (int i = 0; i < allStrokes.size(); i++) {
 				redoAllStrokes.addElement(allStrokes.elementAt(i));
@@ -322,6 +266,57 @@ public class PaintPanel extends JPanel {
 			allStrokes.remove(size);
 			repaint();
 		}
+		if (!PaintAppFrame.rectStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.rectStruct.size(); i++) {
+				redoStruct.add(PaintAppFrame.rectStruct.get(i));
+			}
+			int size = PaintAppFrame.rectStruct.size() - 1;
+			PaintAppFrame.rectStruct.remove(size);
+			repaint();
+		} else if (!PaintAppFrame.circStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.circStruct.size(); i++) {
+				redoStruct.add(PaintAppFrame.circStruct.get(i));
+			}
+			int size = PaintAppFrame.circStruct.size() - 1;
+			PaintAppFrame.circStruct.remove(size);
+			repaint();
+		} else if (!PaintAppFrame.rectFillStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.rectFillStruct.size(); i++) {
+				redoStruct.add(PaintAppFrame.rectFillStruct.get(i));
+			}
+			int size = PaintAppFrame.rectFillStruct.size() - 1;
+			PaintAppFrame.rectFillStruct.remove(size);
+			repaint();
+		} else if (!PaintAppFrame.circFillStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.circFillStruct.size(); i++) {
+				redoStruct.add(PaintAppFrame.circFillStruct.get(i));
+			}
+			int size = PaintAppFrame.circFillStruct.size() - 1;
+			PaintAppFrame.circFillStruct.remove(size);
+			repaint();
+		} else if (!PaintAppFrame.roundRectStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.roundRectStruct.size(); i++) {
+				redoStruct.add(PaintAppFrame.roundRectStruct.get(i));
+			}
+			int size = PaintAppFrame.roundRectStruct.size() - 1;
+			PaintAppFrame.roundRectStruct.remove(size);
+			repaint();
+		} else if (!PaintAppFrame.roundRectFillStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.roundRectFillStruct.size(); i++) {
+				redoStruct.add(PaintAppFrame.roundRectFillStruct.get(i));
+			}
+			int size = PaintAppFrame.roundRectFillStruct.size() - 1;
+			PaintAppFrame.roundRectFillStruct.remove(size);
+			repaint();
+		} else if (!PaintAppFrame.lineStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.lineStruct.size(); i++) {
+				redoStruct.add(PaintAppFrame.lineStruct.get(i));
+			}
+			int size = PaintAppFrame.lineStruct.size() - 1;
+			PaintAppFrame.lineStruct.remove(size);
+			repaint();
+		}
+
 	}
 
 	public void redo() {

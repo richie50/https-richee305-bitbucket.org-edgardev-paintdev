@@ -137,7 +137,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		stroke = new Point[MAX_SAMPLES];
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		undoButton = new JButton("Undo");
+		Icon undoIcon = new ImageIcon("icons/undo.png");
+		Icon redoIcon = new ImageIcon("icons/redo.png");
+
+		undoButton = new JButton(undoIcon);
 		undoButton.setActionCommand("undo");
 		undoButton.addActionListener(new ActionListener() {
 
@@ -147,7 +150,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			}
 		});
 
-		redoButton = new JButton("Redo");
+		redoButton = new JButton(redoIcon);
 		redoButton.setActionCommand("Redo");
 		redoButton.addActionListener(new ActionListener() {
 
@@ -198,11 +201,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		Icon circleIcon = new ImageIcon("icons/circ.png");
 		Icon rectfillIcon = new ImageIcon("icons/fullRect.png");
 		Icon circFillIcon = new ImageIcon("icons/fullCirc.png");
-		Icon undoIcon = new ImageIcon("icons/undo.png");
-		Icon redoIcon = new ImageIcon("icons/redo.png");
-
-		undoButton = new JButton(undoIcon);
-		redoButton = new JButton(redoIcon);
 
 		clearButton = new JButton(clearIcon);
 		clearButton.setActionCommand("clear");
