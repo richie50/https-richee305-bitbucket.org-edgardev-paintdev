@@ -11,15 +11,19 @@ public class PaintPanel extends JPanel {
 	private Stroke THIN_LINE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
 	private Stroke THICK_LINE_STROKE = new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+	private Stroke ERASER_STROKE = new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+
 	static Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
 	private Vector<Line2D.Double> allStrokes;
+
 	private Vector<Line2D.Double> redoAllStrokes;
 	public Stack redoStack = new Stack();
 
 	private Color prevColor;
 
 	Rectangle rect;
+
 	Graphics2D gr;
 	Image img;
 	private int x;
@@ -52,12 +56,10 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void setThickBrush() {
-		PaintPanel.LINE_COLOR = this.prevColor;
 		this.LINE_STROKE = this.THICK_LINE_STROKE;
 	}
 
 	public void setThinBrush() {
-		PaintPanel.LINE_COLOR = this.prevColor;
 		this.LINE_STROKE = this.THIN_LINE_STROKE;
 	}
 
@@ -85,6 +87,40 @@ public class PaintPanel extends JPanel {
 		}
 
 		g2.setStroke(s); // restore stroke
+	}
+
+	private void paintEraser(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+
+		// set the inking color
+		g2.setColor(Color.WHITE);
+
+		// set the stroke thickness, and cap and join attributes ('round')
+		Stroke s = g2.getStroke(); // save current stroke
+		g2.setStroke(LINE_STROKE); // set desired stroke
+
+		// retrive each line segment and draw it
+		for (int i = 0; i < allStrokes.size(); ++i) {
+			g2.draw(allStrokes.elementAt(i));
+		}
+
+		g2.setStroke(s); // restore stroke
+	}
+
+	public void drawEraser(int x1, int y1, int x2, int y2) {
+
+		// get graphics context
+		g2 = (Graphics2D) this.getGraphics();
+
+		// create the line
+		Line2D.Double inkSegment = new Line2D.Double(x1, y1, x2, y2);
+		g2.setColor(Color.WHITE); // set the inking color
+		Stroke s = g2.getStroke(); // save current stroke
+		g2.setStroke(LINE_STROKE); // set desired stroke
+		g2.draw(inkSegment); // draw it!
+		g2.setStroke(s); // restore stroke
+		allStrokes.add(inkSegment); // add to vector
+
 	}
 
 	public void drawInk(int x1, int y1, int x2, int y2) {
@@ -135,10 +171,15 @@ public class PaintPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // paint background
 		paintInkStrokes(g);
+		paintEraser(g);
 		PaintAppFrame.paintRect(g);
 		PaintAppFrame.paintCircle(g);
 		PaintAppFrame.paintRectFill(g);
 		PaintAppFrame.paintFillCircle(g);
+		PaintAppFrame.paintRoundRectangle(g);
+		PaintAppFrame.paintRoundRectangleFill(g);
+		PaintAppFrame.paintLine(g);
+
 		x = this.getWidth() / 2 - width / 2 + xOffset / 2;
 		y = this.getHeight() / 2 - height / 2 + yOffset / 2;
 		g.drawImage(img, x, y, width, height, this);
