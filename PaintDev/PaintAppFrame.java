@@ -563,6 +563,23 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			repaint();
 		}
 
+		else if (flag == 8) {
+			int x = me.getX();
+			int y = me.getY();
+			if (SwingUtilities.isLeftMouseButton(me)) {
+				stroke[sampleCount] = new Point(x, y);
+				int x1 = (int) stroke[sampleCount - 1].getX();
+				int y1 = (int) stroke[sampleCount - 1].getY();
+				int x2 = (int) stroke[sampleCount].getX();
+				int y2 = (int) stroke[sampleCount].getY();
+				if (sampleCount < MAX_SAMPLES - 1)
+					++sampleCount;
+
+				// draw ink trail from previous point to current point
+				paintPanel.drawEraser(x1, y1, x2, y2);
+			}
+		}
+
 	}
 
 	public void mouseMoved(MouseEvent me) {
@@ -626,6 +643,14 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseStart = new Point(me.getX(), me.getY());
 			mouseEnd = mouseStart;
 			repaint();
+		} else if (flag == 8) {
+			int x = me.getX();
+			int y = me.getY();
+
+			stroke[sampleCount] = new Point(x, y);
+			if (sampleCount < MAX_SAMPLES - 1) {
+				++sampleCount;
+			}
 		}
 	}
 
@@ -686,6 +711,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseStart = null;
 			mouseEnd = null;
 			repaint();
+		} else if (flag == 8) {
+			if (SwingUtilities.isLeftMouseButton(me)) {
+				sampleCount = 0;
+			}
 		}
 	}
 
@@ -746,7 +775,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			break;
 
 		case "eraser":
-			// paintPanel.setEraser();
+			flag = 8;
+			paintPanel.setEraser();
 			break;
 
 		}

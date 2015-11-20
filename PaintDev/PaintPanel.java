@@ -11,11 +11,13 @@ public class PaintPanel extends JPanel {
 	private Stroke THIN_LINE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
 	private Stroke THICK_LINE_STROKE = new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-	private Stroke ERASER_STROKE = new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+	private Stroke ERASER_STROKE = new BasicStroke(10.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 
 	static Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
+
 	private Vector<Line2D.Double> allStrokes;
+	private Vector<Line2D.Double> eraserStrokes;
 
 	private Vector<Line2D.Double> redoAllStrokes;
 	public Stack redoStack = new Stack();
@@ -37,6 +39,7 @@ public class PaintPanel extends JPanel {
 	public PaintPanel() {
 		redoAllStrokes = new Vector<Line2D.Double>();
 		allStrokes = new Vector<Line2D.Double>();
+		eraserStrokes = new Vector<Line2D.Double>();
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		// width = img.getWidth(this);
@@ -100,8 +103,8 @@ public class PaintPanel extends JPanel {
 		g2.setStroke(LINE_STROKE); // set desired stroke
 
 		// retrive each line segment and draw it
-		for (int i = 0; i < allStrokes.size(); ++i) {
-			g2.draw(allStrokes.elementAt(i));
+		for (int i = 0; i < eraserStrokes.size(); ++i) {
+			g2.draw(eraserStrokes.elementAt(i));
 		}
 
 		g2.setStroke(s); // restore stroke
@@ -119,8 +122,9 @@ public class PaintPanel extends JPanel {
 		g2.setStroke(LINE_STROKE); // set desired stroke
 		g2.draw(inkSegment); // draw it!
 		g2.setStroke(s); // restore stroke
-		allStrokes.add(inkSegment); // add to vector
 
+		allStrokes.add(inkSegment); // add to vector
+		eraserStrokes.add(inkSegment); // add to vector
 	}
 
 	public void drawInk(int x1, int y1, int x2, int y2) {
