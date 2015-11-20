@@ -20,7 +20,6 @@ public class PaintPanel extends JPanel {
 	private Vector<Line2D.Double> eraserStrokes;
 
 	private Vector<Line2D.Double> redoAllStrokes;
-	public Stack redoStack = new Stack();
 
 	private Color prevColor;
 
@@ -67,8 +66,7 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void setEraser() {
-		prevColor = PaintPanel.LINE_COLOR;
-		PaintPanel.LINE_COLOR = Color.WHITE;
+		this.LINE_STROKE = this.ERASER_STROKE;
 	}
 
 	/*
