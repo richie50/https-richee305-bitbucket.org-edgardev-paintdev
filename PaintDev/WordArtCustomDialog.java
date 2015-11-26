@@ -31,10 +31,9 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 	JButton ok;
 	JButton cancel;
 	JButton foreground;
-	JButton background;
 
 	WordArtCustomDialog(Frame owner) {
-		super(owner, "Customize Message Properties", true);
+		super(owner, "Add Text", true);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
@@ -59,9 +58,7 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 		cancel = new JButton("Cancel");
 		ok.setPreferredSize(cancel.getPreferredSize());
 
-		foreground = new JButton("Text");
-		background = new JButton("Background");
-		foreground.setPreferredSize(background.getPreferredSize());
+		foreground = new JButton("Color");
 
 		fontCombo.addActionListener(this);
 		italic.addItemListener(this);
@@ -70,7 +67,6 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 		ok.addActionListener(this);
 		cancel.addActionListener(this);
 		foreground.addActionListener(this);
-		background.addActionListener(this);
 		// custom dialog set up
 		JPanel p0 = new JPanel();
 		p0.add(fontCombo);
@@ -94,7 +90,6 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 
 		JPanel p2 = new JPanel(); // use FlowLayout
 		p2.add(foreground);
-		p2.add(background);
 		p2.setBorder(new TitledBorder(new EtchedBorder(), "Message color"));
 		p2.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -173,11 +168,6 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 				example.setForeground(tmp);
 		}
 
-		else if (source == background) {
-			Color tmp = JColorChooser.showDialog(this, "Choose background color", example.getBackground());
-			if (tmp != null)
-				example.setBackground(tmp);
-		}
 	}
 
 	@Override
