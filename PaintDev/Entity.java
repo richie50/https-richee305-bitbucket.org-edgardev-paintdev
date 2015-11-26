@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Font;
 
@@ -50,7 +49,7 @@ public class Entity {
 		return foreColor;
 	}
 	public Color getBackColor(){
-		return foreColor;
+		return backColor;
 	}
 }
 
