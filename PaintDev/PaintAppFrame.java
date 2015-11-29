@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.awt.image.ImageObserver;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
@@ -23,6 +24,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.plaf.ButtonUI;
+import javax.swing.plaf.basic.BasicButtonListener;
 
 public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionListener, ActionListener {
 	static final long serialVersionUID = 2L;
@@ -108,6 +111,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	public static ArrayList<ColoredShape> roundRectStruct = new ArrayList<ColoredShape>();
 	public static ArrayList<ColoredShape> roundRectFillStruct = new ArrayList<ColoredShape>();
 	public static ArrayList<ColoredShape> lineStruct = new ArrayList<ColoredShape>();
+	Color pressedColor = new Color(122, 175, 255);
+	Color defaultColor = new Color(224, 224, 224);
 
 	private static Point mouseStart;
 	private static Point mouseEnd;
@@ -129,6 +134,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		undoButton = new JButton(undoIcon);
 		undoButton.setActionCommand("undo");
+		undoButton.setToolTipText("Undo");
 		undoButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -139,6 +145,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		redoButton = new JButton(redoIcon);
 		redoButton.setActionCommand("Redo");
+		redoButton.setToolTipText("Redo");
 		redoButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -146,7 +153,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				paintPanel.redo();
 			}
 		});
-
 		clearButton = new JButton("CLEAR");
 		clearButton.setActionCommand("clear");
 		clearButton.addActionListener(this);
@@ -188,82 +194,95 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		Icon circleIcon = new ImageIcon("icons/circ.png");
 		Icon rectfillIcon = new ImageIcon("icons/fullRect.png");
 		Icon circFillIcon = new ImageIcon("icons/fullCirc.png");
-		Icon backgroundIcon = new ImageIcon("icons/background.png");
+		Icon backgroundIcon = new ImageIcon("icons/backgroundFill.png");
 
 		clearButton = new JButton(clearIcon);
 		clearButton.setActionCommand("clear");
+		clearButton.setToolTipText("Clear page");
 		clearButton.addActionListener(this);
 
 		thickBrush = new JButton(brushIcon);
 		thickBrush.setActionCommand("thick");
+		thickBrush.setToolTipText("Thick brush");
 		thickBrush.addActionListener(this);
 
 		thinBrush = new JButton(pencilIcon);
 		thinBrush.setActionCommand("thin");
+		thinBrush.setToolTipText("Thin brush");
 		thinBrush.addActionListener(this);
 
 		changeColor = new JButton(rgbIcon);
 		changeColor.setActionCommand("color");
+		changeColor.setToolTipText("Change color");
 		changeColor.addActionListener(this);
 
 		loadImage = new JButton(loadIcon);
 		loadImage.setActionCommand("image");
+		loadImage.setToolTipText("Load image");
 		loadImage.addActionListener(this);
 
 		rectButton = new JButton(rectIcon);
 		rectButton.setActionCommand("rectangle");
+		rectButton.setToolTipText("Rectangle");
 		rectButton.addActionListener(this);
 
 		rectfillButton = new JButton(rectfillIcon);
 		rectfillButton.setActionCommand("rectanglefill");
+		rectfillButton.setToolTipText("Filled Rectangle");
 		rectfillButton.addActionListener(this);
 
 		roundRectButton = new JButton(roundRectIcon);
 		roundRectButton.setActionCommand("roundrectangle");
+		roundRectButton.setToolTipText("Smooth Edged Rectangle");
 		roundRectButton.addActionListener(this);
 
 		roundRectFillButton = new JButton(roundRectFillIcon);
 		roundRectFillButton.setActionCommand("roundrectanglefill");
+		roundRectFillButton.setToolTipText("Filled Smooth Edged Rectanlge ");
 		roundRectFillButton.addActionListener(this);
 
 		circleButton = new JButton(circleIcon);
 		circleButton.setActionCommand("circle");
+		circleButton.setToolTipText("Circle");
 		circleButton.addActionListener(this);
 
 		circFillButton = new JButton(circFillIcon);
 		circFillButton.setActionCommand("circlefill");
+		circFillButton.setToolTipText("Filled Circle");
 		circFillButton.addActionListener(this);
 
 		eraserButton = new JButton(eraserIcon);
 		eraserButton.setActionCommand("eraser");
+		eraserButton.setToolTipText("Eraser");
 		eraserButton.addActionListener(this);
 
 		lineButton = new JButton(lineIcon);
 		lineButton.setActionCommand("line");
+		lineButton.setToolTipText("Straight Line");
 		lineButton.addActionListener(this);
-		
+
 		backgroundButton = new JButton(backgroundIcon);
 		backgroundButton.setActionCommand("background");
+		backgroundButton.setToolTipText("Fill Background");
 		backgroundButton.addActionListener(this);
 
 		JPanel buttons = new JPanel(new GridLayout());
 		buttons.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-		buttons.setLayout(new GridLayout(16, 2));
-
+		buttons.setLayout(new GridLayout(8, 1));
+		buttons.add(loadImage);
 		buttons.add(clearButton);
+		buttons.add(eraserButton);
 		buttons.add(thickBrush);
 		buttons.add(thinBrush);
 		buttons.add(changeColor);
-		buttons.add(loadImage);
 		buttons.add(backgroundButton);
-		buttons.add(eraserButton);
+		buttons.add(lineButton);
 		buttons.add(rectButton);
-		buttons.add(circleButton);
 		buttons.add(rectfillButton);
-		buttons.add(circFillButton);
 		buttons.add(roundRectButton);
 		buttons.add(roundRectFillButton);
-		buttons.add(lineButton);
+		buttons.add(circleButton);
+		buttons.add(circFillButton);
 		buttons.add(undoButton);
 		buttons.add(redoButton);
 
@@ -286,9 +305,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		menuBar.add(fileMenu);
 		// add items that goes under the <file> menu
-		ImageIcon newFileImage = new ImageIcon("new_file_image.gif");
+		ImageIcon newFileImage = new ImageIcon("icons/new.png");
 		Image img = newFileImage.getImage();
-		img = img.getScaledInstance(20, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
 		newFileImage = new ImageIcon(img);
 		newFile = new JMenuItem("New", newFileImage);
 		newFile.setMnemonic(KeyEvent.VK_N);
@@ -296,9 +315,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		newFile.addActionListener(this);
 		fileMenu.add(newFile);
 		// <open>
-		newFileImage = new ImageIcon("open_icon.JPG");
+		newFileImage = new ImageIcon("icons/openMenu.png");
 		img = newFileImage.getImage();
-		img = img.getScaledInstance(30, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
 		newFileImage = new ImageIcon(img);
 		open = new JMenuItem("Open...", newFileImage);
 		open.setMnemonic(KeyEvent.VK_O);
@@ -306,18 +325,18 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		open.addActionListener(this);
 		fileMenu.add(open);
 		// <save>
-		newFileImage = new ImageIcon("save2_icon.PNG");
+		newFileImage = new ImageIcon("icons/save.png");
 		img = newFileImage.getImage();
-		img = img.getScaledInstance(30, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
 		newFileImage = new ImageIcon(img);
 		save = new JMenuItem("Save", newFileImage);
 		save.setMnemonic(KeyEvent.VK_S);
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 		save.addActionListener(this);
 		save.setEnabled(false);
-		newFileImage = new ImageIcon("save_icon.JPG");
+		newFileImage = new ImageIcon("icons/save.png");
 		img = newFileImage.getImage();
-		img = img.getScaledInstance(30, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
 		newFileImage = new ImageIcon(img);
 		saveAs = new JMenuItem("Save as...", newFileImage);
 		saveAs.setMnemonic(KeyEvent.VK_A);
@@ -326,9 +345,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		fileMenu.add(save);
 		fileMenu.add(saveAs);
 		// print
-		newFileImage = new ImageIcon("save2_icon.PNG");
+		newFileImage = new ImageIcon("icons/print.png");
 		img = newFileImage.getImage();
-		img = img.getScaledInstance(30, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
 		newFileImage = new ImageIcon(img);
 		print = new JMenuItem("Print...", newFileImage);
 		print.setMnemonic(KeyEvent.VK_P);
@@ -337,9 +356,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		print.setEnabled(true);
 		fileMenu.add(print);
 		// <exit>
-		newFileImage = new ImageIcon("exit_icon.PNG");
+		newFileImage = new ImageIcon("icons/exit.png");
 		img = newFileImage.getImage();
-		img = img.getScaledInstance(30, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
 		newFileImage = new ImageIcon(img);
 		exit = new JMenuItem("Exit", newFileImage);
 		exit.setMnemonic(KeyEvent.VK_X);
@@ -353,33 +372,56 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		toolsMenu = new JMenu("Tools");
 		toolsMenu.setMnemonic(KeyEvent.VK_T);
 		menuBar.add(toolsMenu);
-		position = new JMenuItem("Position");
+		newFileImage = new ImageIcon("icons/position.png");
+		img = newFileImage.getImage();
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		newFileImage = new ImageIcon(img);
+		position = new JMenuItem("Position", newFileImage);
 		toolsMenu.add(position);
 		position.addActionListener(this);
 		// <red>
-		Undo = new JMenuItem("Undo");
+		newFileImage = new ImageIcon("icons/undoM.png");
+		img = newFileImage.getImage();
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		newFileImage = new ImageIcon(img);
+		Undo = new JMenuItem("Undo", newFileImage);
 		Undo.setMnemonic(KeyEvent.VK_Z);
 		Undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
-		Undo.addActionListener(this);
+		Undo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				paintPanel.undo();
+			}
+		});
 		//
-		Redo = new JMenuItem("Redo");
+		newFileImage = new ImageIcon("icons/redoM.png");
+		img = newFileImage.getImage();
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		newFileImage = new ImageIcon(img);
+		Redo = new JMenuItem("Redo", newFileImage);
 		Redo.setMnemonic(KeyEvent.VK_X);
 		Redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
-		Redo.addActionListener(this);
+		Redo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				paintPanel.redo();
+			}
+		});
 		//
-		clear = new JMenuItem("Clear");
+		newFileImage = new ImageIcon("icons/new.png");
+		img = newFileImage.getImage();
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		newFileImage = new ImageIcon(img);
+		clear = new JMenuItem("Clear", newFileImage);
 		clear.setMnemonic(KeyEvent.VK_C);
 		clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
 		clear.addActionListener(this);
 		//
-		clearImage = new JMenuItem("Clear Image");
-		clearImage.setMnemonic(KeyEvent.VK_I);
-		clearImage.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.CTRL_MASK));
-		clearImage.addActionListener(this);
 		editMenu.add(Undo);
 		editMenu.add(Redo);
 		editMenu.add(clear);
-		editMenu.add(clearImage);
 		editMenu.setMnemonic(KeyEvent.VK_T);
 		addDropDownToolBar();
 
@@ -559,6 +601,11 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		// textX = me.getX();
 		// textY = me.getY();
 		// System.out.println("MOUSE PRESSED =>" + textX +"-----"+textY);
+
+		if (me.getSource().equals(undoButton)) {
+
+			undoButton.setBackground(Color.BLACK);
+		}
 		if (flag == 0) {
 			int x = me.getX();
 			int y = me.getY();
@@ -621,6 +668,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	public void mouseReleased(MouseEvent me) {
+		if (me.getSource().equals(undoButton)) {
+			undoButton.setBackground(Color.BLUE);
+
+		}
 		if (flag == 0) {
 			if (SwingUtilities.isLeftMouseButton(me)) {
 				sampleCount = 0;
@@ -692,6 +743,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		switch (command) {
 		case "clear":
 			paintPanel.clear();
+			paintPanel.clearImage();
 			FLAG = 0;
 			break;
 		case "thick":
@@ -892,15 +944,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		paintPanel.setColor(color);
 		currColor = color;
 	}
-	
-	private void setBackgroundColor(){
-		
+
+	private void setBackgroundColor() {
+
 		Color bgColor = JColorChooser.showDialog(null, "Choose Paint Color", null);
 		paintPanel.setBackground(bgColor);
-				
+
 	}
-	
-	
 
 	private void loadImage() {
 		JFileChooser imageSelector = new JFileChooser(System.getProperty("user.dir")); // try

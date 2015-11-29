@@ -21,7 +21,7 @@ public class PaintPanel extends JPanel {
 	private Vector<LineSegment> eraserStrokes;
 	private Vector<LineSegment> redoAllStrokes;
 	private static ArrayList<ColoredShape> redoStruct = new ArrayList<ColoredShape>();
-	
+
 	Graphics2D gr;
 	Image img;
 	private int x;
@@ -73,7 +73,7 @@ public class PaintPanel extends JPanel {
 	private void paintInkStrokes(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
-	//	LineSegment s1 = null;
+		// LineSegment s1 = null;
 
 		// set the inking color
 		g2.setColor(LINE_COLOR);
@@ -83,19 +83,18 @@ public class PaintPanel extends JPanel {
 		g2.setStroke(LINE_STROKE); // set desired stroke
 
 		// retrive each line segment and draw it
-		
+
 		for (LineSegment s1 : allStrokes) {
 			s1.draw(g2);
 
-		
 			// gr.setPaint(this.LINE_COLOR);
 			// gr.fill(s);
 		}
-//		for (int i = 0; i < allStrokes.size(); ++i) {
-//			s1.draw(g2);
-//			
-//		//	s1.draw(allStrokes.elementAt(i));
-//		}
+		// for (int i = 0; i < allStrokes.size(); ++i) {
+		// s1.draw(g2);
+		//
+		// // s1.draw(allStrokes.elementAt(i));
+		// }
 
 		g2.setStroke(s); // restore stroke
 	}
@@ -114,7 +113,6 @@ public class PaintPanel extends JPanel {
 		for (LineSegment s1 : allStrokes) {
 			s1.draw(g2);
 
-		
 			// gr.setPaint(this.LINE_COLOR);
 			// gr.fill(s);
 		}
@@ -134,11 +132,10 @@ public class PaintPanel extends JPanel {
 		g2.setStroke(LINE_STROKE); // set desired stroke
 		g2.draw(inkSegment); // draw it!
 		g2.setStroke(s); // restore stroke
-		//eraserStrokes.add(inkSegment); // add to vector
-		allStrokes.add(new LineSegment(inkSegment,Color.white, s)); // add to vector
+		// eraserStrokes.add(inkSegment); // add to vector
+		allStrokes.add(new LineSegment(inkSegment, Color.white, s)); // add to
+																		// vector
 	}
-	
-	
 
 	public void drawInk(int x1, int y1, int x2, int y2) {
 		// get graphics context
@@ -151,7 +148,9 @@ public class PaintPanel extends JPanel {
 		g2.setStroke(LINE_STROKE); // set desired stroke
 		g2.draw(inkSegment); // draw it!
 		g2.setStroke(s); // restore stroke
-		allStrokes.add(new LineSegment(inkSegment,LINE_COLOR, LINE_STROKE)); // add to vector
+		allStrokes.add(new LineSegment(inkSegment, LINE_COLOR, LINE_STROKE)); // add
+																				// to
+																				// vector
 	}
 
 	public void addImage(Image image) {
@@ -196,6 +195,9 @@ public class PaintPanel extends JPanel {
 		}
 		if (!PaintAppFrame.rectStruct.isEmpty()) {
 			PaintAppFrame.rectStruct.clear();
+		}
+		if (!eraserStrokes.isEmpty()) {
+			eraserStrokes.clear();
 		}
 		clearImage();
 		this.repaint();
@@ -353,51 +355,67 @@ public class PaintPanel extends JPanel {
 			int size = PaintAppFrame.lineStruct.size() - 1;
 			PaintAppFrame.lineStruct.remove(size);
 			repaint();
+		} else if (!eraserStrokes.isEmpty()) {
+			int size = eraserStrokes.size() - 1;
+			eraserStrokes.remove(size);
+			repaint();
+		}
+		while (!vectorForString.isEmpty()) {
+			int size = vectorForString.size() - 1;
+			vectorForString.remove(size);
+			repaint();
 		}
 
 	}
 
 	public void redo() {
-		if (!PaintAppFrame.rectStruct.isEmpty() && !redoStruct.isEmpty()) {
+		if (!PaintAppFrame.rectStruct.isEmpty()/* && !redoStruct.isEmpty() */) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.rectStruct.add(redoStruct.get(i));
 			}
+			redoStruct.clear();
 			repaint();
-		}
-		if (!PaintAppFrame.circStruct.isEmpty() && !redoStruct.isEmpty()) {
+		} else if (!PaintAppFrame.circStruct
+				.isEmpty()/* && !redoStruct.isEmpty() */) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.circStruct.add(redoStruct.get(i));
 			}
+			redoStruct.clear();
 			repaint();
-		}
-		if (!PaintAppFrame.rectFillStruct.isEmpty() && !redoStruct.isEmpty()) {
+		} else if (!PaintAppFrame.rectFillStruct
+				.isEmpty() /* && !redoStruct.isEmpty() */) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.rectFillStruct.add(redoStruct.get(i));
 			}
+			redoStruct.clear();
 			repaint();
-		}
-		if (!PaintAppFrame.circFillStruct.isEmpty() && !redoStruct.isEmpty()) {
+		} else if (!PaintAppFrame.circFillStruct
+				.isEmpty()/* && !redoStruct.isEmpty() */) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.circFillStruct.add(redoStruct.get(i));
 			}
+			redoStruct.clear();
 			repaint();
-		}
-		if (!PaintAppFrame.roundRectStruct.isEmpty() && !redoStruct.isEmpty()) {
+		} else if (!PaintAppFrame.roundRectStruct
+				.isEmpty()/* && !redoStruct.isEmpty() */) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.roundRectStruct.add(redoStruct.get(i));
 			}
+			redoStruct.clear();
 			repaint();
-		}
-		if (!PaintAppFrame.roundRectFillStruct.isEmpty() && !redoStruct.isEmpty()) {
+		} else if (!PaintAppFrame.roundRectFillStruct
+				.isEmpty() /* && !redoStruct.isEmpty() */) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.roundRectFillStruct.add(redoStruct.get(i));
 			}
+			redoStruct.clear();
 			repaint();
-		}
-		if (!PaintAppFrame.lineStruct.isEmpty() && !redoStruct.isEmpty()) {
+		} else if (!PaintAppFrame.lineStruct
+				.isEmpty() /* && !redoStruct.isEmpty() */) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.lineStruct.add(redoStruct.get(i));
 			}
+			redoStruct.clear();
 			repaint();
 		}
 		if (!allStrokes.isEmpty() && !redoAllStrokes.isEmpty()) {
