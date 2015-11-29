@@ -772,43 +772,38 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		case "rectangle":
 			flag = 1;
 			FLAG = 0;
-			this.paintRect(gr);
+			PaintAppFrame.paintRect(gr);
 			break;
 		case "circle":
 			flag = 2;
 			FLAG = 0;
-			this.paintCircle(gr);
+			PaintAppFrame.paintCircle(gr);
 			break;
-
 		case "rectanglefill":
 			flag = 3;
 			FLAG = 0;
-			this.paintRectFill(gr);
+			PaintAppFrame.paintRectFill(gr);
 			break;
 		case "circlefill":
 			flag = 4;
 			FLAG = 0;
-			this.paintFillCircle(gr);
+			PaintAppFrame.paintFillCircle(gr);
 			break;
-
 		case "roundrectangle":
 			flag = 5;
 			FLAG = 0;
-			this.paintRoundRectangle(gr);
+			PaintAppFrame.paintRoundRectangle(gr);
 			break;
-
 		case "roundrectanglefill":
 			flag = 6;
 			FLAG = 0;
-			this.paintRoundRectangleFill(gr);
+			PaintAppFrame.paintRoundRectangleFill(gr);
 			break;
-
 		case "line":
 			flag = 7;
 			FLAG = 0;
-			this.paintLine(gr);
+			PaintAppFrame.paintLine(gr);
 			break;
-
 		case "eraser":
 			flag = 8;
 			FLAG = 0;
@@ -925,7 +920,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	protected boolean fileExistenceChecker(File file) throws FileNotFoundException {
-		Set<String> set = (Set<String>) ImageFileChooser.getAllFiles(file);
+		@SuppressWarnings("unchecked")
+		Set<String> allFiles = (Set<String>) ImageFileChooser.getAllFiles(file);
+		Set<String> set = allFiles;
 		final Object[] options = { "Yes", "No", "Cancel" };
 		for (String s : set) {
 			System.out.println("OK :" + s.toString() + "===> " + getSaveFileName());

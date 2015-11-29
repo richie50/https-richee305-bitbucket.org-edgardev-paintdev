@@ -440,7 +440,7 @@ public class PaintPanel extends JPanel {
 	private void paintEntities(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		for (int i = 0; i < vectorForString.size(); i++) {
-			Entity e = (Entity) vectorForString.elementAt(i);
+			Entity e = vectorForString.elementAt(i);
 			int x = e.getX();
 			int y = e.getY();
 			switch (e.getType()) {

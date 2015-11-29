@@ -148,14 +148,16 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 		}
 
 		else if (source == fontCombo) {
-			JComboBox<String> cb = (JComboBox) source;
+			@SuppressWarnings("unchecked")
+			JComboBox<String> cb = (JComboBox<String>) source;
 			String s = (String) cb.getSelectedItem();
 			Font tmp = example.getFont();
 			example.setFont(new Font(s, tmp.getStyle(), tmp.getSize()));
 		}
 
 		else if (source == sizeCombo) {
-			JComboBox<String> cb = (JComboBox) source;
+			@SuppressWarnings("unchecked")
+			JComboBox<String> cb = (JComboBox<String>) source;
 			String s = (String) cb.getSelectedItem();
 			int newSize = Integer.parseInt(s);
 			Font tmp = example.getFont();
