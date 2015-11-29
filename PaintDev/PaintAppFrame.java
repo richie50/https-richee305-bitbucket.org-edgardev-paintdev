@@ -199,22 +199,75 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		Icon circFillIcon = new ImageIcon("icons/fullCirc.png");
 		Icon backgroundIcon = new ImageIcon("icons/backgroundFill.png");
 
+		//added 
 		clearButton = new JButton(clearIcon);
 		clearButton.setEnabled(false);
 		clearButton.setActionCommand("clear");
 		clearButton.setToolTipText("Clear page");
 		clearButton.addActionListener(this);
-
+		JButton temp = new JButton();
+		final PopupFactory popUp = PopupFactory.getSharedInstance();
 		thickBrush = new JButton(brushIcon);
-		thickBrush.setActionCommand("thick");
+		//thickBrush.setActionCommand("thick");
 		thickBrush.setToolTipText("Thick brush");
 		thickBrush.addActionListener(this);
 
 		thinBrush = new JButton(pencilIcon);
-		thinBrush.setActionCommand("thin");
-		thinBrush.setToolTipText("Thin brush");
+		//thinBrush.setToolTipText("Thin brush");
 		thinBrush.addActionListener(this);
+		//added
+			JPanel popUpContent = new JPanel(new FlowLayout());
+		popUpContent.add(thickBrush);
+		popUpContent.add(thinBrush);
+		JScrollPane s = new JScrollPane(popUpContent);
+//		s.setPreferredSize(new Dimension(popUpContent.getPreferredSize().width
+//				+ s.getVerticalScrollBar().getPreferredSize().width
+//				+ s.getBorder().getBorderInsets(s).left
+//				+ s.getBorder().getBorderInsets(s).right, 85));
+//		s.getPreferredSize();
+		s.setSize(new Dimension(180, 50));
+		s.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		temp.setAction(new AbstractAction(null) {
+			private Popup pop;
+			private boolean isShown = false;
+			private static final long serialVersionUID = 1L;
 
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (isShown) {
+					pop.hide();
+				} else {
+					pop = popUp.getPopup(temp, s, temp.getLocationOnScreen().x,
+							temp.getLocationOnScreen().y + temp.getHeight());
+					thickBrush.setAction(new AbstractAction("" , brushIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+					});
+					thinBrush.setAction(new AbstractAction("", pencilIcon){
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+						
+					});
+					pop.show();
+				}
+				isShown = !isShown;
+				thickBrush.setActionCommand("thick");
+				thinBrush.setActionCommand("thin");
+			}
+		});
 		changeColor = new JButton(rgbIcon);
 		changeColor.setActionCommand("color");
 		changeColor.setToolTipText("Change color");
@@ -226,35 +279,174 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		loadImage.addActionListener(this);
 
 		rectButton = new JButton(rectIcon);
-		rectButton.setActionCommand("rectangle");
+		//rectButton.setActionCommand("rectangle");
 		rectButton.setToolTipText("Rectangle");
 		rectButton.addActionListener(this);
 
 		rectfillButton = new JButton(rectfillIcon);
-		rectfillButton.setActionCommand("rectanglefill");
+		//rectfillButton.setActionCommand("rectanglefill");
 		rectfillButton.setToolTipText("Filled Rectangle");
 		rectfillButton.addActionListener(this);
+		//added
+		JButton temp2 = new JButton();
+		JPanel popUpContent2 = new JPanel(new FlowLayout());
+		popUpContent2.add(rectButton);
+		popUpContent2.add(rectfillButton);
+		JScrollPane s2 = new JScrollPane(popUpContent2);
+		s2.setSize(new Dimension(180, 50));
+		s2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		temp2.setAction(new AbstractAction(null) {
+			private Popup pop;
+			private boolean isShown = false;
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(isShown){
+					pop.hide();
+				}else{
+					pop = popUp.getPopup(temp2, s2, temp2.getLocationOnScreen().x,
+							temp2.getLocationOnScreen().y + temp2.getHeight());
+					rectButton.setAction(new AbstractAction("", rectIcon) {
+						private static final long serialVersionUID = 1L;
 
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+					});
+					rectfillButton.setAction(new AbstractAction("",rectfillIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+					});
+					pop.show();
+				}
+				isShown = !isShown;
+				rectButton.setActionCommand("rectangle");
+				rectfillButton.setActionCommand("rectanglefill");
+			}
+		});
 		roundRectButton = new JButton(roundRectIcon);
-		roundRectButton.setActionCommand("roundrectangle");
+		//roundRectButton.setActionCommand("roundrectangle");
 		roundRectButton.setToolTipText("Smooth Edged Rectangle");
 		roundRectButton.addActionListener(this);
 
 		roundRectFillButton = new JButton(roundRectFillIcon);
-		roundRectFillButton.setActionCommand("roundrectanglefill");
+		//roundRectFillButton.setActionCommand("roundrectanglefill");
 		roundRectFillButton.setToolTipText("Filled Smooth Edged Rectanlge ");
 		roundRectFillButton.addActionListener(this);
+		JButton temp3 = new JButton();
+		JPanel popUpContent3 = new JPanel(new FlowLayout());
+		popUpContent3.add(roundRectButton);
+		popUpContent3.add(roundRectFillButton);
+		JScrollPane s3 = new JScrollPane(popUpContent3);
+		s3.setSize(new Dimension(180, 50));
+		s3.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		temp3.setAction(new AbstractAction(null) {
+			private Popup pop;
+			private boolean isShown = false;
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(isShown){
+					pop.hide();
+				}else{
+					pop = popUp.getPopup(temp3, s3, temp3.getLocationOnScreen().x,
+							temp3.getLocationOnScreen().y + temp3.getHeight());
+					roundRectButton.setAction(new AbstractAction("", roundRectIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+					});
+					roundRectFillButton.setAction(new AbstractAction("",roundRectFillIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+					});
+					pop.show();
+				}
+				isShown = !isShown;
+				roundRectButton.setActionCommand("roundrectangle");
+				roundRectFillButton.setActionCommand("roundrectanglefill");
+			}
+		});
 
 		circleButton = new JButton(circleIcon);
-		circleButton.setActionCommand("circle");
+		//circleButton.setActionCommand("circle");
 		circleButton.setToolTipText("Circle");
 		circleButton.addActionListener(this);
 
 		circFillButton = new JButton(circFillIcon);
-		circFillButton.setActionCommand("circlefill");
+		//circFillButton.setActionCommand("circlefill");
 		circFillButton.setToolTipText("Filled Circle");
 		circFillButton.addActionListener(this);
+		JButton temp4 = new JButton();
+		JPanel popUpContent4 = new JPanel(new FlowLayout());
+		popUpContent4.add(circleButton);
+		popUpContent4.add(circFillButton);
+		JScrollPane s4 = new JScrollPane(popUpContent4);
+		s4.setSize(new Dimension(180, 70));
+		s4.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		temp4.setAction(new AbstractAction(null) {
+			private Popup pop;
+			private boolean isShown = false;
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if(isShown){
+					pop.hide();
+				}else{
+					pop = popUp.getPopup(temp4, s4, temp4.getLocationOnScreen().x,
+							temp4.getLocationOnScreen().y + temp4.getHeight());
+					circleButton.setAction(new AbstractAction("", circleIcon) {
+						private static final long serialVersionUID = 1L;
 
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+					});
+					circFillButton.setAction(new AbstractAction("",circFillIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							//circFillButton.setActionCommand("circlefill");
+							isShown = false;
+							pop.hide();
+						}
+					});
+					pop.show();
+				}
+				isShown = !isShown;
+				circleButton.setActionCommand("circle");
+				circFillButton.setActionCommand("circlefill");
+			}
+			
+		});
 		eraserButton = new JButton(eraserIcon);
 		eraserButton.setActionCommand("eraser");
 		eraserButton.setToolTipText("Eraser");
@@ -272,21 +464,16 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		JPanel buttons = new JPanel(new GridLayout());
 		buttons.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-		buttons.setLayout(new GridLayout(8, 1));
-		buttons.add(loadImage);
+		buttons.setLayout(new GridLayout(16, 2));
+		buttons.add(temp);
 		buttons.add(clearButton);
-		buttons.add(eraserButton);
-		buttons.add(thickBrush);
-		buttons.add(thinBrush);
 		buttons.add(changeColor);
-		buttons.add(backgroundButton);
+		buttons.add(loadImage);
+		buttons.add(eraserButton);
+		buttons.add(temp2);
+		buttons.add(temp3);
+		buttons.add(temp4);
 		buttons.add(lineButton);
-		buttons.add(rectButton);
-		buttons.add(rectfillButton);
-		buttons.add(roundRectButton);
-		buttons.add(roundRectFillButton);
-		buttons.add(circleButton);
-		buttons.add(circFillButton);
 		buttons.add(undoButton);
 		buttons.add(redoButton);
 
