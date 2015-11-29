@@ -450,6 +450,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				foreColor = Color.black;
 				backColor = Color.white;
 				messageField = new JLabel(message);
+				tbButtons[10].setEnabled(true);
 				// paintPanel.add(messageField);
 				// paintPanel.add(messageField);
 			} else {
@@ -970,6 +971,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			setPreferredSize(new Dimension(w, h));
 			paintPanel.addImage(image);
 			System.out.println(paintPanel);
+		}
+		for (int i = 0; i < tbButtons.length; i++) {
+			tbButtons[i].setEnabled(true);
 		}
 	}
 
