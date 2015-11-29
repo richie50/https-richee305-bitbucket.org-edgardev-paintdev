@@ -29,7 +29,7 @@ public class Printer implements Printable, ImageObserver {
 		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 		// graphics.drawImage(image, image.getHeight(this),
 		// image.getWidth(this), this);
-		graphics.drawString("HELLO WORlD", 100, 100);
+		graphics.drawImage(image, 50, 50 ,50, 50, 50, 50, 50 , 50, null);
 		return 0;
 	}
 
