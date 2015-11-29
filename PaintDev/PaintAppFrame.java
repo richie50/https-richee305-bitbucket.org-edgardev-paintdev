@@ -37,6 +37,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	Color backColor;
 
 	static int flag = 0;
+	boolean enable = false;
 	int FLAG = 0;
 	private int textX;
 	private int textY;
@@ -135,6 +136,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		undoButton = new JButton(undoIcon);
 		undoButton.setActionCommand("undo");
 		undoButton.setToolTipText("Undo");
+		undoButton.setEnabled(false);
 		undoButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -145,6 +147,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		redoButton = new JButton(redoIcon);
 		redoButton.setActionCommand("Redo");
+		redoButton.setEnabled(false);
 		redoButton.setToolTipText("Redo");
 		redoButton.addActionListener(new ActionListener() {
 
@@ -197,6 +200,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		Icon backgroundIcon = new ImageIcon("icons/backgroundFill.png");
 
 		clearButton = new JButton(clearIcon);
+		clearButton.setEnabled(false);
 		clearButton.setActionCommand("clear");
 		clearButton.setToolTipText("Clear page");
 		clearButton.addActionListener(this);
@@ -437,6 +441,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			tbButtons[i] = new JButton(new ImageIcon(BUTTON_ICONS[i]));
 			tbButtons[i].setMargin(new Insets(0, 0, 0, 0));
 			tbButtons[i].setName(BUTTON_NAMES[i]);
+			tbButtons[i].setEnabled(false);
 			if (i == 10) {
 				tbButtons[i].addMouseListener(new PopupListener());
 				System.out.println("Word ART");
@@ -525,6 +530,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 				// draw ink trail from previous point to current point
 				paintPanel.drawInk(x1, y1, x2, y2);
+				clearButton.setEnabled(true);
+				undoButton.setEnabled(true);
+				redoButton.setEnabled(true);
 			}
 		} else if (flag == 1) {
 			mouseEnd = new Point(me.getX(), me.getY());
@@ -574,9 +582,11 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 				// draw ink trail from previous point to current point
 				paintPanel.drawEraser(x1, y1, x2, y2);
+				clearButton.setEnabled(true);
+				undoButton.setEnabled(true);
+				redoButton.setEnabled(true);
 			}
 		}
-
 	}
 
 	public void mouseMoved(MouseEvent me) {
@@ -598,14 +608,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	public void mousePressed(MouseEvent me) {
-		// textX = me.getX();
-		// textY = me.getY();
-		// System.out.println("MOUSE PRESSED =>" + textX +"-----"+textY);
 
-		if (me.getSource().equals(undoButton)) {
-
-			undoButton.setBackground(Color.BLACK);
-		}
 		if (flag == 0) {
 			int x = me.getX();
 			int y = me.getY();
@@ -668,10 +671,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	}
 
 	public void mouseReleased(MouseEvent me) {
-		if (me.getSource().equals(undoButton)) {
-			undoButton.setBackground(Color.BLUE);
 
-		}
 		if (flag == 0) {
 			if (SwingUtilities.isLeftMouseButton(me)) {
 				sampleCount = 0;
@@ -1001,8 +1001,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			gr.setStroke(new BasicStroke(2));
 
 			gr.draw(coloredShape.getShape());
-			// gr.setPaint(this.LINE_COLOR);
-			// gr.fill(s);
 		}
 		if (flag == 1) {
 			if (mouseStart != null && mouseEnd != null) {

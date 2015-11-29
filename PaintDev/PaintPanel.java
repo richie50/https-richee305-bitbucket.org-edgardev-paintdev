@@ -39,8 +39,6 @@ public class PaintPanel extends JPanel {
 		eraserStrokes = new Vector<LineSegment>();
 		this.setBackground(Color.WHITE);
 		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
-		// width = img.getWidth(this);
-		// height = img.getHeight(this);
 		width = 250;
 		height = 250;
 		xOffset = 0;
@@ -73,29 +71,15 @@ public class PaintPanel extends JPanel {
 	private void paintInkStrokes(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
-		// LineSegment s1 = null;
 
-		// set the inking color
 		g2.setColor(LINE_COLOR);
 
-		// set the stroke thickness, and cap and join attributes ('round')
 		Stroke s = g2.getStroke(); // save current stroke
 		g2.setStroke(LINE_STROKE); // set desired stroke
 
-		// retrive each line segment and draw it
-
 		for (LineSegment s1 : allStrokes) {
 			s1.draw(g2);
-
-			// gr.setPaint(this.LINE_COLOR);
-			// gr.fill(s);
 		}
-		// for (int i = 0; i < allStrokes.size(); ++i) {
-		// s1.draw(g2);
-		//
-		// // s1.draw(allStrokes.elementAt(i));
-		// }
-
 		g2.setStroke(s); // restore stroke
 	}
 
@@ -112,9 +96,6 @@ public class PaintPanel extends JPanel {
 		// retrive each line segment and draw it
 		for (LineSegment s1 : allStrokes) {
 			s1.draw(g2);
-
-			// gr.setPaint(this.LINE_COLOR);
-			// gr.fill(s);
 		}
 
 		g2.setStroke(s); // restore stroke
@@ -132,7 +113,6 @@ public class PaintPanel extends JPanel {
 		g2.setStroke(LINE_STROKE); // set desired stroke
 		g2.draw(inkSegment); // draw it!
 		g2.setStroke(s); // restore stroke
-		// eraserStrokes.add(inkSegment); // add to vector
 		allStrokes.add(new LineSegment(inkSegment, Color.white, s)); // add to
 																		// vector
 	}
@@ -148,9 +128,7 @@ public class PaintPanel extends JPanel {
 		g2.setStroke(LINE_STROKE); // set desired stroke
 		g2.draw(inkSegment); // draw it!
 		g2.setStroke(s); // restore stroke
-		allStrokes.add(new LineSegment(inkSegment, LINE_COLOR, LINE_STROKE)); // add
-																				// to
-																				// vector
+		allStrokes.add(new LineSegment(inkSegment, LINE_COLOR, LINE_STROKE));
 	}
 
 	public void addImage(Image image) {
@@ -163,7 +141,6 @@ public class PaintPanel extends JPanel {
 		}
 		Graphics2D g2 = (Graphics2D) this.getGraphics();
 		g2.drawImage(image, 0, 0, width, height, this);
-		// g2.drawImage(image ,0 , 0 , this);
 	}
 
 	public Shape getImage() {
@@ -369,49 +346,43 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void redo() {
-		if (!PaintAppFrame.rectStruct.isEmpty()/* && !redoStruct.isEmpty() */) {
+		if (!PaintAppFrame.rectStruct.isEmpty()) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.rectStruct.add(redoStruct.get(i));
 			}
 			redoStruct.clear();
 			repaint();
-		} else if (!PaintAppFrame.circStruct
-				.isEmpty()/* && !redoStruct.isEmpty() */) {
+		} else if (!PaintAppFrame.circStruct.isEmpty()) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.circStruct.add(redoStruct.get(i));
 			}
 			redoStruct.clear();
 			repaint();
-		} else if (!PaintAppFrame.rectFillStruct
-				.isEmpty() /* && !redoStruct.isEmpty() */) {
+		} else if (!PaintAppFrame.rectFillStruct.isEmpty()) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.rectFillStruct.add(redoStruct.get(i));
 			}
 			redoStruct.clear();
 			repaint();
-		} else if (!PaintAppFrame.circFillStruct
-				.isEmpty()/* && !redoStruct.isEmpty() */) {
+		} else if (!PaintAppFrame.circFillStruct.isEmpty()) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.circFillStruct.add(redoStruct.get(i));
 			}
 			redoStruct.clear();
 			repaint();
-		} else if (!PaintAppFrame.roundRectStruct
-				.isEmpty()/* && !redoStruct.isEmpty() */) {
+		} else if (!PaintAppFrame.roundRectStruct.isEmpty()) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.roundRectStruct.add(redoStruct.get(i));
 			}
 			redoStruct.clear();
 			repaint();
-		} else if (!PaintAppFrame.roundRectFillStruct
-				.isEmpty() /* && !redoStruct.isEmpty() */) {
+		} else if (!PaintAppFrame.roundRectFillStruct.isEmpty()) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.roundRectFillStruct.add(redoStruct.get(i));
 			}
 			redoStruct.clear();
 			repaint();
-		} else if (!PaintAppFrame.lineStruct
-				.isEmpty() /* && !redoStruct.isEmpty() */) {
+		} else if (!PaintAppFrame.lineStruct.isEmpty()) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.lineStruct.add(redoStruct.get(i));
 			}
@@ -426,7 +397,6 @@ public class PaintPanel extends JPanel {
 		}
 	}
 
-	// RIchmond changes dont touch
 	public void addWordArt(String s) {
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		g.drawString(s, x, y);
