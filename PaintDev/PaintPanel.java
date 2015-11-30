@@ -10,13 +10,16 @@ public class PaintPanel extends JPanel {
 	Graphics2D g2; // only possible way i could get a reference to the image we
 					// draw
 	private Stroke THIN_LINE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
-
-	private Stroke THICK_LINE_STROKE = new BasicStroke(5.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+	private Stroke THICK_LINE_STROKE = new BasicStroke(4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+	private Stroke THICK_LINE_STROKE3 = new BasicStroke(7.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+	private Stroke THICK_LINE_STROKE4 = new BasicStroke(9.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 	private Stroke ERASER_STROKE = new BasicStroke(10.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND);
 
+	
 	static Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
 	private Vector<Entity> vectorForString;
+	private Vector<Entity> redoString;
 	private Vector<LineSegment> allStrokes;
 	private Vector<LineSegment> eraserStrokes;
 	private Vector<LineSegment> redoAllStrokes;
@@ -55,6 +58,13 @@ public class PaintPanel extends JPanel {
 
 	public void setThickBrush() {
 		this.LINE_STROKE = this.THICK_LINE_STROKE;
+	}
+	public void setThickBrush3(){
+		this.LINE_STROKE = this.THICK_LINE_STROKE3;
+	}
+	
+	public void setThickBrush4(){
+		this.LINE_STROKE = this.THICK_LINE_STROKE4;
 	}
 
 	public void setThinBrush() {
@@ -264,14 +274,6 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void resetImage() {
-		if(img == null){
-			try {
-				throw new IllegalAccessException("Invalid Operation");
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		width = img.getWidth(this);
 		height = img.getHeight(this);
 		setPreferredSize(new Dimension(width, height));
@@ -286,7 +288,7 @@ public class PaintPanel extends JPanel {
 			for (int i = 0; i < allStrokes.size(); i++) {
 				redoAllStrokes.addElement(allStrokes.elementAt(i));
 			}
-			int size = allStrokes.size()-1;
+			int size = allStrokes.size() - 1;
 			System.out.println(allStrokes.size());
 			allStrokes.remove(size);
 			repaint();
