@@ -46,13 +46,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	final int MAX_SAMPLES = 500;
 	final String[] BUTTON_ICONS = { "icons/bigger.png", "icons/smaller.png", "icons/wider.png", "icons/narrow.png",
 			"icons/taller.png", "icons/shorter.png", "icons/up.png", "icons/down.png", "icons/left.png",
-			"icons/right.png", "icons/wordArt.PNG" };
+			"icons/right.png","icons/resetImage.png", "icons/wordArt.PNG" };
 
 	final String[] BUTTON_NAMES = { "Bigger", "Smaller", "Wider", "Narrower", "Taller", "Shorter", "Up", "Down", "Left",
-			"Right", "wordArt" };
+			"Right", "Reset","wordArt" };
 
 	final int[] MNEMONICS = { KeyEvent.VK_B, KeyEvent.VK_S, KeyEvent.VK_W, KeyEvent.VK_N, KeyEvent.VK_T, KeyEvent.VK_H,
-			KeyEvent.VK_U, KeyEvent.VK_D, KeyEvent.VK_L, KeyEvent.VK_R, KeyEvent.VK_P };
+			KeyEvent.VK_U, KeyEvent.VK_D, KeyEvent.VK_L, KeyEvent.VK_R,KeyEvent.VK_CANCEL, KeyEvent.VK_P };
 	private JButton tbButtons[];
 	// ---------------------------------------------------------------------------
 	private String EXTENSIONS;
@@ -659,19 +659,19 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		int i = 0;
 		tbButtons = new JButton[n];
 		JToolBar tb = new JToolBar();
-		for (i = 0; i < n; ++i) {
+		for (i = 0; i < n; i++) {
 			tbButtons[i] = new JButton(new ImageIcon(BUTTON_ICONS[i]));
 			tbButtons[i].setMargin(new Insets(0, 0, 0, 0));
 			tbButtons[i].setName(BUTTON_NAMES[i]);
 			tbButtons[i].setEnabled(false);
-			if (i == 10) {
+			if (i == 11) {
 				tbButtons[i].addMouseListener(new PopupListener());
 				message = "";
 				messageFont = new Font("Arial", Font.PLAIN, 26);
 				foreColor = Color.black;
 				backColor = Color.white;
 				messageField = new JLabel(message);
-				tbButtons[10].setEnabled(true);
+				tbButtons[11].setEnabled(true);
 				// paintPanel.add(messageField);
 				// paintPanel.add(messageField);
 			} else {
@@ -712,13 +712,16 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 						else if (source.equals(BUTTON_NAMES[9])) // 'right'
 							paintPanel.moveRight();
+							
+						else if (source.equals(BUTTON_NAMES[10]))
+							paintPanel.resetImage();
 					}
 				});
 			}
 			tbButtons[i].setToolTipText(BUTTON_NAMES[i]);
 			tbButtons[i].setMnemonic(MNEMONICS[i]);
 			tb.add(tbButtons[i]);
-			if (i == 1 || i == 5 || i == 9)
+			if (i == 1 || i == 5 || i == 9|| i == 10)
 				tb.addSeparator();
 		}
 		content.add(tb, BorderLayout.NORTH);
