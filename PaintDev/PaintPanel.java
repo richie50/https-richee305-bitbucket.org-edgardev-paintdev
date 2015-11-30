@@ -431,4 +431,8 @@ public class PaintPanel extends JPanel {
 			}
 		}
 	}
+	public void clearWordArt(){
+			vectorForString.clear();
+			this.repaint();
+	}
 }
