@@ -1170,10 +1170,26 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 	private void setBackgroundColor() {
 
-		Color bgColor = JColorChooser.showDialog(null, "Choose Paint Color", null);
-		paintPanel.setBackground(bgColor);
+	    final JColorChooser colorChooser = new JColorChooser();
 
-	}
+	    ActionListener okActionListener = new ActionListener() {
+	      public void actionPerformed(ActionEvent actionEvent) {
+	  	    paintPanel.setBackground(colorChooser.getColor());
+	      }
+	    };
+
+	    // For cancel selection, change button background to red
+	    ActionListener cancelActionListener = new ActionListener() {
+	      public void actionPerformed(ActionEvent actionEvent) {
+
+	      }
+	    };
+
+	    final JDialog dialog = JColorChooser.createDialog(null, "Change Button Background", true,
+	        colorChooser, okActionListener, cancelActionListener);
+	    
+	    dialog.setVisible(true);
+	  }
 
 	private void loadImage() {
 		JFileChooser imageSelector = new JFileChooser(System.getProperty("user.dir")); // try
