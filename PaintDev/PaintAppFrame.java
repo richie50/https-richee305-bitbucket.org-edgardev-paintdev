@@ -221,7 +221,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		// added
 		JPanel popUpContent = new JPanel(new FlowLayout());
 		popUpContent.add(thinBrush);
+		thinBrush.setToolTipText("Thin Pencil");
 		popUpContent.add(thickBrush);
+		thickBrush.setToolTipText("Thick Pencil");
 		JScrollPane s = new JScrollPane(popUpContent);
 		// s.setPreferredSize(new
 		// Dimension(popUpContent.getPreferredSize().width
@@ -269,7 +271,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				}
 				isShown = !isShown;
 				thinBrush.setActionCommand("thin");
+				thinBrush.setToolTipText("Thin Brush");
 				thickBrush.setActionCommand("thick");
+				thickBrush.setToolTipText("Thick Brush");
+
 			}
 		});
 		temp.setIcon(pencild);
@@ -338,7 +343,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				}
 				isShown = !isShown;
 				rectButton.setActionCommand("rectangle");
+				rectButton.setToolTipText("Rectangle");
 				rectfillButton.setActionCommand("rectanglefill");
+				rectfillButton.setToolTipText("Filled Rectangle");
 			}
 		});
 		temp2.setIcon(rectd);
@@ -397,7 +404,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				}
 				isShown = !isShown;
 				roundRectButton.setActionCommand("roundrectangle");
+				roundRectButton.setToolTipText("Smooth Edged Rectangle");
 				roundRectFillButton.setActionCommand("roundrectanglefill");
+				roundRectFillButton.setToolTipText("Filled Smooth Edged Rectangle");
+
 			}
 		});
 		temp3.setIcon(roundRectIcon);
@@ -457,7 +467,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				}
 				isShown = !isShown;
 				circleButton.setActionCommand("circle");
+				circleButton.setToolTipText("Circle");
 				circFillButton.setActionCommand("circlefill");
+				circFillButton.setToolTipText("Filled Circle");
+
 			}
 
 		});
