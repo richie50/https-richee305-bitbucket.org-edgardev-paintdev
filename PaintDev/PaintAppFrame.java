@@ -748,34 +748,37 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 				// draw ink trail from previous point to current point
 				paintPanel.drawInk(x1, y1, x2, y2);
-				clearButton.setEnabled(true);
-				undoButton.setEnabled(true);
-				redoButton.setEnabled(true);
+				enableButtonsForPaint();
 			}
 		} else if (flag == 1) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
-			System.out.println("rect dragged");
+			enableButtonsForPaint();
+
 		}
 
 		else if (flag == 2) {
 			mouseEnd = new Point(me.getX(), me.getY());
-			repaint();
+			enableButtonsForPaint();
 		}
 
 		else if (flag == 3) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
+			enableButtonsForPaint();
+
 		}
 
 		else if (flag == 4) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
+			enableButtonsForPaint();
 		}
 
 		else if (flag == 5) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
+			enableButtonsForPaint();
 		}
 
 		else if (flag == 6) {
@@ -784,6 +787,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		} else if (flag == 7) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
+			enableButtonsForPaint();
 		}
 
 		else if (flag == 8) {
@@ -800,11 +804,15 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 				// draw ink trail from previous point to current point
 				paintPanel.drawEraser(x1, y1, x2, y2);
-				clearButton.setEnabled(true);
-				undoButton.setEnabled(true);
-				redoButton.setEnabled(true);
+				enableButtonsForPaint();
 			}
 		}
+	}
+
+	private void enableButtonsForPaint() {
+		clearButton.setEnabled(true);
+		undoButton.setEnabled(true);
+		redoButton.setEnabled(true);
 	}
 
 	public void mouseMoved(MouseEvent me) {
