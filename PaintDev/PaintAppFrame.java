@@ -225,12 +225,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		popUpContent.add(thickBrush);
 		thickBrush.setToolTipText("Thick Pencil");
 		JScrollPane s = new JScrollPane(popUpContent);
-		// s.setPreferredSize(new
-		// Dimension(popUpContent.getPreferredSize().width
-		// + s.getVerticalScrollBar().getPreferredSize().width
-		// + s.getBorder().getBorderInsets(s).left
-		// + s.getBorder().getBorderInsets(s).right, 85));
-		// s.getPreferredSize();
+
 		s.setSize(new Dimension(180, 50));
 		s.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		temp.setAction(new AbstractAction(null) {
@@ -545,6 +540,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
 		open.addActionListener(this);
 		fileMenu.add(open);
+		fileMenu.addSeparator();
 		// <save>
 		newFileImage = new ImageIcon("icons/save.png");
 		img = newFileImage.getImage();
@@ -565,6 +561,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		saveAs.setEnabled(true);
 		fileMenu.add(save);
 		fileMenu.add(saveAs);
+		fileMenu.addSeparator();
 		// print
 		newFileImage = new ImageIcon("icons/print.png");
 		img = newFileImage.getImage();
@@ -576,6 +573,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		print.addActionListener(this);
 		print.setEnabled(true);
 		fileMenu.add(print);
+		fileMenu.addSeparator();
 		// <exit>
 		newFileImage = new ImageIcon("icons/exit.png");
 		img = newFileImage.getImage();
@@ -642,6 +640,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		//
 		editMenu.add(Undo);
 		editMenu.add(Redo);
+		editMenu.addSeparator();
 		editMenu.add(clear);
 		editMenu.setMnemonic(KeyEvent.VK_T);
 		addDropDownToolBar();
