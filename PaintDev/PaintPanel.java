@@ -17,6 +17,7 @@ public class PaintPanel extends JPanel {
 	static Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
 	private Vector<Entity> vectorForString;
+	private Vector<Entity> redoString;
 	private Vector<LineSegment> allStrokes;
 	private Vector<LineSegment> eraserStrokes;
 	private Vector<LineSegment> redoAllStrokes;
@@ -114,7 +115,7 @@ public class PaintPanel extends JPanel {
 		g2.draw(inkSegment); // draw it!
 		g2.setStroke(s); // restore stroke
 		allStrokes.add(new LineSegment(inkSegment, Color.white, s)); // add to
-																		// vector
+		eraserStrokes.add(new LineSegment(inkSegment, Color.white, s));
 	}
 
 	public void drawInk(int x1, int y1, int x2, int y2) {
@@ -333,6 +334,9 @@ public class PaintPanel extends JPanel {
 			PaintAppFrame.lineStruct.remove(size);
 			repaint();
 		} else if (!eraserStrokes.isEmpty()) {
+			for (int i = 0; i < eraserStrokes.size(); i++) {
+				redoAllStrokes.addElement(eraserStrokes.elementAt(i));
+			}
 			int size = eraserStrokes.size() - 1;
 			eraserStrokes.remove(size);
 			repaint();
@@ -388,10 +392,14 @@ public class PaintPanel extends JPanel {
 			}
 			redoStruct.clear();
 			repaint();
-		}
-		if (!allStrokes.isEmpty() && !redoAllStrokes.isEmpty()) {
+		} else if (!allStrokes.isEmpty() && !redoAllStrokes.isEmpty()) {
 			for (int i = 0; i < redoAllStrokes.size(); i++) {
 				allStrokes.addElement(redoAllStrokes.elementAt(i));
+			}
+			repaint();
+		} else if (!eraserStrokes.isEmpty() && !redoAllStrokes.isEmpty()) {
+			for (int i = 0; i < redoAllStrokes.size(); i++) {
+				eraserStrokes.addElement(redoAllStrokes.elementAt(i));
 			}
 			repaint();
 		}

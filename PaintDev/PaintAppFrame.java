@@ -198,8 +198,11 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		Icon rectfillIcon = new ImageIcon("icons/fullRect.png");
 		Icon circFillIcon = new ImageIcon("icons/fullCirc.png");
 		Icon backgroundIcon = new ImageIcon("icons/backgroundFill.png");
+		Icon pencild = new ImageIcon("icons/pencild.png");
+		Icon rectd = new ImageIcon("icons/rectd.png");
+		Icon circled = new ImageIcon("icons/circled.png");
 
-		//added 
+		// added
 		clearButton = new JButton(clearIcon);
 		clearButton.setEnabled(false);
 		clearButton.setActionCommand("clear");
@@ -208,23 +211,24 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		JButton temp = new JButton();
 		final PopupFactory popUp = PopupFactory.getSharedInstance();
 		thickBrush = new JButton(brushIcon);
-		//thickBrush.setActionCommand("thick");
+		// thickBrush.setActionCommand("thick");
 		thickBrush.setToolTipText("Thick brush");
 		thickBrush.addActionListener(this);
 
 		thinBrush = new JButton(pencilIcon);
-		//thinBrush.setToolTipText("Thin brush");
+		// thinBrush.setToolTipText("Thin brush");
 		thinBrush.addActionListener(this);
-		//added
-			JPanel popUpContent = new JPanel(new FlowLayout());
-		popUpContent.add(thickBrush);
+		// added
+		JPanel popUpContent = new JPanel(new FlowLayout());
 		popUpContent.add(thinBrush);
+		popUpContent.add(thickBrush);
 		JScrollPane s = new JScrollPane(popUpContent);
-//		s.setPreferredSize(new Dimension(popUpContent.getPreferredSize().width
-//				+ s.getVerticalScrollBar().getPreferredSize().width
-//				+ s.getBorder().getBorderInsets(s).left
-//				+ s.getBorder().getBorderInsets(s).right, 85));
-//		s.getPreferredSize();
+		// s.setPreferredSize(new
+		// Dimension(popUpContent.getPreferredSize().width
+		// + s.getVerticalScrollBar().getPreferredSize().width
+		// + s.getBorder().getBorderInsets(s).left
+		// + s.getBorder().getBorderInsets(s).right, 85));
+		// s.getPreferredSize();
 		s.setSize(new Dimension(180, 50));
 		s.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		temp.setAction(new AbstractAction(null) {
@@ -240,7 +244,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				} else {
 					pop = popUp.getPopup(temp, s, temp.getLocationOnScreen().x,
 							temp.getLocationOnScreen().y + temp.getHeight());
-					thickBrush.setAction(new AbstractAction("" , brushIcon) {
+					thinBrush.setAction(new AbstractAction("", pencilIcon) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -250,7 +254,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 							pop.hide();
 						}
 					});
-					thinBrush.setAction(new AbstractAction("", pencilIcon){
+					thickBrush.setAction(new AbstractAction("", brushIcon) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -259,15 +263,17 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 							isShown = false;
 							pop.hide();
 						}
-						
+
 					});
 					pop.show();
 				}
 				isShown = !isShown;
-				thickBrush.setActionCommand("thick");
 				thinBrush.setActionCommand("thin");
+				thickBrush.setActionCommand("thick");
 			}
 		});
+		temp.setIcon(pencild);
+		temp.setToolTipText("Choose a pencil");
 		changeColor = new JButton(rgbIcon);
 		changeColor.setActionCommand("color");
 		changeColor.setToolTipText("Change color");
@@ -279,15 +285,15 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		loadImage.addActionListener(this);
 
 		rectButton = new JButton(rectIcon);
-		//rectButton.setActionCommand("rectangle");
+		// rectButton.setActionCommand("rectangle");
 		rectButton.setToolTipText("Rectangle");
 		rectButton.addActionListener(this);
 
 		rectfillButton = new JButton(rectfillIcon);
-		//rectfillButton.setActionCommand("rectanglefill");
+		// rectfillButton.setActionCommand("rectanglefill");
 		rectfillButton.setToolTipText("Filled Rectangle");
 		rectfillButton.addActionListener(this);
-		//added
+		// added
 		JButton temp2 = new JButton();
 		JPanel popUpContent2 = new JPanel(new FlowLayout());
 		popUpContent2.add(rectButton);
@@ -299,12 +305,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			private Popup pop;
 			private boolean isShown = false;
 			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(isShown){
+				if (isShown) {
 					pop.hide();
-				}else{
+				} else {
 					pop = popUp.getPopup(temp2, s2, temp2.getLocationOnScreen().x,
 							temp2.getLocationOnScreen().y + temp2.getHeight());
 					rectButton.setAction(new AbstractAction("", rectIcon) {
@@ -317,7 +324,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 							pop.hide();
 						}
 					});
-					rectfillButton.setAction(new AbstractAction("",rectfillIcon) {
+					rectfillButton.setAction(new AbstractAction("", rectfillIcon) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -334,17 +341,20 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				rectfillButton.setActionCommand("rectanglefill");
 			}
 		});
+		temp2.setIcon(rectd);
+		temp2.setToolTipText("Draw a square");
 		roundRectButton = new JButton(roundRectIcon);
-		//roundRectButton.setActionCommand("roundrectangle");
+		// roundRectButton.setActionCommand("roundrectangle");
 		roundRectButton.setToolTipText("Smooth Edged Rectangle");
 		roundRectButton.addActionListener(this);
 
 		roundRectFillButton = new JButton(roundRectFillIcon);
-		//roundRectFillButton.setActionCommand("roundrectanglefill");
+		// roundRectFillButton.setActionCommand("roundrectanglefill");
 		roundRectFillButton.setToolTipText("Filled Smooth Edged Rectanlge ");
 		roundRectFillButton.addActionListener(this);
 		JButton temp3 = new JButton();
 		JPanel popUpContent3 = new JPanel(new FlowLayout());
+
 		popUpContent3.add(roundRectButton);
 		popUpContent3.add(roundRectFillButton);
 		JScrollPane s3 = new JScrollPane(popUpContent3);
@@ -354,12 +364,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			private Popup pop;
 			private boolean isShown = false;
 			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(isShown){
+				if (isShown) {
 					pop.hide();
-				}else{
+				} else {
 					pop = popUp.getPopup(temp3, s3, temp3.getLocationOnScreen().x,
 							temp3.getLocationOnScreen().y + temp3.getHeight());
 					roundRectButton.setAction(new AbstractAction("", roundRectIcon) {
@@ -372,7 +383,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 							pop.hide();
 						}
 					});
-					roundRectFillButton.setAction(new AbstractAction("",roundRectFillIcon) {
+					roundRectFillButton.setAction(new AbstractAction("", roundRectFillIcon) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -389,14 +400,16 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				roundRectFillButton.setActionCommand("roundrectanglefill");
 			}
 		});
+		temp3.setIcon(roundRectIcon);
+		temp3.setToolTipText("Draw a smooth edged rectangle");
 
 		circleButton = new JButton(circleIcon);
-		//circleButton.setActionCommand("circle");
+		// circleButton.setActionCommand("circle");
 		circleButton.setToolTipText("Circle");
 		circleButton.addActionListener(this);
 
 		circFillButton = new JButton(circFillIcon);
-		//circFillButton.setActionCommand("circlefill");
+		// circFillButton.setActionCommand("circlefill");
 		circFillButton.setToolTipText("Filled Circle");
 		circFillButton.addActionListener(this);
 		JButton temp4 = new JButton();
@@ -410,12 +423,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			private Popup pop;
 			private boolean isShown = false;
 			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if(isShown){
+				if (isShown) {
 					pop.hide();
-				}else{
+				} else {
 					pop = popUp.getPopup(temp4, s4, temp4.getLocationOnScreen().x,
 							temp4.getLocationOnScreen().y + temp4.getHeight());
 					circleButton.setAction(new AbstractAction("", circleIcon) {
@@ -428,13 +442,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 							pop.hide();
 						}
 					});
-					circFillButton.setAction(new AbstractAction("",circFillIcon) {
+					circFillButton.setAction(new AbstractAction("", circFillIcon) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							// TODO Auto-generated method stub
-							//circFillButton.setActionCommand("circlefill");
+							// circFillButton.setActionCommand("circlefill");
 							isShown = false;
 							pop.hide();
 						}
@@ -445,8 +459,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				circleButton.setActionCommand("circle");
 				circFillButton.setActionCommand("circlefill");
 			}
-			
+
 		});
+		temp4.setIcon(circled);
+		temp4.setToolTipText("Draw a circle");
 		eraserButton = new JButton(eraserIcon);
 		eraserButton.setActionCommand("eraser");
 		eraserButton.setToolTipText("Eraser");
@@ -464,16 +480,17 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		JPanel buttons = new JPanel(new GridLayout());
 		buttons.setBorder(BorderFactory.createRaisedSoftBevelBorder());
-		buttons.setLayout(new GridLayout(16, 2));
-		buttons.add(temp);
-		buttons.add(clearButton);
-		buttons.add(changeColor);
+		buttons.setLayout(new GridLayout(10, 1));
 		buttons.add(loadImage);
+		buttons.add(clearButton);
+		buttons.add(temp);
+		buttons.add(changeColor);
+		buttons.add(backgroundButton);
 		buttons.add(eraserButton);
+		buttons.add(lineButton);
 		buttons.add(temp2);
 		buttons.add(temp3);
 		buttons.add(temp4);
-		buttons.add(lineButton);
 		buttons.add(undoButton);
 		buttons.add(redoButton);
 
