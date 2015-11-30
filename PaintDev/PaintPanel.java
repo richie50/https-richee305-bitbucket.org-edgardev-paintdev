@@ -17,7 +17,6 @@ public class PaintPanel extends JPanel {
 	static Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
 	private Vector<Entity> vectorForString;
-	private Vector<Entity> redoString;
 	private Vector<LineSegment> allStrokes;
 	private Vector<LineSegment> eraserStrokes;
 	private Vector<LineSegment> redoAllStrokes;
@@ -265,6 +264,14 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void resetImage() {
+		if(img == null){
+			try {
+				throw new IllegalAccessException("Invalid Operation");
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		width = img.getWidth(this);
 		height = img.getHeight(this);
 		setPreferredSize(new Dimension(width, height));
@@ -279,7 +286,7 @@ public class PaintPanel extends JPanel {
 			for (int i = 0; i < allStrokes.size(); i++) {
 				redoAllStrokes.addElement(allStrokes.elementAt(i));
 			}
-			int size = allStrokes.size() - 1;
+			int size = allStrokes.size()-1;
 			System.out.println(allStrokes.size());
 			allStrokes.remove(size);
 			repaint();

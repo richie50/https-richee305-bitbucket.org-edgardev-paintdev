@@ -51,5 +51,8 @@ public class Entity {
 	public Color getBackColor(){
 		return backColor;
 	}
+	public String toString(){
+		return "Object type " + entity.getClass() +"-->"+ font.getName();
+	}
 }
 
