@@ -762,6 +762,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		else if (flag == 2) {
 			mouseEnd = new Point(me.getX(), me.getY());
+			repaint();
 			enableButtonsForPaint();
 		}
 
