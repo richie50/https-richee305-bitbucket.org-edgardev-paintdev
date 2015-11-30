@@ -96,6 +96,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private JMenuItem Undo;
 	private JMenuItem Redo;
 	private JMenuItem clear;
+	private JMenuItem clearWordArt;
 	private JMenuItem print;
 	private JMenu toolsMenu;
 	// toolbar
@@ -638,10 +639,15 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		clear.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
 		clear.addActionListener(this);
 		//
+		clearWordArt = new JMenuItem("ClearWordArt");
+		clearWordArt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
+		clearWordArt.addActionListener(this);
+		//
 		editMenu.add(Undo);
 		editMenu.add(Redo);
 		editMenu.addSeparator();
 		editMenu.add(clear);
+		editMenu.add(clearWordArt);
 		editMenu.setMnemonic(KeyEvent.VK_T);
 		addDropDownToolBar();
 
@@ -1104,6 +1110,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 					ex.getCause();
 				}
 			}
+		}else if(source == clearWordArt){
+			System.out.println("CLEAR WORD ART");
+			paintPanel.clearWordArt();
 		}
 	}
 
