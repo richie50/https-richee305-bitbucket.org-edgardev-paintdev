@@ -15,8 +15,9 @@ public class a2 {
 		PaintAppFrame paintFrame = new PaintAppFrame();
 		paintFrame.setTitle("Paint");
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		System.out.println(screenSize.getHeight() + " " + screenSize.getWidth());
-		paintFrame.setSize(screenSize);
+		paintFrame.setBounds(250, 75, 750, 600);
+		paintFrame.setMinimumSize(new Dimension(500, 600));
+
 		paintFrame.setVisible(true);
 	}
 }

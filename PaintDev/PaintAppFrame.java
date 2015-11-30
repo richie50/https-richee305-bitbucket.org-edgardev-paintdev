@@ -661,7 +661,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			tbButtons[i].setEnabled(false);
 			if (i == 10) {
 				tbButtons[i].addMouseListener(new PopupListener());
-				System.out.println("Word ART");
 				message = "";
 				messageFont = new Font("Arial", Font.PLAIN, 26);
 				foreColor = Color.black;
@@ -671,7 +670,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				// paintPanel.add(messageField);
 				// paintPanel.add(messageField);
 			} else {
-				System.out.println(i);
 				tbButtons[i].addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -679,12 +677,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 						String source = ((JButton) e.getSource()).getName();
 
 						if (source.equals(BUTTON_NAMES[0])) { // 'bigger'
-							System.out.println("bigger");
 							paintPanel.makeBigger();
 						}
 
 						else if (source.equals(BUTTON_NAMES[1])) { // 'smaller'
-							System.out.println("smaller");
 							paintPanel.makeSmaller();
 						}
 
@@ -736,7 +732,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		if (flag == 0) {
 			int x = me.getX();
 			int y = me.getY();
-			// System.out.println(x +"---->"+y);
 			if (SwingUtilities.isLeftMouseButton(me)) {
 				stroke[sampleCount] = new Point(x, y);
 				int x1 = (int) stroke[sampleCount - 1].getX();
@@ -840,7 +835,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			int y = me.getY();
 			textX = me.getX();
 			textY = me.getY();
-			System.out.println("MOUSE PRESSED =>" + textX + "-----" + textY);
 			stroke[sampleCount] = new Point(x, y);
 			if (sampleCount < MAX_SAMPLES - 1) {
 				++sampleCount;
@@ -1038,17 +1032,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		}
 		if (source == open) {
-			System.out.println(fileChooser.getName(file));
 			int sh = fileChooser.showOpenDialog(this);
 			boolean ok = (sh == JFileChooser.APPROVE_OPTION);
-			System.out.println(sh + " " + ok);
 			if (ok) {
 				file = fileChooser.getSelectedFile();
-				System.out.println("OPEN");
 				openFile(file);
 			}
 		} else if (source == newFile) {
-			System.out.println("Ask to save current file before destroying");
 			paintCanvas.remove(paintPanel);
 			paintPanel = new PaintPanel();
 			paintPanel.addMouseMotionListener(this);
@@ -1082,8 +1072,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 						file = imageChooser.getSelectedFileWithExtension();
 						EXTENSIONS = ((FileNameExtensionFilter) imageChooser.getFileFilter()).getExtensions()[0];
 						fileExist = file.getName();
-						System.out.println("WHAT IS THE EXT and file Name:" + EXTENSIONS + "->" + getSaveFileName()
-								+ "->" + imageChooser.getSelectedFileWithExtension());
 						SaveFile(file, EXTENSIONS);
 						save.setEnabled(true);
 					} else {
@@ -1170,26 +1158,26 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 	private void setBackgroundColor() {
 
-	    final JColorChooser colorChooser = new JColorChooser();
+		final JColorChooser colorChooser = new JColorChooser();
 
-	    ActionListener okActionListener = new ActionListener() {
-	      public void actionPerformed(ActionEvent actionEvent) {
-	  	    paintPanel.setBackground(colorChooser.getColor());
-	      }
-	    };
+		ActionListener okActionListener = new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				paintPanel.setBackground(colorChooser.getColor());
+			}
+		};
 
-	    // For cancel selection, change button background to red
-	    ActionListener cancelActionListener = new ActionListener() {
-	      public void actionPerformed(ActionEvent actionEvent) {
+		// For cancel selection, change button background to red
+		ActionListener cancelActionListener = new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
 
-	      }
-	    };
+			}
+		};
 
-	    final JDialog dialog = JColorChooser.createDialog(null, "Change Button Background", true,
-	        colorChooser, okActionListener, cancelActionListener);
-	    
-	    dialog.setVisible(true);
-	  }
+		final JDialog dialog = JColorChooser.createDialog(null, "Change Button Background", true, colorChooser,
+				okActionListener, cancelActionListener);
+
+		dialog.setVisible(true);
+	}
 
 	private void loadImage() {
 		JFileChooser imageSelector = new JFileChooser(System.getProperty("user.dir")); // try
@@ -1225,7 +1213,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	class PopupListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent me) {
-			System.out.println("DIALOG.....");
 			int j = cd.showCustomDialog(null, messageFont, foreColor, backColor);
 			if (j == WordArtCustomDialog.APPLY_OPTION) {
 				messageFont = cd.getFont();
