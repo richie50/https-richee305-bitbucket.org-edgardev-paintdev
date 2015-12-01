@@ -657,7 +657,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 						JOptionPane.YES_NO_OPTION);
 				if (reply == JOptionPane.NO_OPTION) {
 					System.exit(0);
-				} else {
+				} 
+				if(reply == JOptionPane.YES_OPTION){
 
 					imageChooser = new ImageFileChooser(System.getProperty("user.dir"));
 					// imageChooser.setCurrentDirectory(file);
