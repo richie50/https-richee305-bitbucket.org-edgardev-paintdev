@@ -299,16 +299,21 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void rotateImage(double degrees, ImageObserver obs) {
-		ImageIcon icon = new ImageIcon(this.img);
-		BufferedImage blankCanvas = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
+		Component frame = null;
+		if(this.img == null){
+			JOptionPane.showMessageDialog(frame, " Unsupported operation! Please load an image first.");
+		}else{
+			ImageIcon icon = new ImageIcon(this.img);
+			BufferedImage blankCanvas = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
 				BufferedImage.TYPE_INT_ARGB);
-		/// now rotate graphics
-		System.out.println("HERE");
-		Graphics2D g2 = (Graphics2D) blankCanvas.getGraphics();
-		g2.rotate(Math.toRadians(degrees), icon.getIconWidth() / 2, icon.getIconHeight() / 2);
-		g2.drawImage(this.img, 0, 0, obs);
-		this.img = blankCanvas;
-		this.repaint();
+			/// now rotate graphics
+			System.out.println("HERE");
+			Graphics2D g2 = (Graphics2D) blankCanvas.getGraphics();
+			g2.rotate(Math.toRadians(degrees), icon.getIconWidth() / 2, icon.getIconHeight() / 2);
+			g2.drawImage(this.img, 0, 0, obs);
+			this.img = blankCanvas;
+			this.repaint();
+		}
 	}
 
 	public void undo() {
