@@ -46,13 +46,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	final int MAX_SAMPLES = 500;
 	final String[] BUTTON_ICONS = { "icons/bigger.png", "icons/smaller.png", "icons/wider.png", "icons/narrow.png",
 			"icons/taller.png", "icons/shorter.png", "icons/up.png", "icons/down.png", "icons/left.png",
-			"icons/right.png","icons/resetImage.png", "icons/wordArt.PNG" };
+			"icons/right.png", "icons/resetImage.png", "icons/wordArt.PNG" };
 
 	final String[] BUTTON_NAMES = { "Bigger", "Smaller", "Wider", "Narrower", "Taller", "Shorter", "Up", "Down", "Left",
-			"Right", "Reset","wordArt" };
+			"Right", "Reset", "wordArt" };
 
 	final int[] MNEMONICS = { KeyEvent.VK_B, KeyEvent.VK_S, KeyEvent.VK_W, KeyEvent.VK_N, KeyEvent.VK_T, KeyEvent.VK_H,
-			KeyEvent.VK_U, KeyEvent.VK_D, KeyEvent.VK_L, KeyEvent.VK_R,KeyEvent.VK_CANCEL, KeyEvent.VK_P };
+			KeyEvent.VK_U, KeyEvent.VK_D, KeyEvent.VK_L, KeyEvent.VK_R, KeyEvent.VK_CANCEL, KeyEvent.VK_P };
 	private JButton tbButtons[];
 	// ---------------------------------------------------------------------------
 	private String EXTENSIONS;
@@ -166,11 +166,11 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		thickBrush = new JButton("BRUSH");
 		thickBrush.setActionCommand("thick");
 		thickBrush.addActionListener(this);
-		
+
 		thickBrush3 = new JButton("BRUSH");
 		thickBrush3.setActionCommand("thick3");
 		thickBrush3.addActionListener(this);
-		
+
 		thickBrush = new JButton("BRUSH");
 		thickBrush.setActionCommand("thick4");
 		thickBrush.addActionListener(this);
@@ -232,14 +232,23 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		// thinBrush.setToolTipText("Thin brush");
 		thinBrush.addActionListener(this);
 		// added
+		
+		thickBrush3 = new JButton(thickIcon3);
+		thickBrush3.setToolTipText("Brush 3");
+		thickBrush3.addActionListener(this);
+
+		thickBrush4 = new JButton(thickIcon3);
+		thickBrush4.setToolTipText("Brush 4");
+		thickBrush4.addActionListener(this);
+		
 		JPanel popUpContent = new JPanel(new FlowLayout());
 		popUpContent.add(thinBrush);
-		thinBrush.setToolTipText("Thin Pencil");
 		popUpContent.add(thickBrush);
-		thickBrush.setToolTipText("Thick Pencil");
+		popUpContent.add(thickBrush3);
+		popUpContent.add(thickBrush4);
 		JScrollPane s = new JScrollPane(popUpContent);
 
-		s.setSize(new Dimension(180, 50));
+		s.setSize(new Dimension(200, 100));
 		s.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		temp.setAction(new AbstractAction(null) {
 			private Popup pop;
@@ -275,18 +284,45 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 						}
 
 					});
+					thickBrush3.setAction(new AbstractAction("", brushIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+
+					});
+					thickBrush4.setAction(new AbstractAction("", brushIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+
+					});
 					pop.show();
 				}
 				isShown = !isShown;
 				thinBrush.setActionCommand("thin");
 				thinBrush.setToolTipText("Thin Brush");
 				thickBrush.setActionCommand("thick");
-				thickBrush.setToolTipText("Thick Brush");
+				thickBrush.setToolTipText("Thick Brush - 1");
+				thickBrush3.setActionCommand("thick3");
+				thickBrush3.setToolTipText("Thick Brush - 2");
+				thickBrush4.setActionCommand("thick4");
+				thickBrush4.setToolTipText("Thick Brush - 3");
 
 			}
 		});
 		temp.setIcon(pencild);
 		temp.setToolTipText("Choose a pencil");
+		
 		changeColor = new JButton(rgbIcon);
 		changeColor.setActionCommand("color");
 		changeColor.setToolTipText("Change color");
@@ -298,12 +334,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		loadImage.addActionListener(this);
 
 		rectButton = new JButton(rectIcon);
-		// rectButton.setActionCommand("rectangle");
 		rectButton.setToolTipText("Rectangle");
 		rectButton.addActionListener(this);
 
 		rectfillButton = new JButton(rectfillIcon);
-		// rectfillButton.setActionCommand("rectanglefill");
 		rectfillButton.setToolTipText("Filled Rectangle");
 		rectfillButton.addActionListener(this);
 		// added
@@ -359,13 +393,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		temp2.setIcon(rectd);
 		temp2.setToolTipText("Draw a square");
 		roundRectButton = new JButton(roundRectIcon);
-		// roundRectButton.setActionCommand("roundrectangle");
-		roundRectButton.setToolTipText("Smooth Edged Rectangle");
 		roundRectButton.addActionListener(this);
 
 		roundRectFillButton = new JButton(roundRectFillIcon);
-		// roundRectFillButton.setActionCommand("roundrectanglefill");
-		roundRectFillButton.setToolTipText("Filled Smooth Edged Rectanlge ");
 		roundRectFillButton.addActionListener(this);
 		JButton temp3 = new JButton();
 		JPanel popUpContent3 = new JPanel(new FlowLayout());
@@ -498,16 +528,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		backgroundButton.setActionCommand("background");
 		backgroundButton.setToolTipText("Fill Background");
 		backgroundButton.addActionListener(this);
-		
-		thickBrush3 = new JButton(thickIcon3);
-		thickBrush3.setActionCommand("thick3");
-		thickBrush3.setToolTipText("Brush 3");
-		thickBrush3.addActionListener(this);
-		
-		thickBrush4 = new JButton(thickIcon3);
-		thickBrush4.setActionCommand("thick4");
-		thickBrush4.setToolTipText("Brush 4");
-		thickBrush4.addActionListener(this);
 
 		JPanel buttons = new JPanel(new GridLayout());
 		buttons.setBorder(BorderFactory.createRaisedSoftBevelBorder());
@@ -524,8 +544,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		buttons.add(temp4);
 		buttons.add(undoButton);
 		buttons.add(redoButton);
-		buttons.add(thickBrush3);
-		buttons.add(thickBrush4);
 
 		paintCanvas = new JPanel(new BorderLayout());
 		paintCanvas.add(paintPanel, "Center");
@@ -736,7 +754,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 						else if (source.equals(BUTTON_NAMES[9])) // 'right'
 							paintPanel.moveRight();
-							
+
 						else if (source.equals(BUTTON_NAMES[10]))
 							paintPanel.resetImage();
 					}
@@ -745,7 +763,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			tbButtons[i].setToolTipText(BUTTON_NAMES[i]);
 			tbButtons[i].setMnemonic(MNEMONICS[i]);
 			tb.add(tbButtons[i]);
-			if (i == 1 || i == 5 || i == 9|| i == 10)
+			if (i == 1 || i == 5 || i == 9 || i == 10)
 				tb.addSeparator();
 		}
 		content.add(tb, BorderLayout.NORTH);
@@ -1148,7 +1166,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 					ex.getCause();
 				}
 			}
-		}else if(source == clearWordArt){
+		} else if (source == clearWordArt) {
 			System.out.println("CLEAR WORD ART");
 			paintPanel.clearWordArt();
 		}
