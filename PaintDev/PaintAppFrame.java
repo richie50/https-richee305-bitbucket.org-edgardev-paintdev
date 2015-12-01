@@ -129,7 +129,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	public static ArrayList<ColoredShape> roundRectFillStruct = new ArrayList<ColoredShape>();
 	public static ArrayList<ColoredShape> lineStruct = new ArrayList<ColoredShape>();
 	public static ArrayList<ColoredShape> lineStruct2 = new ArrayList<ColoredShape>();
-	public static ArrayList<ColoredShape> lineStruct3= new ArrayList<ColoredShape>();
+	public static ArrayList<ColoredShape> lineStruct3 = new ArrayList<ColoredShape>();
 
 	Color pressedColor = new Color(122, 175, 255);
 	Color defaultColor = new Color(224, 224, 224);
@@ -175,8 +175,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				paintPanel.redo();
 			}
 		});
-	
-		
+
 		clearButton = new JButton("CLEAR");
 		clearButton.setActionCommand("clear");
 		clearButton.addActionListener(this);
@@ -234,9 +233,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		Icon pencild = new ImageIcon("icons/pencild.png");
 		Icon rectd = new ImageIcon("icons/rectd.png");
 		Icon circled = new ImageIcon("icons/circled.png");
-		Icon rectTransIcon = new ImageIcon("icons/rect.png");
-		Icon roundRectTransIcon = new ImageIcon("icons/rect.png");
-		Icon circTransIcon = new ImageIcon("icons/circ.png");
+		Icon rectTransIcon = new ImageIcon("icons/transquare.png");
+		Icon roundRectTransIcon = new ImageIcon("icons/transrect.png");
+		Icon circTransIcon = new ImageIcon("icons/transcirc.png");
 
 		// added
 		clearButton = new JButton(clearIcon);
@@ -363,14 +362,14 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		rectfillButton = new JButton(rectfillIcon);
 		rectfillButton.setToolTipText("Filled Rectangle");
 		rectfillButton.addActionListener(this);
-		
-		//trans 
+
+		// trans
 		rectTransButton = new JButton(rectTransIcon);
 		rectTransButton.addActionListener(this);
-		
+
 		roundRectTransButton = new JButton(roundRectTransIcon);
 		roundRectTransButton.addActionListener(this);
-		
+
 		circTransButton = new JButton(circTransIcon);
 		circTransButton.addActionListener(this);
 		// added
@@ -427,7 +426,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 					});
 					pop.show();
 				}
-				
+
 				isShown = !isShown;
 				rectButton.setActionCommand("rectangle");
 				rectButton.setToolTipText("Rectangle");
@@ -438,7 +437,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		});
 		temp2.setIcon(rectd);
 		temp2.setToolTipText("Draw a square");
-		
+
 		roundRectButton = new JButton(roundRectIcon);
 		roundRectButton.addActionListener(this);
 
@@ -486,24 +485,26 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 							pop.hide();
 						}
 					});
-					roundRectButton.setAction(new AbstractAction("", roundRectTransIcon) {
+					roundRectTransButton.setAction(new AbstractAction("", roundRectTransIcon) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							// TODO Auto-generated method stub
 							isShown = false;
 							pop.hide();
 						}
 					});
 					pop.show();
+
 				}
 				isShown = !isShown;
+				roundRectTransButton.setActionCommand("transroundrectangle");
 				roundRectButton.setActionCommand("roundrectangle");
 				roundRectButton.setToolTipText("Smooth Edged Rectangle");
 				roundRectFillButton.setActionCommand("roundrectanglefill");
 				roundRectFillButton.setToolTipText("Filled Smooth Edged Rectangle");
-				roundRectTransButton.setActionCommand("transroundrectangle");
+				roundRectTransButton.setToolTipText("Transparent Round Edged Rectangle");
+
 			}
 		});
 		temp3.setIcon(roundRectIcon);
@@ -592,15 +593,15 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		lineButton = new JButton(lineIcon);
 		lineButton.setToolTipText("Straight Line");
 		lineButton.addActionListener(this);
-		
+
 		lineButton2 = new JButton(lineIcon2);
 		lineButton2.setToolTipText("Straight Line");
 		lineButton2.addActionListener(this);
-		
+
 		lineButton3 = new JButton(lineIcon3);
 		lineButton3.setToolTipText("Straight Line");
 		lineButton3.addActionListener(this);
-		
+
 		JButton temp5 = new JButton();
 		JPanel popUpContent5 = new JPanel(new FlowLayout());
 		popUpContent5.add(lineButton);
@@ -665,9 +666,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		});
 		temp5.setIcon(lineIcon);
 
-		
-		
-
 		backgroundButton = new JButton(backgroundIcon);
 		backgroundButton.setActionCommand("background");
 		backgroundButton.setToolTipText("Fill Background");
@@ -688,9 +686,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		buttons.add(temp5);
 		buttons.add(undoButton);
 		buttons.add(redoButton);
-		//buttons.add(rectTransButton);
-		//buttons.add(roundRectTransButton);
-		//buttons.add(circTransButton);
+		// buttons.add(rectTransButton);
+		// buttons.add(roundRectTransButton);
+		// buttons.add(circTransButton);
 
 		paintCanvas = new JPanel(new BorderLayout());
 		paintCanvas.add(paintPanel, "Center");
@@ -781,7 +779,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				if (reply == JOptionPane.NO_OPTION) {
 					System.exit(0);
 				}
-				if(reply == JOptionPane.YES_OPTION){
+				if (reply == JOptionPane.YES_OPTION) {
 
 					imageChooser = new ImageFileChooser(System.getProperty("user.dir"));
 					// imageChooser.setCurrentDirectory(file);
@@ -1054,29 +1052,26 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			repaint();
 			enableButtonsForPaint();
 		}
-		
+
 		else if (flag == 9) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
 			enableButtonsForPaint();
 		}
-		
+
 		else if (flag == 10) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
 			enableButtonsForPaint();
-		}
-		else if (flag == 11) {
+		} else if (flag == 11) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
 			enableButtonsForPaint();
-		}
-		else if (flag == 12) {
+		} else if (flag == 12) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
 			enableButtonsForPaint();
-		}
-		else if (flag == 13) {
+		} else if (flag == 13) {
 			mouseEnd = new Point(me.getX(), me.getY());
 			repaint();
 			enableButtonsForPaint();
@@ -1182,19 +1177,18 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseStart = new Point(me.getX(), me.getY());
 			mouseEnd = mouseStart;
 			repaint();
-		} 
-		else if (flag == 9) {
+		} else if (flag == 9) {
 			mouseStart = new Point(me.getX(), me.getY());
 			mouseEnd = mouseStart;
 			repaint();
 		}
-		
+
 		else if (flag == 10) {
 			mouseStart = new Point(me.getX(), me.getY());
 			mouseEnd = mouseStart;
 			repaint();
 		}
-		
+
 		else if (flag == 8) {
 			int x = me.getX();
 			int y = me.getY();
@@ -1204,19 +1198,19 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				++sampleCount;
 			}
 		}
-		
+
 		else if (flag == 11) {
 			mouseStart = new Point(me.getX(), me.getY());
 			mouseEnd = mouseStart;
 			repaint();
 		}
-		
+
 		else if (flag == 12) {
 			mouseStart = new Point(me.getX(), me.getY());
 			mouseEnd = mouseStart;
 			repaint();
 		}
-		
+
 		else if (flag == 13) {
 			mouseStart = new Point(me.getX(), me.getY());
 			mouseEnd = mouseStart;
@@ -1282,36 +1276,34 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseStart = null;
 			mouseEnd = null;
 			repaint();
-		} 
-		else if (flag == 9) {
+		} else if (flag == 9) {
 			Shape r = createLine(mouseStart.x, mouseStart.y, me.getX(), me.getY());
 			lineStruct2.add(new ColoredShape(r, currColor));
 			mouseStart = null;
 			mouseEnd = null;
 			repaint();
 		}
-		
+
 		else if (flag == 10) {
 			Shape r = createLine(mouseStart.x, mouseStart.y, me.getX(), me.getY());
 			lineStruct3.add(new ColoredShape(r, currColor));
 			mouseStart = null;
 			mouseEnd = null;
 			repaint();
-		}
-		else if (flag == 8) {
+		} else if (flag == 8) {
 			if (SwingUtilities.isLeftMouseButton(me)) {
 				sampleCount = 0;
 			}
 		}
-		
-		else if (flag == 11) { //CHANGE
+
+		else if (flag == 11) { // CHANGE
 			Shape r = createRect(mouseStart.x, mouseStart.y, me.getX(), me.getY());
 			rectTransStruct.add(new ColoredShape(r, currColor));
 			mouseStart = null;
 			mouseEnd = null;
 			repaint();
 		}
-		
+
 		else if (flag == 12) {
 			Shape r = createRoundRect(mouseStart.x, mouseStart.y, me.getX(), me.getY());
 			roundRectTransStruct.add(new ColoredShape(r, currColor));
@@ -1319,7 +1311,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseEnd = null;
 			repaint();
 		}
-		
+
 		else if (flag == 13) {
 			Shape r = createCircle(mouseStart.x, mouseStart.y, me.getX(), me.getY());
 			circTransStruct.add(new ColoredShape(r, currColor));
@@ -1833,7 +1825,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			gr.setStroke(new BasicStroke(2));
 			gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.50f));
 
-
 			gr.draw(coloredShape.getShape());
 			gr.fill(coloredShape.getShape());
 
@@ -1857,7 +1848,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			gr.setStroke(new BasicStroke(2));
 			gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.50f));
 
-
 			gr.draw(coloredShape.getShape());
 			gr.fill(coloredShape.getShape());
 
@@ -1872,7 +1862,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			}
 		}
 	}
-	
+
 	public static void paintTransCircle(Graphics g) {
 		gr = (Graphics2D) g;
 
@@ -1880,7 +1870,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			gr.setPaint(coloredShape.getColor());
 			gr.setStroke(new BasicStroke(2));
 			gr.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.50f));
-
 
 			gr.draw(coloredShape.getShape());
 			gr.fill(coloredShape.getShape());
@@ -1896,6 +1885,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			}
 		}
 	}
+
 	public static void paintLine(Graphics g) {
 		gr = (Graphics2D) g;
 
@@ -1916,7 +1906,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			}
 		}
 	}
-	
+
 	public static void paintLine2(Graphics g) {
 		gr = (Graphics2D) g;
 
@@ -1937,7 +1927,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			}
 		}
 	}
-	
+
 	public static void paintLine3(Graphics g) {
 		gr = (Graphics2D) g;
 
@@ -1958,7 +1948,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			}
 		}
 	}
-	
+
 	public static void paintRoundRectangleFill(Graphics g) {
 		gr = (Graphics2D) g;
 
@@ -1980,7 +1970,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			}
 		}
 	}
-
 
 	public static Rectangle2D.Float createRect(int x1, int y1, int x2, int y2) {
 		return new Rectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
