@@ -46,7 +46,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	final int MAX_SAMPLES = 500;
 	final String[] BUTTON_ICONS = { "icons/bigger.png", "icons/smaller.png", "icons/wider.png", "icons/narrow.png",
 			"icons/taller.png", "icons/shorter.png", "icons/up.png", "icons/down.png", "icons/left.png",
-			"icons/right.png", "icons/resetImage.png", "icons/wordArt.PNG" };
+			"icons/right.png", "icons/resetimage.png", "icons/wordart.png" };
 
 	final String[] BUTTON_NAMES = { "Bigger", "Smaller", "Wider", "Narrower", "Taller", "Shorter", "Up", "Down", "Left",
 			"Right", "Reset", "wordArt" };
@@ -107,7 +107,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	// toolbar
 	private JMenuItem position;
 	private JMenu Rotate;
-	private JMenuItem rotate90, rotate180 , rotate270 , rotate360;
+	private JMenuItem rotate90, rotate180, rotate270, rotate360;
 	JPanel popUpToolBar;
 	private JMenuItem clearImage;
 	private MyFileFilter fileExtensions;
@@ -200,22 +200,22 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		// make this a toolbar and images
 
-		Icon roundRectIcon = new ImageIcon("icons/rectEdge.png");
-		Icon roundRectFillIcon = new ImageIcon("icons/fullRectEdge.png");
+		Icon roundRectIcon = new ImageIcon("icons/rectedge.png");
+		Icon roundRectFillIcon = new ImageIcon("icons/fullrectedge.png");
 		Icon lineIcon = new ImageIcon("icons/line.png");
 		Icon clearIcon = new ImageIcon("icons/clear.png");
-		Icon brushIcon = new ImageIcon("icons/brush.png");
-		Icon thickIcon3 = new ImageIcon("icons/brush.png");
-		Icon thickIcon4 = new ImageIcon("icons/brush.png");
+		Icon brushIcon = new ImageIcon("icons/brush-thin.png");
+		Icon thickIcon3 = new ImageIcon("icons/brush-medium.png");
+		Icon thickIcon4 = new ImageIcon("icons/brush-thick.png");
 		Icon pencilIcon = new ImageIcon("icons/pencil.png");
 		Icon rgbIcon = new ImageIcon("icons/color.png");
 		Icon loadIcon = new ImageIcon("icons/open.png");
 		Icon eraserIcon = new ImageIcon("icons/erase.png");
 		Icon rectIcon = new ImageIcon("icons/rect.png");
 		Icon circleIcon = new ImageIcon("icons/circ.png");
-		Icon rectfillIcon = new ImageIcon("icons/fullRect.png");
-		Icon circFillIcon = new ImageIcon("icons/fullCirc.png");
-		Icon backgroundIcon = new ImageIcon("icons/backgroundFill.png");
+		Icon rectfillIcon = new ImageIcon("icons/fullrect.png");
+		Icon circFillIcon = new ImageIcon("icons/fullcirc.png");
+		Icon backgroundIcon = new ImageIcon("icons/backgroundfill.png");
 		Icon pencild = new ImageIcon("icons/pencild.png");
 		Icon rectd = new ImageIcon("icons/rectd.png");
 		Icon circled = new ImageIcon("icons/circled.png");
@@ -289,7 +289,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 						}
 
 					});
-					thickBrush3.setAction(new AbstractAction("", brushIcon) {
+					thickBrush3.setAction(new AbstractAction("", thickIcon3) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -300,7 +300,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 						}
 
 					});
-					thickBrush4.setAction(new AbstractAction("", brushIcon) {
+					thickBrush4.setAction(new AbstractAction("", thickIcon4) {
 						private static final long serialVersionUID = 1L;
 
 						@Override
@@ -629,7 +629,50 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		newFileImage = new ImageIcon(img);
 		exit = new JMenuItem("Exit", newFileImage);
 		exit.setMnemonic(KeyEvent.VK_X);
-		exit.addActionListener(this);
+		exit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Component parentComponent = null;
+				int reply = JOptionPane.showConfirmDialog(parentComponent, "Save file?", EXTENSIONS,
+						JOptionPane.YES_NO_OPTION);
+				if (reply == JOptionPane.NO_OPTION) {
+					System.exit(0);
+				} else {
+
+					imageChooser = new ImageFileChooser(System.getProperty("user.dir"));
+					// imageChooser.setCurrentDirectory(file);
+					System.out.println("MONITOR: " + imageChooser.getTypeDescription(file));
+					// the the list of files in the current directory
+					int returnVal = imageChooser.showSaveDialog(parentComponent);
+					System.out.println("MONITOR2: " + imageChooser);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						try {
+							/*
+							 * Make sure the where ever u wana save the file is
+							 * consistent and you are resetting the FILE POINTER
+							 * every time you click on this button
+							 */
+							if (fileExistenceChecker(new File(System.getProperty("user.dir")))) {
+								file = imageChooser.getSelectedFileWithExtension();
+								EXTENSIONS = ((FileNameExtensionFilter) imageChooser.getFileFilter())
+										.getExtensions()[0];
+								fileExist = file.getName();
+								SaveFile(file, EXTENSIONS);
+								save.setEnabled(true);
+							} else {
+							}
+						} catch (FileNotFoundException e) {
+
+							e.printStackTrace();
+						}
+					}
+
+				}
+				// if(parentComponent.get)
+				// System.exit(0);
+			}
+		});
 		exit.setEnabled(true);
 		fileMenu.add(exit);
 		// <Edit>
@@ -675,7 +718,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		HelpMenu.add(Source);
 		Source.addActionListener(this);
 		// <red>
-		newFileImage = new ImageIcon("icons/undoM.png");
+		newFileImage = new ImageIcon("icons/undom.png");
 		img = newFileImage.getImage();
 		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
 		newFileImage = new ImageIcon(img);
@@ -690,7 +733,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			}
 		});
 		//
-		newFileImage = new ImageIcon("icons/redoM.png");
+		newFileImage = new ImageIcon("icons/redom.png");
 		img = newFileImage.getImage();
 		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
 		newFileImage = new ImageIcon(img);
@@ -1249,14 +1292,12 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		{
 			LaunchUrl.launchURL("https://bitbucket.org/edgardev/paintdev/overview");
-		}
-		else if (source == rotate90) {
+		} else if (source == rotate90) {
 			System.out.println("ROTATE");
 			paintPanel.rotateImage(90.0, new ImageObserver() {
-				
+
 				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y,
-						int width, int height) {
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					// TODO Auto-generated method stub
 					return false;
 				}
@@ -1264,40 +1305,35 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		} else if (source == rotate180) {
 			System.out.println("ROTATE");
 			paintPanel.rotateImage(180.0, new ImageObserver() {
-				
+
 				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y,
-						int width, int height) {
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					// TODO Auto-generated method stub
 					return false;
 				}
 			});
-		} 
-		else if (source == rotate270) {
+		} else if (source == rotate270) {
 			System.out.println("ROTATE");
 			paintPanel.rotateImage(270.0, new ImageObserver() {
-				
+
 				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y,
-						int width, int height) {
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					// TODO Auto-generated method stub
 					return false;
 				}
 			});
-		}
-		else if (source == rotate360) {
+		} else if (source == rotate360) {
 			System.out.println("ROTATE");
 			paintPanel.rotateImage(360.0, new ImageObserver() {
-				
+
 				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y,
-						int width, int height) {
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					// TODO Auto-generated method stub
 					return false;
 				}
 			});
 		}
-	}//end of actionlisterner "this"
+	}// end of actionlisterner "this"
 
 	private void disableToolBarButtons() {
 		for (int i = 0; i < tbButtons.length - 1; i++) {

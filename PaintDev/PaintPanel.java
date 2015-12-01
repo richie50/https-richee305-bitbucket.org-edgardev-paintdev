@@ -3,6 +3,8 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.*;
 
 public class PaintPanel extends JPanel {
@@ -293,13 +295,15 @@ public class PaintPanel extends JPanel {
 			JOptionPane.showMessageDialog(frame, " No Image to Resize! Please load an image first.");
 		}
 	}
-	public void rotateImage(double degrees , ImageObserver obs){
+
+	public void rotateImage(double degrees, ImageObserver obs) {
 		ImageIcon icon = new ImageIcon(this.img);
-		BufferedImage blankCanvas =  new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),BufferedImage.TYPE_INT_ARGB);
-		///now rotate graphics
+		BufferedImage blankCanvas = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
+				BufferedImage.TYPE_INT_ARGB);
+		/// now rotate graphics
 		System.out.println("HERE");
-		Graphics2D g2 =  (Graphics2D)blankCanvas.getGraphics();
-		g2.rotate(Math.toRadians(degrees) , icon.getIconWidth() /2 , icon.getIconHeight() / 2);
+		Graphics2D g2 = (Graphics2D) blankCanvas.getGraphics();
+		g2.rotate(Math.toRadians(degrees), icon.getIconWidth() / 2, icon.getIconHeight() / 2);
 		g2.drawImage(this.img, 0, 0, obs);
 		this.img = blankCanvas;
 		this.repaint();
