@@ -878,6 +878,12 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		redoButton.setEnabled(true);
 	}
 
+	private void disableButtonsForPaint() {
+		clearButton.setEnabled(false);
+		undoButton.setEnabled(false);
+		redoButton.setEnabled(false);
+	}
+
 	public void mouseMoved(MouseEvent me) {
 	}
 
@@ -1037,6 +1043,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			paintCanvas.add(paintPanel, "Center");
 			content.add(paintCanvas, BorderLayout.CENTER);
 			this.setContentPane(content);
+			this.disableButtonsForPaint();
+			disableToolBarButtons();
+
 			FLAG = 0;
 			break;
 		case "thick":
@@ -1114,14 +1123,18 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			break;
 
 		}
-		if (source == open) {
+		if (source == open)
+
+		{
 			int sh = fileChooser.showOpenDialog(this);
 			boolean ok = (sh == JFileChooser.APPROVE_OPTION);
 			if (ok) {
 				file = fileChooser.getSelectedFile();
 				openFile(file);
 			}
-		} else if (source == newFile) {
+		} else if (source == newFile)
+
+		{
 			paintCanvas.remove(paintPanel);
 			paintPanel = new PaintPanel();
 			paintPanel.addMouseMotionListener(this);
@@ -1131,13 +1144,17 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			this.setContentPane(content);
 			saveAs.setEnabled(true);
 			save.setEnabled(true);
-		} else if (source == save) {
+		} else if (source == save)
+
+		{
 			if (file != null) {
 				SaveFile(file, EXTENSIONS);
 			} else {
 				saveAs.doClick();
 			}
-		} else if (source == saveAs) {
+		} else if (source == saveAs)
+
+		{
 			imageChooser = new ImageFileChooser(System.getProperty("user.dir"));
 			// imageChooser.setCurrentDirectory(file);
 			System.out.println("MONITOR: " + imageChooser.getTypeDescription(file));
@@ -1165,13 +1182,21 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				}
 			}
 
-		} else if (source == position) {
+		} else if (source == position)
+
+		{
 			System.out.println("DropDownToolBar");
-		} else if (source == clearImage) {
+		} else if (source == clearImage)
+
+		{
 			paintPanel.clearImage();
-		} else if (source == clear) {
+		} else if (source == clear)
+
+		{
 			paintPanel.clear();
-		} else if (source == print) {
+		} else if (source == print)
+
+		{
 			BufferedImage imageToPrint = new BufferedImage(paintPanel.getWidth(), paintPanel.getHeight(),
 					BufferedImage.TYPE_INT_RGB);
 			Printer painter = new Printer(imageToPrint);
@@ -1187,18 +1212,37 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 					ex.getCause();
 				}
 			}
-		} else if (source == clearWordArt) {
+		} else if (source == clearWordArt)
+
+		{
 			System.out.println("CLEAR WORD ART");
 			paintPanel.clearWordArt();
-		} else if (source == help) {
+		} else if (source == help)
+
+		{
 			Help dialog = new Help(new JFrame(), "About Us", "");
 			// set the size of the window
 			dialog.setSize(400, 250);
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 			dialog.setLocation(dim.width / 2 - dialog.getSize().width / 2,
 					dim.height / 2 - dialog.getSize().height / 2);
-		} else if (source == Source) {
+		} else if (source == Source)
+
+		{
 			LaunchUrl.launchURL("https://bitbucket.org/edgardev/paintdev/overview");
+		}
+
+	}
+
+	private void disableToolBarButtons() {
+		for (int i = 0; i < tbButtons.length - 1; i++) {
+			tbButtons[i].setEnabled(false);
+		}
+	}
+
+	private void enableToolBarButtons() {
+		for (int i = 0; i < tbButtons.length; i++) {
+			tbButtons[i].setEnabled(true);
 		}
 	}
 
@@ -1293,9 +1337,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			paintPanel.addImage(image);
 			// System.out.println(paintPanel);
 		}
-		for (int i = 0; i < tbButtons.length; i++) {
-			tbButtons[i].setEnabled(true);
-		}
+		this.enableToolBarButtons();
 	}
 
 	public String getSaveFileName() {
