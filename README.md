@@ -14,3 +14,11 @@ Feel free to contribute and make the world a better place
 
 ### Who do I talk to? ###
 Contact the team at york university the shitty coders club
+
+
+
+if you run into trouble with git on command line you want the up to date changes do this
+WARNING THIS COMMANDS WILL OVERWRITE YOUR LOCAL DEV ENV
+git fetch --all
+git reset --hard origin/master
+git pull
