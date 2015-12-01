@@ -1030,9 +1030,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		// instantiate the filechooser
 		switch (command) {
 		case "clear":
-			paintPanel.clear();
-			paintPanel.clearWordArt();
-			paintPanel.clearImage();
+			paintCanvas.remove(paintPanel);
+			paintPanel = new PaintPanel();
+			paintPanel.addMouseMotionListener(this);
+			paintPanel.addMouseListener(this);
+			paintCanvas.add(paintPanel, "Center");
+			content.add(paintCanvas, BorderLayout.CENTER);
+			this.setContentPane(content);
 			FLAG = 0;
 			break;
 		case "thick":
