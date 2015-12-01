@@ -638,7 +638,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 						JOptionPane.YES_NO_OPTION);
 				if (reply == JOptionPane.NO_OPTION) {
 					System.exit(0);
-				} else {
+				}
+				if (reply == JOptionPane.YES_OPTION) {
 
 					imageChooser = new ImageFileChooser(System.getProperty("user.dir"));
 					// imageChooser.setCurrentDirectory(file);
@@ -833,6 +834,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 						else if (source.equals(BUTTON_NAMES[10]))
 							paintPanel.resetImage();
+
 					}
 				});
 			}
@@ -1339,12 +1341,14 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		for (int i = 0; i < tbButtons.length - 1; i++) {
 			tbButtons[i].setEnabled(false);
 		}
+		tbButtons[10].setToolTipText("Reset image to original size");
 	}
 
 	private void enableToolBarButtons() {
 		for (int i = 0; i < tbButtons.length; i++) {
 			tbButtons[i].setEnabled(true);
 		}
+		tbButtons[10].setToolTipText("Reset image to original size");
 	}
 
 	protected void openFile(File file2) {
@@ -1359,8 +1363,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	protected int SaveFile(File file, String extension) {
 		BufferedImage imageToSave = new BufferedImage(paintPanel.getWidth(), paintPanel.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
-				Graphics2D graphics2D = imageToSave.createGraphics();
-				paintPanel.paint(graphics2D);
+		Graphics2D graphics2D = imageToSave.createGraphics();
+		paintPanel.paint(graphics2D);
 		try {
 			ImageIO.write(imageToSave, extension, file);
 			// ImageIO.write(imageToSave, EXT[0], file);
