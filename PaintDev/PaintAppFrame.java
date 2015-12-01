@@ -1189,6 +1189,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			Help dialog = new Help(new JFrame(), "HELP", "");
 			// set the size of the window
 			dialog.setSize(400, 250);
+			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+			dialog.setLocation(dim.width / 2 - dialog.getSize().width / 2, dim.height / 2 - dialog.getSize().height / 2);
 		}
 		else if (source == Source){
 			LaunchUrl.launchURL("https://bitbucket.org/edgardev/paintdev/overview");
