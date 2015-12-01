@@ -106,6 +106,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private JMenuItem Source;
 	// toolbar
 	private JMenuItem position;
+	private JMenu Rotate;
+	private JMenuItem rotate90, rotate180 , rotate270 , rotate360;
 	JPanel popUpToolBar;
 	private JMenuItem clearImage;
 	private MyFileFilter fileExtensions;
@@ -644,6 +646,20 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		position = new JMenuItem("Position", newFileImage);
 		toolsMenu.add(position);
 		position.addActionListener(this);
+		Rotate = new JMenu("Rotate");
+		toolsMenu.add(Rotate);
+		rotate90 = new JMenuItem("Rotate 90");
+		rotate90.addActionListener(this);
+		rotate180 = new JMenuItem("Rotate 180");
+		rotate180.addActionListener(this);
+		rotate270 = new JMenuItem("Rotate 270");
+		rotate270.addActionListener(this);
+		rotate360 = new JMenuItem("Rotate 360");
+		rotate360.addActionListener(this);
+		Rotate.add(rotate90);
+		Rotate.add(rotate180);
+		Rotate.add(rotate270);
+		Rotate.add(rotate360);
 		// help menu
 		HelpMenu = new JMenu("Help");
 		HelpMenu.setMnemonic(KeyEvent.VK_T);
@@ -1234,8 +1250,54 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		{
 			LaunchUrl.launchURL("https://bitbucket.org/edgardev/paintdev/overview");
 		}
-
-	}
+		else if (source == rotate90) {
+			System.out.println("ROTATE");
+			paintPanel.rotateImage(90.0, new ImageObserver() {
+				
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y,
+						int width, int height) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			});
+		} else if (source == rotate180) {
+			System.out.println("ROTATE");
+			paintPanel.rotateImage(180.0, new ImageObserver() {
+				
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y,
+						int width, int height) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			});
+		} 
+		else if (source == rotate270) {
+			System.out.println("ROTATE");
+			paintPanel.rotateImage(270.0, new ImageObserver() {
+				
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y,
+						int width, int height) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			});
+		}
+		else if (source == rotate360) {
+			System.out.println("ROTATE");
+			paintPanel.rotateImage(360.0, new ImageObserver() {
+				
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y,
+						int width, int height) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			});
+		}
+	}//end of actionlisterner "this"
 
 	private void disableToolBarButtons() {
 		for (int i = 0; i < tbButtons.length - 1; i++) {
