@@ -1359,6 +1359,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	protected int SaveFile(File file, String extension) {
 		BufferedImage imageToSave = new BufferedImage(paintPanel.getWidth(), paintPanel.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
+				Graphics2D graphics2D = imageToSave.createGraphics();
+				paintPanel.paint(graphics2D);
 		try {
 			ImageIO.write(imageToSave, extension, file);
 			// ImageIO.write(imageToSave, EXT[0], file);
