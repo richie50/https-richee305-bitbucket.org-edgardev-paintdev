@@ -363,6 +363,16 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		rectfillButton = new JButton(rectfillIcon);
 		rectfillButton.setToolTipText("Filled Rectangle");
 		rectfillButton.addActionListener(this);
+		
+		//trans 
+		rectTransButton = new JButton(rectTransIcon);
+		rectTransButton.addActionListener(this);
+		
+		roundRectTransButton = new JButton(roundRectTransIcon);
+		roundRectTransButton.addActionListener(this);
+		
+		circTransButton = new JButton(circTransIcon);
+		circTransButton.addActionListener(this);
 		// added
 		JButton temp2 = new JButton();
 		JPanel popUpContent2 = new JPanel(new FlowLayout());
@@ -404,17 +414,30 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 							pop.hide();
 						}
 					});
+					rectTransButton.setAction(new AbstractAction("", rectTransIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+					});
 					pop.show();
 				}
+				
 				isShown = !isShown;
 				rectButton.setActionCommand("rectangle");
 				rectButton.setToolTipText("Rectangle");
 				rectfillButton.setActionCommand("rectanglefill");
 				rectfillButton.setToolTipText("Filled Rectangle");
+				rectTransButton.setActionCommand("transrectangle");
 			}
 		});
 		temp2.setIcon(rectd);
 		temp2.setToolTipText("Draw a square");
+		
 		roundRectButton = new JButton(roundRectIcon);
 		roundRectButton.addActionListener(this);
 
@@ -461,6 +484,16 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 							pop.hide();
 						}
 					});
+					roundRectButton.setAction(new AbstractAction("", roundRectTransIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+					});
 					pop.show();
 				}
 				isShown = !isShown;
@@ -468,7 +501,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				roundRectButton.setToolTipText("Smooth Edged Rectangle");
 				roundRectFillButton.setActionCommand("roundrectanglefill");
 				roundRectFillButton.setToolTipText("Filled Smooth Edged Rectangle");
-
+				roundRectTransButton.setActionCommand("transroundrectangle");
 			}
 		});
 		temp3.setIcon(roundRectIcon);
@@ -524,6 +557,17 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 							pop.hide();
 						}
 					});
+					circTransButton.setAction(new AbstractAction("", circTransIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							// circFillButton.setActionCommand("circlefill");
+							isShown = false;
+							pop.hide();
+						}
+					});
 					pop.show();
 				}
 				isShown = !isShown;
@@ -531,7 +575,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				circleButton.setToolTipText("Circle");
 				circFillButton.setActionCommand("circlefill");
 				circFillButton.setToolTipText("Filled Circle");
-
+				circTransButton.setActionCommand("transcircle");
 			}
 
 		});
@@ -625,18 +669,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		backgroundButton.setActionCommand("background");
 		backgroundButton.setToolTipText("Fill Background");
 		backgroundButton.addActionListener(this);
-		
-		rectTransButton = new JButton(rectTransIcon);
-		rectTransButton.setActionCommand("transrectangle");
-		rectTransButton.addActionListener(this);
-		
-		roundRectTransButton = new JButton(roundRectTransIcon);
-		roundRectTransButton.setActionCommand("transroundrectangle");
-		roundRectTransButton.addActionListener(this);
-		
-		circTransButton = new JButton(circTransIcon);
-		circTransButton.setActionCommand("transcircle");
-		circTransButton.addActionListener(this);
 
 		JPanel buttons = new JPanel(new GridLayout());
 		buttons.setBorder(BorderFactory.createRaisedSoftBevelBorder());
@@ -653,9 +685,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		buttons.add(temp5);
 		buttons.add(undoButton);
 		buttons.add(redoButton);
-		buttons.add(rectTransButton);
-		buttons.add(roundRectTransButton);
-		buttons.add(circTransButton);
+		//buttons.add(rectTransButton);
+		//buttons.add(roundRectTransButton);
+		//buttons.add(circTransButton);
 
 		paintCanvas = new JPanel(new BorderLayout());
 		paintCanvas.add(paintPanel, "Center");
