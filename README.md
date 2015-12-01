@@ -26,3 +26,15 @@ git fetch --all
 git reset --hard origin/master
 
 git pull
+
+It's worth noting that it is possible to maintain current local commits by creating a branch from master before resetting:
+
+git checkout master
+
+git branch new-branch-to-save-current-commits
+
+git fetch --all
+
+git reset --hard origin/master
+
+
