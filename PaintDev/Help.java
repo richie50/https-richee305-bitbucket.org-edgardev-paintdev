@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -28,14 +29,20 @@ public class Help extends JDialog {
 
 		// Create a message
 		JPanel messagePane = new JPanel();
-		messagePane.add(new JLabel("CUSTOMIZE SOME HELP MESSAGE EDGAR WITH EMBEDDED HTML"));
+		JLabel acc = new JLabel(new ImageIcon("icons/helpPAINT.png"));
+		acc.setBounds(180, 30, 40, 40);
+		messagePane.add(
+				new JLabel("<html> <center> EECS 3461 Paint App </center> <br> <br> <br> <br> The team developed this :"
+						+ "<center> <br>1. Edgar Zaganjori ------ cse23106 <br>2. Daniyal Javed Khan ---- cse31034 <br>3. Richmond Frimpong --- cse23007<br> </center>"
+						+ "<h5> We hope you enjoy this! any suggestions please contact us at our github </h5> </html>"));
 		// get content pane, which is usually the
 		// Container of all the dialog's components.
+		getContentPane().add(acc);
 		getContentPane().add(messagePane);
 
 		// Create a button
 		JPanel buttonPane = new JPanel();
-		JButton button = new JButton("EXIT");
+		JButton button = new JButton("Close");
 		buttonPane.add(button);
 		// set action listener on the button
 		button.addActionListener(new MyActionListener());
@@ -45,13 +52,14 @@ public class Help extends JDialog {
 		setVisible(true);
 	}
 
-	// override the createRootPane inherited by the JDialog, to create the rootPane.
+	// override the createRootPane inherited by the JDialog, to create the
+	// rootPane.
 	// create functionality to close the window when "Escape" button is pressed
 	public JRootPane createRootPane() {
 		JRootPane rootPane = new JRootPane();
 		KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
 		Action action = new AbstractAction() {
-			
+
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -70,7 +78,7 @@ public class Help extends JDialog {
 	// (e.g. button is pressed)
 	class MyActionListener implements ActionListener {
 
-		//close and dispose of the window.
+		// close and dispose of the window.
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("disposing the window..");
 			setVisible(false);

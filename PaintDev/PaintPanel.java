@@ -15,7 +15,6 @@ public class PaintPanel extends JPanel {
 	private Stroke THICK_LINE_STROKE4 = new BasicStroke(9.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 	private Stroke ERASER_STROKE = new BasicStroke(10.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND);
 
-	
 	static Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
 	private Vector<Entity> vectorForString;
@@ -59,11 +58,12 @@ public class PaintPanel extends JPanel {
 	public void setThickBrush() {
 		this.LINE_STROKE = this.THICK_LINE_STROKE;
 	}
-	public void setThickBrush3(){
+
+	public void setThickBrush3() {
 		this.LINE_STROKE = this.THICK_LINE_STROKE3;
 	}
-	
-	public void setThickBrush4(){
+
+	public void setThickBrush4() {
 		this.LINE_STROKE = this.THICK_LINE_STROKE4;
 	}
 
@@ -186,14 +186,17 @@ public class PaintPanel extends JPanel {
 		if (!eraserStrokes.isEmpty()) {
 			eraserStrokes.clear();
 		}
+		if (PaintPanel.getColor() != Color.WHITE) {
+
+		}
 		clearImage();
 		this.repaint();
 	}
 
 	public void clearImage() {
 		Graphics2D graphics = (Graphics2D) this.getGraphics();
-		System.out.println(graphics.toString());
 		graphics.clearRect(x, y, width, height);
+		graphics.dispose();
 	}
 
 	@Override
@@ -440,8 +443,9 @@ public class PaintPanel extends JPanel {
 			}
 		}
 	}
-	public void clearWordArt(){
-			vectorForString.clear();
-			this.repaint();
+
+	public void clearWordArt() {
+		vectorForString.clear();
+		this.repaint();
 	}
 }

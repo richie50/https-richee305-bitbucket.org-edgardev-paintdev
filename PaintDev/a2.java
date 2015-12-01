@@ -4,6 +4,7 @@ import java.awt.geom.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.border.*;
+
 /* A more preffered main method for gui. NEVER RUN A GUI COMPONENTS WITHOUT EVENTQUEUE*/
 public class a2 {
 	public static void main(String[] args) {
@@ -16,10 +17,9 @@ public class a2 {
 				try {
 					PaintAppFrame paintFrame = new PaintAppFrame();
 					paintFrame.setTitle("Paint");
-					Dimension screenSize = Toolkit.getDefaultToolkit()
-							.getScreenSize();
-					paintFrame.setBounds(250, 75, 750, 600);
-					paintFrame.setMinimumSize(new Dimension(500, 600));
+					Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+					paintFrame.setSize(screenSize);
+					paintFrame.setMinimumSize(new Dimension(600, 600));
 					paintFrame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

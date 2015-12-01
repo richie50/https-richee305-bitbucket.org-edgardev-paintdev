@@ -235,7 +235,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		// thinBrush.setToolTipText("Thin brush");
 		thinBrush.addActionListener(this);
 		// added
-		
+
 		thickBrush3 = new JButton(thickIcon3);
 		thickBrush3.setToolTipText("Brush 3");
 		thickBrush3.addActionListener(this);
@@ -243,7 +243,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		thickBrush4 = new JButton(thickIcon3);
 		thickBrush4.setToolTipText("Brush 4");
 		thickBrush4.addActionListener(this);
-		
+
 		JPanel popUpContent = new JPanel(new FlowLayout());
 		popUpContent.add(thinBrush);
 		popUpContent.add(thickBrush);
@@ -325,7 +325,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		});
 		temp.setIcon(pencild);
 		temp.setToolTipText("Choose a pencil");
-		
+
 		changeColor = new JButton(rgbIcon);
 		changeColor.setActionCommand("color");
 		changeColor.setToolTipText("Change color");
@@ -644,7 +644,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		position = new JMenuItem("Position", newFileImage);
 		toolsMenu.add(position);
 		position.addActionListener(this);
-		//help menu
+		// help menu
 		HelpMenu = new JMenu("Help");
 		HelpMenu.setMnemonic(KeyEvent.VK_T);
 		menuBar.add(HelpMenu);
@@ -1031,6 +1031,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		switch (command) {
 		case "clear":
 			paintPanel.clear();
+			paintPanel.clearWordArt();
 			paintPanel.clearImage();
 			FLAG = 0;
 			break;
@@ -1185,14 +1186,14 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		} else if (source == clearWordArt) {
 			System.out.println("CLEAR WORD ART");
 			paintPanel.clearWordArt();
-		}else if (source == help){
-			Help dialog = new Help(new JFrame(), "HELP", "");
+		} else if (source == help) {
+			Help dialog = new Help(new JFrame(), "About Us", "");
 			// set the size of the window
 			dialog.setSize(400, 250);
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-			dialog.setLocation(dim.width / 2 - dialog.getSize().width / 2, dim.height / 2 - dialog.getSize().height / 2);
-		}
-		else if (source == Source){
+			dialog.setLocation(dim.width / 2 - dialog.getSize().width / 2,
+					dim.height / 2 - dialog.getSize().height / 2);
+		} else if (source == Source) {
 			LaunchUrl.launchURL("https://bitbucket.org/edgardev/paintdev/overview");
 		}
 	}
@@ -1286,7 +1287,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			int w = image.getWidth(this);
 			setPreferredSize(new Dimension(w, h));
 			paintPanel.addImage(image);
-			//System.out.println(paintPanel);
+			// System.out.println(paintPanel);
 		}
 		for (int i = 0; i < tbButtons.length; i++) {
 			tbButtons[i].setEnabled(true);
