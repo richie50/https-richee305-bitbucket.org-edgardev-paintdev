@@ -277,19 +277,21 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void resetImage() {
-		if(img == null){
-			try{
-				throw new NoSuchElementException();
-			}catch(NoSuchElementException ex){
-				ex.printStackTrace();
+		Component frame = null;
+		if (img != null) {
+			try {
+				width = img.getWidth(this);
+				height = img.getHeight(this);
+				setPreferredSize(new Dimension(width, height));
+				xOffset = 0;
+				yOffset = 0;
+				this.repaint();
+			} catch (NoSuchElementException ex) {
+				JOptionPane.showMessageDialog(frame, "Image is damaged");
 			}
+		} else if (img == null) {
+			JOptionPane.showMessageDialog(frame, " No Image to Resize! Please load an image first.");
 		}
-		width = img.getWidth(this);
-		height = img.getHeight(this);
-		setPreferredSize(new Dimension(width, height));
-		xOffset = 0;
-		yOffset = 0;
-		this.repaint();
 	}
 
 	public void undo() {
