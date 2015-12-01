@@ -378,6 +378,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		JPanel popUpContent2 = new JPanel(new FlowLayout());
 		popUpContent2.add(rectButton);
 		popUpContent2.add(rectfillButton);
+		popUpContent2.add(rectTransButton);
 		JScrollPane s2 = new JScrollPane(popUpContent2);
 		s2.setSize(new Dimension(180, 50));
 		s2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -448,6 +449,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		popUpContent3.add(roundRectButton);
 		popUpContent3.add(roundRectFillButton);
+		popUpContent3.add(roundRectTransButton);
 		JScrollPane s3 = new JScrollPane(popUpContent3);
 		s3.setSize(new Dimension(180, 50));
 		s3.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -520,6 +522,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		JPanel popUpContent4 = new JPanel(new FlowLayout());
 		popUpContent4.add(circleButton);
 		popUpContent4.add(circFillButton);
+		popUpContent4.add(circTransButton);
 		JScrollPane s4 = new JScrollPane(popUpContent4);
 		s4.setSize(new Dimension(180, 70));
 		s4.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
