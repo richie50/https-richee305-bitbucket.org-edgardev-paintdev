@@ -1330,7 +1330,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		{
 			BufferedImage imageToPrint = new BufferedImage(paintPanel.getWidth(), paintPanel.getHeight(),
-					BufferedImage.TYPE_INT_RGB);
+					BufferedImage.TYPE_INT_ARGB);
 			Printer painter = new Printer(imageToPrint);
 			boolean observer = painter.imageUpdate(imageToPrint, ImageObserver.ALLBITS, 0, 0, imageToPrint.getWidth(),
 					imageToPrint.getHeight());
@@ -1428,7 +1428,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 	protected int SaveFile(File file, String extension) {
 		BufferedImage imageToSave = new BufferedImage(paintPanel.getWidth(), paintPanel.getHeight(),
-				BufferedImage.TYPE_INT_RGB);
+				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D graphics2D = imageToSave.createGraphics();
 		paintPanel.paint(graphics2D);
 		try {
