@@ -277,6 +277,13 @@ public class PaintPanel extends JPanel {
 	}
 
 	public void resetImage() {
+		if(img == null){
+			try{
+				throw new NoSuchElementException();
+			}catch(NoSuchElementException ex){
+				ex.printStackTrace();
+			}
+		}
 		width = img.getWidth(this);
 		height = img.getHeight(this);
 		setPreferredSize(new Dimension(width, height));
