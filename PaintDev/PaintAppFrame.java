@@ -1343,7 +1343,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			System.out.println("OK :" + s.toString() + "===> " + getSaveFileName());
 			if (s.toString().equals(getSaveFileName())) {
 				return JOptionPane.showOptionDialog(this,
-						"The file '" + file.getName() + "' already exists.  " + "Replace existing file?", "Warning",
+						"The file '" + getSaveFileName() + "' already exists.  " + "Replace existing file?", "Warning",
 						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options,
 						options[2]) == JOptionPane.YES_OPTION;
 			}
