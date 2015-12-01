@@ -8,6 +8,7 @@ build on this app on your own risk
 ### How do I get set up? ###
 
 compile all .java files and run java a2
+And not get whipped before a 30% project
 
 ### Contribution guidelines ###
 Feel free to contribute and make the world a better place
@@ -36,5 +37,3 @@ git branch new-branch-to-save-current-commits
 git fetch --all
 
 git reset --hard origin/master
-
-
