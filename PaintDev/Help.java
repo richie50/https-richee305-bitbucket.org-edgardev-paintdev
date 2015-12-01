@@ -34,7 +34,7 @@ public class Help extends JDialog {
 		acc.setBounds(180, 30, 40, 40);
 		messagePane.add(new JLabel(
 				"<html> <font color=\"red\"> <center> EECS 3461 Paint App </center> <br> <br> <br> <br> The team developed this:"
-						+ "<center>1. Edgar Zaganjori ------ cse23106 <br>2. Daniyal Javed Khan ---- cse31034 <br>3. Richmond Frimpong --- cse23007<br> </center>"
+						+ "<center>1. Edgar Zaganjori ------ cse23106 <br>2. Daniyal Javed Khan ---- cse31034 <br>3. Richmond Frimpong --- cse23004<br> </center>"
 						+ "<font size=\"2\"> We hope you enjoy this! <br> Any suggestions please contact us through our github <br> <center><a href=\"https://github.com/ezaganjoridev\">@ezaganjoridev</a> <center></font> </font></html>"));
 		// get content pane, which is usually the
 		// Container of all the dialog's components.
