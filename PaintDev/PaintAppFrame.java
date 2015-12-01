@@ -101,6 +101,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private JMenuItem clearWordArt;
 	private JMenuItem print;
 	private JMenu toolsMenu;
+	private JMenu HelpMenu;
+	private JMenuItem help;
+	private JMenuItem Source;
 	// toolbar
 	private JMenuItem position;
 	JPanel popUpToolBar;
@@ -641,6 +644,20 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		position = new JMenuItem("Position", newFileImage);
 		toolsMenu.add(position);
 		position.addActionListener(this);
+		//help menu
+		HelpMenu = new JMenu("Help");
+		HelpMenu.setMnemonic(KeyEvent.VK_T);
+		menuBar.add(HelpMenu);
+		newFileImage = new ImageIcon("icons/position.png");
+		img = newFileImage.getImage();
+		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
+		newFileImage = new ImageIcon(img);
+		help = new JMenuItem("About Paint", newFileImage);
+		HelpMenu.add(help);
+		help.addActionListener(this);
+		Source = new JMenuItem("Contibute To Project", newFileImage);
+		HelpMenu.add(Source);
+		Source.addActionListener(this);
 		// <red>
 		newFileImage = new ImageIcon("icons/undoM.png");
 		img = newFileImage.getImage();
@@ -1156,7 +1173,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			boolean observer = painter.imageUpdate(imageToPrint, ImageObserver.ALLBITS, 0, 0, imageToPrint.getWidth(),
 					imageToPrint.getHeight());
 			PrinterJob job = PrinterJob.getPrinterJob();
-			job.pageDialog(job.defaultPage());
 			job.setPrintable(painter);
 			boolean ok_to_print = job.printDialog();
 			if (ok_to_print && observer) {
@@ -1169,6 +1185,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		} else if (source == clearWordArt) {
 			System.out.println("CLEAR WORD ART");
 			paintPanel.clearWordArt();
+		}else if (source == help){
+			Help dialog = new Help(new JFrame(), "HELP", "");
+			// set the size of the window
+			dialog.setSize(400, 250);
+		}
+		else if (source == Source){
+			LaunchUrl.launchURL("https://bitbucket.org/edgardev/paintdev/overview");
 		}
 	}
 
@@ -1184,8 +1207,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	protected int SaveFile(File file, String extension) {
 		BufferedImage imageToSave = new BufferedImage(paintPanel.getWidth(), paintPanel.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
-		Graphics2D graphics2D = imageToSave.createGraphics();
-		paintPanel.paint(graphics2D);
 		try {
 			ImageIO.write(imageToSave, extension, file);
 			// ImageIO.write(imageToSave, EXT[0], file);
@@ -1263,7 +1284,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			int w = image.getWidth(this);
 			setPreferredSize(new Dimension(w, h));
 			paintPanel.addImage(image);
-			System.out.println(paintPanel);
+			//System.out.println(paintPanel);
 		}
 		for (int i = 0; i < tbButtons.length; i++) {
 			tbButtons[i].setEnabled(true);
