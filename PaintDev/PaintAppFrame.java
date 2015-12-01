@@ -530,21 +530,82 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		eraserButton.setActionCommand("eraser");
 		eraserButton.setToolTipText("Eraser");
 		eraserButton.addActionListener(this);
-
+		//line changes
 		lineButton = new JButton(lineIcon);
-		lineButton.setActionCommand("line");
 		lineButton.setToolTipText("Straight Line");
 		lineButton.addActionListener(this);
 		
 		lineButton2 = new JButton(lineIcon2);
-		lineButton2.setActionCommand("line2");
 		lineButton2.setToolTipText("Straight Line");
 		lineButton2.addActionListener(this);
 		
 		lineButton3 = new JButton(lineIcon3);
-		lineButton3.setActionCommand("line3");
 		lineButton3.setToolTipText("Straight Line");
 		lineButton3.addActionListener(this);
+		
+		JButton temp5 = new JButton();
+		JPanel popUpContent5 = new JPanel(new FlowLayout());
+		popUpContent5.add(lineButton);
+		popUpContent5.add(lineButton2);
+		popUpContent5.add(lineButton3);
+		JScrollPane s5 = new JScrollPane(popUpContent5);
+		s5.setSize(new Dimension(180, 70));
+		s5.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		temp5.setAction(new AbstractAction(null) {
+			private Popup pop;
+			private boolean isShown = false;
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (isShown) {
+					pop.hide();
+				} else {
+					pop = popUp.getPopup(temp5, s5, temp5.getLocationOnScreen().x,
+							temp5.getLocationOnScreen().y + temp5.getHeight());
+					lineButton.setAction(new AbstractAction("", lineIcon) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							isShown = false;
+							pop.hide();
+						}
+					});
+					lineButton2.setAction(new AbstractAction("", lineIcon2) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							// circFillButton.setActionCommand("circlefill");
+							isShown = false;
+							pop.hide();
+						}
+					});
+					lineButton3.setAction(new AbstractAction("", lineIcon3) {
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// TODO Auto-generated method stub
+							// circFillButton.setActionCommand("circlefill");
+							isShown = false;
+							pop.hide();
+						}
+					});
+					pop.show();
+				}
+				isShown = !isShown;
+				lineButton.setActionCommand("line");
+				lineButton2.setActionCommand("line2");
+				lineButton3.setActionCommand("line3");
+			}
+
+		});
+		temp5.setIcon(lineIcon);
 
 		backgroundButton = new JButton(backgroundIcon);
 		backgroundButton.setActionCommand("background");
@@ -560,14 +621,12 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		buttons.add(changeColor);
 		buttons.add(backgroundButton);
 		buttons.add(eraserButton);
-		buttons.add(lineButton);
 		buttons.add(temp2);
 		buttons.add(temp3);
 		buttons.add(temp4);
+		buttons.add(temp5);
 		buttons.add(undoButton);
 		buttons.add(redoButton);
-		buttons.add(lineButton2);
-		buttons.add(lineButton3);
 
 		paintCanvas = new JPanel(new BorderLayout());
 		paintCanvas.add(paintPanel, "Center");
