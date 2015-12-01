@@ -170,21 +170,37 @@ public class PaintPanel extends JPanel {
 		if (!PaintAppFrame.circStruct.isEmpty()) {
 			PaintAppFrame.circStruct.clear();
 		}
+		if (!PaintAppFrame.circTransStruct.isEmpty()) {
+			PaintAppFrame.circTransStruct.clear();
+		}
 		if (!PaintAppFrame.lineStruct.isEmpty()) {
 			PaintAppFrame.lineStruct.clear();
 		}
-		if (!PaintAppFrame.rectFillStruct.isEmpty()) {
-			PaintAppFrame.rectFillStruct.clear();
+		if (!PaintAppFrame.lineStruct2.isEmpty()) {
+			PaintAppFrame.lineStruct2.clear();
 		}
-		if (!PaintAppFrame.roundRectFillStruct.isEmpty()) {
-			PaintAppFrame.roundRectFillStruct.clear();
+		if (!PaintAppFrame.lineStruct3.isEmpty()) {
+			PaintAppFrame.lineStruct3.clear();
 		}
-		if (!PaintAppFrame.roundRectStruct.isEmpty()) {
-			PaintAppFrame.roundRectStruct.clear();
+		if (!PaintAppFrame.rectTransStruct.isEmpty()) {
+			PaintAppFrame.rectTransStruct.clear();
 		}
 		if (!PaintAppFrame.rectStruct.isEmpty()) {
 			PaintAppFrame.rectStruct.clear();
 		}
+		if (!PaintAppFrame.rectFillStruct.isEmpty()) {
+			PaintAppFrame.rectFillStruct.clear();
+		}
+		if (!PaintAppFrame.roundRectStruct.isEmpty()) {
+			PaintAppFrame.roundRectStruct.clear();
+		}
+		if (!PaintAppFrame.roundRectFillStruct.isEmpty()) {
+			PaintAppFrame.roundRectFillStruct.clear();
+		}
+		if (!PaintAppFrame.roundRectTransStruct.isEmpty()) {
+			PaintAppFrame.roundRectTransStruct.clear();
+		}
+
 		if (!eraserStrokes.isEmpty()) {
 			eraserStrokes.clear();
 		}
@@ -351,14 +367,34 @@ public class PaintPanel extends JPanel {
 			int size = PaintAppFrame.rectFillStruct.size() - 1;
 			PaintAppFrame.rectFillStruct.remove(size);
 			repaint();
-		} else if (!PaintAppFrame.circFillStruct.isEmpty()) {
+		}
+		else if (!PaintAppFrame.rectTransStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.rectTransStruct.size(); i++) {
+				redoStruct.add(PaintAppFrame.rectTransStruct.get(i));
+			}
+			int size = PaintAppFrame.rectTransStruct.size() - 1;
+			PaintAppFrame.rectTransStruct.remove(size);
+			repaint();
+		}
+		
+		else if (!PaintAppFrame.circFillStruct.isEmpty()) {
 			for (int i = 0; i < PaintAppFrame.circFillStruct.size(); i++) {
 				redoStruct.add(PaintAppFrame.circFillStruct.get(i));
 			}
 			int size = PaintAppFrame.circFillStruct.size() - 1;
 			PaintAppFrame.circFillStruct.remove(size);
 			repaint();
-		} else if (!PaintAppFrame.roundRectStruct.isEmpty()) {
+		} 
+		else if (!PaintAppFrame.circTransStruct.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.circTransStruct.size(); i++) {
+				redoStruct.add(PaintAppFrame.circTransStruct.get(i));
+			}
+			int size = PaintAppFrame.circTransStruct.size() - 1;
+			PaintAppFrame.circTransStruct.remove(size);
+			repaint();
+		}
+		
+		else if (!PaintAppFrame.roundRectStruct.isEmpty()) {
 			for (int i = 0; i < PaintAppFrame.roundRectStruct.size(); i++) {
 				redoStruct.add(PaintAppFrame.roundRectStruct.get(i));
 			}
@@ -372,14 +408,43 @@ public class PaintPanel extends JPanel {
 			int size = PaintAppFrame.roundRectFillStruct.size() - 1;
 			PaintAppFrame.roundRectFillStruct.remove(size);
 			repaint();
-		} else if (!PaintAppFrame.lineStruct.isEmpty()) {
+		} 
+		 else if (!PaintAppFrame.roundRectTransStruct.isEmpty()) {
+				for (int i = 0; i < PaintAppFrame.roundRectTransStruct.size(); i++) {
+					redoStruct.add(PaintAppFrame.roundRectTransStruct.get(i));
+				}
+				int size = PaintAppFrame.roundRectTransStruct.size() - 1;
+				PaintAppFrame.roundRectTransStruct.remove(size);
+				repaint();
+			} 
+		
+		else if (!PaintAppFrame.lineStruct.isEmpty()) {
 			for (int i = 0; i < PaintAppFrame.lineStruct.size(); i++) {
 				redoStruct.add(PaintAppFrame.lineStruct.get(i));
 			}
 			int size = PaintAppFrame.lineStruct.size() - 1;
 			PaintAppFrame.lineStruct.remove(size);
 			repaint();
-		} else if (!eraserStrokes.isEmpty()) {
+		}
+		else if (!PaintAppFrame.lineStruct2.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.lineStruct2.size(); i++) {
+				redoStruct.add(PaintAppFrame.lineStruct2.get(i));
+			}
+			int size = PaintAppFrame.lineStruct2.size() - 1;
+			PaintAppFrame.lineStruct2.remove(size);
+			repaint();
+		}
+		else if (!PaintAppFrame.lineStruct3.isEmpty()) {
+			for (int i = 0; i < PaintAppFrame.lineStruct3.size(); i++) {
+				redoStruct.add(PaintAppFrame.lineStruct3.get(i));
+			}
+			int size = PaintAppFrame.lineStruct3.size() - 1;
+			PaintAppFrame.lineStruct3.remove(size);
+			repaint();
+		}
+		
+		
+		else if (!eraserStrokes.isEmpty()) {
 			for (int i = 0; i < eraserStrokes.size(); i++) {
 				redoAllStrokes.addElement(eraserStrokes.elementAt(i));
 			}
@@ -438,7 +503,24 @@ public class PaintPanel extends JPanel {
 			}
 			redoStruct.clear();
 			repaint();
-		} else if (!allStrokes.isEmpty() && !redoAllStrokes.isEmpty()) {
+		} 
+		 else if (!PaintAppFrame.lineStruct2.isEmpty()) {
+				for (int i = 0; i < redoStruct.size(); i++) {
+					PaintAppFrame.lineStruct2.add(redoStruct.get(i));
+				}
+				redoStruct.clear();
+				repaint();
+			}
+		
+		 else if (!PaintAppFrame.lineStruct3.isEmpty()) {
+				for (int i = 0; i < redoStruct.size(); i++) {
+					PaintAppFrame.lineStruct3.add(redoStruct.get(i));
+				}
+				redoStruct.clear();
+				repaint();
+			}
+		
+		else if (!allStrokes.isEmpty() && !redoAllStrokes.isEmpty()) {
 			for (int i = 0; i < redoAllStrokes.size(); i++) {
 				allStrokes.addElement(redoAllStrokes.elementAt(i));
 			}
