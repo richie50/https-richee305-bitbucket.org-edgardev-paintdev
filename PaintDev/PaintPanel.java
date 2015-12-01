@@ -215,6 +215,9 @@ public class PaintPanel extends JPanel {
 		PaintAppFrame.paintLine(g);
 		PaintAppFrame.paintLine2(g);
 		PaintAppFrame.paintLine3(g);
+		PaintAppFrame.paintTransCircle(g);
+		PaintAppFrame.paintTransRectangle(g);
+		PaintAppFrame.paintTransRoundRectangle(g);
 		paintEntities(g);
 
 		x = this.getWidth() / 2 - width / 2 + xOffset / 2;
