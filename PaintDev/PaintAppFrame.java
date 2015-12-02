@@ -49,7 +49,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			"icons/right.png", "icons/resetimage.png", "icons/wordart.png" };
 
 	final String[] BUTTON_NAMES = { "Bigger", "Smaller", "Wider", "Narrower", "Taller", "Shorter", "Up", "Down", "Left",
-			"Right", "Reset", "wordArt" };
+			"Right", "Reset Image", "Insert Text" };
 
 	final int[] MNEMONICS = { KeyEvent.VK_B, KeyEvent.VK_S, KeyEvent.VK_W, KeyEvent.VK_N, KeyEvent.VK_T, KeyEvent.VK_H,
 			KeyEvent.VK_U, KeyEvent.VK_D, KeyEvent.VK_L, KeyEvent.VK_R, KeyEvent.VK_CANCEL, KeyEvent.VK_P };
@@ -830,7 +830,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		position = new JMenuItem("Position", newFileImage);
 		toolsMenu.add(position);
 		position.addActionListener(this);
-		Rotate = new JMenu("Rotate");
+		Rotate = new JMenu("Rotate Image");
 		toolsMenu.add(Rotate);
 		rotate90 = new JMenuItem("Rotate 90");
 		rotate90.addActionListener(this);
@@ -1076,6 +1076,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			repaint();
 			enableButtonsForPaint();
 		}
+		else if(flag == 14){
+			enableButtonsForPaint();
+		}
 
 		else if (flag == 8) {
 			int x = me.getX();
@@ -1216,6 +1219,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseEnd = mouseStart;
 			repaint();
 		}
+		else if(flag == 14){
+			enableButtonsForPaint();
+		}
 	}
 
 	public void mouseReleased(MouseEvent me) {
@@ -1260,6 +1266,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			mouseStart = null;
 			mouseEnd = null;
 			repaint();
+		}
+		else if(flag == 14){
+			enableButtonsForPaint();
 		}
 
 		else if (flag == 6) {
@@ -1369,7 +1378,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			break;
 		case "background":
 			this.setBackgroundColor();
-			flag = 0;
+			flag = 14;
 			FLAG = 0;
 			break;
 		case "image":
