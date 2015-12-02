@@ -112,7 +112,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	// toolbar
 	private JMenuItem position;
 	private JMenu Rotate;
-	private JMenuItem rotate90, rotate180, rotate270, rotate360;
+	private JMenuItem rotate90, rotate180, rotate270, rotateN90, rotateN180, rotateN270;
 	JPanel popUpToolBar;
 	private JMenuItem clearImage;
 	private MyFileFilter fileExtensions;
@@ -215,8 +215,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		Icon roundRectIcon = new ImageIcon("icons/rectedge.png");
 		Icon roundRectFillIcon = new ImageIcon("icons/fullrectedge.png");
 		Icon lineIcon = new ImageIcon("icons/line.png");
-		Icon lineIcon2 = new ImageIcon("icons/line.png");
-		Icon lineIcon3 = new ImageIcon("icons/line.png");
+		Icon lineIcon2 = new ImageIcon("icons/line-thick2.png");
+		Icon lineIcon3 = new ImageIcon("icons/line-thick3.png");
 		Icon clearIcon = new ImageIcon("icons/clear.png");
 		Icon brushIcon = new ImageIcon("icons/brush-thin.png");
 		Icon thickIcon3 = new ImageIcon("icons/brush-medium.png");
@@ -595,11 +595,11 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		lineButton.addActionListener(this);
 
 		lineButton2 = new JButton(lineIcon2);
-		lineButton2.setToolTipText("Straight Line");
+		lineButton2.setToolTipText("Thicker Straight Line");
 		lineButton2.addActionListener(this);
 
 		lineButton3 = new JButton(lineIcon3);
-		lineButton3.setToolTipText("Straight Line");
+		lineButton3.setToolTipText("Thickest Straight Line");
 		lineButton3.addActionListener(this);
 
 		JButton temp5 = new JButton();
@@ -832,18 +832,24 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		position.addActionListener(this);
 		Rotate = new JMenu("Rotate");
 		toolsMenu.add(Rotate);
-		rotate90 = new JMenuItem("Rotate 90");
+		rotate90 = new JMenuItem("Rotate 90 Clockwise");
 		rotate90.addActionListener(this);
-		rotate180 = new JMenuItem("Rotate 180");
+		rotate180 = new JMenuItem("Rotate 180 Clockwise");
 		rotate180.addActionListener(this);
-		rotate270 = new JMenuItem("Rotate 270");
+		rotate270 = new JMenuItem("Rotate 270 Clockwise");
 		rotate270.addActionListener(this);
-		rotate360 = new JMenuItem("Rotate 360");
-		rotate360.addActionListener(this);
+		rotateN90 = new JMenuItem("Rotate 90 Counter Clockwise");
+		rotateN90.addActionListener(this);
+		rotateN180 = new JMenuItem("Rotate 180 Counter Clockwise");
+		rotateN180.addActionListener(this);
+		rotateN270 = new JMenuItem("Rotate 270 Counter Clockwise");
+		rotateN270.addActionListener(this);
 		Rotate.add(rotate90);
+		Rotate.add(rotateN90);
 		Rotate.add(rotate180);
+		Rotate.add(rotateN180);
 		Rotate.add(rotate270);
-		Rotate.add(rotate360);
+		Rotate.add(rotateN270);
 		// help menu
 		HelpMenu = new JMenu("Help");
 		HelpMenu.setMnemonic(KeyEvent.VK_T);
@@ -1580,9 +1586,29 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 					return false;
 				}
 			});
-		} else if (source == rotate360) {
+		} else if (source == rotateN90) {
 			System.out.println("ROTATE");
-			paintPanel.rotateImage(360.0, new ImageObserver() {
+			paintPanel.rotateImage(-90.0, new ImageObserver() {
+
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			});
+		} else if (source == rotateN180) {
+			System.out.println("ROTATE");
+			paintPanel.rotateImage(-180.0, new ImageObserver() {
+
+				@Override
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			});
+		} else if (source == rotateN270) {
+			System.out.println("ROTATE");
+			paintPanel.rotateImage(-270.0, new ImageObserver() {
 
 				@Override
 				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
