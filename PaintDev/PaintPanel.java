@@ -59,56 +59,58 @@ public class PaintPanel extends JPanel {
 		yOffset = 0;
 	}
 
-	/*
-	 * return the color
+	/**
+	 * @return the color
 	 */
 	public static Color getColor() {
 		return LINE_COLOR;
 	}
 
-	/*
+	/**
 	 * set the color
+	 * 
+	 * @param Color
 	 */
 	public void setColor(Color color) {
 		PaintPanel.LINE_COLOR = color;
 	}
 
-	/*
+	/**
 	 * set the brush to the thick brush
 	 */
 	public void setThickBrush() {
 		this.LINE_STROKE = this.THICK_LINE_STROKE;
 	}
 
-	/*
+	/**
 	 * set the brush to level 3 thickness
 	 */
 	public void setThickBrush3() {
 		this.LINE_STROKE = this.THICK_LINE_STROKE3;
 	}
 
-	/*
+	/**
 	 * set the brush to level 4 thickness
 	 */
 	public void setThickBrush4() {
 		this.LINE_STROKE = this.THICK_LINE_STROKE4;
 	}
 
-	/*
+	/**
 	 * use the pencil/thin brush
 	 */
 	public void setThinBrush() {
 		this.LINE_STROKE = this.THIN_LINE_STROKE;
 	}
 
-	/*
+	/**
 	 * set the eraser
 	 */
 	public void setEraser() {
 		this.LINE_STROKE = this.ERASER_STROKE;
 	}
 
-	/*
+	/**
 	 * Paint all the line segments stored in the vector
 	 */
 	private void paintInkStrokes(Graphics g) {
@@ -123,6 +125,11 @@ public class PaintPanel extends JPanel {
 		g2.setStroke(s); // restore stroke
 	}
 
+	/**
+	 * Prepares eraser
+	 * 
+	 * @param g
+	 */
 	private void paintEraser(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		// set the inking color
@@ -137,6 +144,14 @@ public class PaintPanel extends JPanel {
 		g2.setStroke(s); // restore stroke
 	}
 
+	/**
+	 * Paints the eraser
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
 	public void drawEraser(int x1, int y1, int x2, int y2) {
 		// get graphics context
 		g2 = (Graphics2D) this.getGraphics();
@@ -151,6 +166,14 @@ public class PaintPanel extends JPanel {
 		eraserStrokes.add(new LineSegment(inkSegment, Color.white, s));
 	}
 
+	/**
+	 * Draw ink for free hand
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
 	public void drawInk(int x1, int y1, int x2, int y2) {
 		// get graphics context
 		g2 = (Graphics2D) this.getGraphics();
@@ -164,12 +187,18 @@ public class PaintPanel extends JPanel {
 		allStrokes.add(new LineSegment(inkSegment, LINE_COLOR, LINE_STROKE));
 	}
 
+	/**
+	 * 
+	 * @return Shape
+	 */
 	public Shape getImage() {
 		Shape paint = g2.getClip();
 		return paint.getBounds2D();
 	}
 
-	/* clear method removes everything */
+	/**
+	 * clear method removes everything
+	 */
 	public void clear() {
 		allStrokes.clear();
 		this.setBackground(Color.white);
@@ -216,13 +245,18 @@ public class PaintPanel extends JPanel {
 		this.repaint();
 	}
 
-	/* remove image loaded */
+	/**
+	 * remove image loaded
+	 */
 	public void clearImage() {
 		Graphics2D graphics = (Graphics2D) this.getGraphics();
 		graphics.clearRect(x, y, width, height);
 		graphics.dispose();
 	}
 
+	/**
+	 * Overriden paintComponent which throws everything to the panel
+	 */
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g); // paint background
@@ -243,6 +277,9 @@ public class PaintPanel extends JPanel {
 		paintEntities(g);
 	}
 
+	/**
+	 * Toolbox method
+	 */
 	public void makeBigger() {
 		width = width + INC;
 		height = height + INC;
@@ -250,6 +287,9 @@ public class PaintPanel extends JPanel {
 		this.repaint();
 	}
 
+	/**
+	 * Toolbox method
+	 */
 	public void makeSmaller() {
 		width = width - INC;
 		height = height - INC;
@@ -257,51 +297,77 @@ public class PaintPanel extends JPanel {
 		this.repaint();
 	}
 
+	/**
+	 * Toolbox method
+	 */
 	public void makeWider() {
 		width = width + INC;
 		setPreferredSize(new Dimension(width, height));
 		this.repaint();
 	}
 
+	/**
+	 * Toolbox method
+	 */
 	public void makeNarrower() {
 		width = width - INC;
 		setPreferredSize(new Dimension(width, height));
 		this.repaint();
 	}
 
+	/**
+	 * Toolbox method
+	 */
 	public void makeTaller() {
 		height = height + 10;
 		setPreferredSize(new Dimension(width, height));
 		this.repaint();
 	}
 
+	/**
+	 * Toolbox method
+	 */
 	public void makeShorter() {
 		height = height - 10;
 		setPreferredSize(new Dimension(width, height));
 		this.repaint();
 	}
 
+	/**
+	 * Toolbox method
+	 */
 	public void moveUp() {
 		yOffset = yOffset - INC;
 		this.repaint();
 	}
 
+	/**
+	 * Toolbox method
+	 */
 	public void moveDown() {
 		yOffset = yOffset + INC;
 		this.repaint();
 	}
 
+	/**
+	 * Toolbox method
+	 */
 	public void moveLeft() {
 		xOffset = xOffset - INC;
 		this.repaint();
 	}
 
+	/**
+	 * Toolbox method
+	 */
 	public void moveRight() {
 		xOffset = xOffset + INC;
 		this.repaint();
 	}
 
-	/* reset image to original size */
+	/**
+	 * reset image to original size
+	 */
 	public void resetImage() {
 		Component frame = null;
 		if (img != null) {
@@ -320,7 +386,9 @@ public class PaintPanel extends JPanel {
 		}
 	}
 
-	/* method to rotate images */
+	/**
+	 * method to rotate images
+	 */
 	public void rotateImage(double degrees, ImageObserver obs) {
 		Component frame = null;
 		if (this.img == null) {
@@ -339,7 +407,9 @@ public class PaintPanel extends JPanel {
 		}
 	}
 
-	/* undo method, usually by removing last element from data structures */
+	/**
+	 * undo method, usually by removing last element from data structures
+	 */
 	public void undo() {
 		if (!allStrokes.isEmpty()) {
 			for (int i = 0; i < allStrokes.size(); i++) {
@@ -449,7 +519,7 @@ public class PaintPanel extends JPanel {
 		}
 	}
 
-	/*
+	/**
 	 * redo method, if a move is undone it is stored into a redo data structure,
 	 * and then it is restored when pressed redo button
 	 */
@@ -539,7 +609,7 @@ public class PaintPanel extends JPanel {
 		}
 	}
 
-	/*
+	/**
 	 * insert text
 	 */
 	public void addWordArt(String s) {
@@ -552,7 +622,9 @@ public class PaintPanel extends JPanel {
 		this.repaint();
 	}
 
-	/* load an image */
+	/**
+	 * load an image
+	 */
 	public Image addImage(Image image) {
 		img = image;
 		MediaTracker mt = new MediaTracker(this);
@@ -565,12 +637,19 @@ public class PaintPanel extends JPanel {
 		return img;
 	}
 
-	/* draw over images */
+	/**
+	 * draw over images
+	 */
 	public void customDrawImage(Object obj, int type, int width, int height) {
 		vectorForImages.add(new Entity(obj, type));
 		this.repaint();
 	}
 
+	/**
+	 * Paint the entities
+	 * 
+	 * @param g
+	 */
 	private void paintEntities(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		for (int i = 0; i < vectorForString.size(); i++) {
@@ -626,7 +705,9 @@ public class PaintPanel extends JPanel {
 		}
 	}
 
-	/* empty word art */
+	/**
+	 * empty word art
+	 */
 	public void clearWordArt() {
 		vectorForString.clear();
 		this.repaint();

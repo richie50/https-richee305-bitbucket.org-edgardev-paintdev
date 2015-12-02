@@ -1,3 +1,4 @@
+
 /**
  * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
  * @course EECS3461 
@@ -37,6 +38,10 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 	JButton cancel;
 	JButton foreground;
 
+	/**
+	 * 
+	 * @param owner
+	 */
 	WordArtCustomDialog(Frame owner) {
 		super(owner, "Add Text", true);
 		this.setResizable(false);
@@ -177,6 +182,9 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 
 	}
 
+	/**
+	 * Change the state of the text
+	 */
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		// TODO Auto-generated method stub
@@ -198,18 +206,38 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 		example.setFont(new Font(tmp.getFamily(), style, tmp.getSize()));
 	}
 
+	/**
+	 * @return font
+	 */
 	public Font getFont() {
 		return example.getFont();
 	}
 
+	/**
+	 * 
+	 * @return Forecolor
+	 */
 	public Color getForeColor() {
 		return example.getForeground();
 	}
 
+	/**
+	 * 
+	 * @return backGround
+	 */
 	public Color getBackColor() {
 		return example.getBackground();
 	}
 
+	/**
+	 * Create the dialogue
+	 * 
+	 * @param f
+	 * @param fontArg
+	 * @param foreColorArg
+	 * @param backColorArg
+	 * @return
+	 */
 	public int showCustomDialog(Frame f, Font fontArg, Color foreColorArg, Color backColorArg) {
 		this.setLocationRelativeTo(f);
 
@@ -252,7 +280,12 @@ public class WordArtCustomDialog extends JDialog implements ActionListener, Item
 
 		return userResponse;
 	}
-	public String getExampleText(){
+
+	/**
+	 * 
+	 * @return text
+	 */
+	public String getExampleText() {
 		return example.getText();
 	}
 }

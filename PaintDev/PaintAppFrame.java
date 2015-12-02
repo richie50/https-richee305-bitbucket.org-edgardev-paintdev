@@ -121,7 +121,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private MyFileFilter fileExtensions;
 	private String fileExist;
 
-	/**
+	/*
 	 * Where shapes are set
 	 */
 	public static ArrayList<ColoredShape> rectStruct = new ArrayList<ColoredShape>();
@@ -888,7 +888,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 	}
 
-	/*
+	/**
 	 * method to start the removable toolbar
 	 */
 	public void addDropDownToolBar() {
@@ -964,12 +964,19 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		this.setContentPane(content);
 	}
 
+	/**
+	 * Updates text
+	 */
 	public void updateMessage() {
 		messageField.setText(message);
 		messageField.setFont(messageFont);
 		messageField.setForeground(foreColor);
 		messageField.setBackground(backColor);
 	}
+
+	/**
+	 * JAVA mouseDragged method
+	 */
 
 	public void mouseDragged(MouseEvent me) {
 		if (flag == 0) {
@@ -1057,7 +1064,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * enable buttons after drawing on the canvas
 	 */
 	private void enableButtonsForPaint() {
@@ -1066,7 +1073,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		redoButton.setEnabled(true);
 	}
 
-	/*
+	/**
 	 * disable buttons if nothing is on the canvas
 	 */
 	private void disableButtonsForPaint() {
@@ -1078,6 +1085,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	public void mouseMoved(MouseEvent me) {
 	}
 
+	/**
+	 * JAVA mouseClicked method
+	 */
 	public void mouseClicked(MouseEvent me) {
 		if (FLAG == 1) {
 			textX = me.getX();
@@ -1091,6 +1101,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 	public void mouseExited(MouseEvent me) {
 	}
+
+	/**
+	 * JAVA mousePressed button
+	 */
 
 	public void mousePressed(MouseEvent me) {
 
@@ -1163,6 +1177,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			enableButtonsForPaint();
 		}
 	}
+
+	/**
+	 * JAVA mouseReleased method
+	 */
 
 	public void mouseReleased(MouseEvent me) {
 
@@ -1497,7 +1515,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		// actionlisterner
 		// "this"
 
-	/*
+	/**
 	 * simple method to disable the buttons if no image is loaded.
 	 */
 	private void disableToolBarButtons() {
@@ -1506,7 +1524,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * once image is loaded, we enable access to these buttons
 	 */
 	private void enableToolBarButtons() {
@@ -1515,6 +1533,11 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
+	/**
+	 * Opens the file
+	 * 
+	 * @param file2
+	 */
 	protected void openFile(File file2) {
 		this.setTitle(file2.getName() + " - " + TITLE);
 		save.setEnabled(true);
@@ -1522,6 +1545,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		return;
 	}
 
+	/**
+	 * Saves the file
+	 * 
+	 * @param file
+	 * @param extension
+	 * @return
+	 */
 	protected int SaveFile(File file, String extension) {
 		BufferedImage imageToSave = new BufferedImage(paintPanel.getWidth(), paintPanel.getHeight(),
 				BufferedImage.TYPE_INT_RGB);
@@ -1536,6 +1566,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		return JOptionPane.YES_OPTION;
 	}
 
+	/**
+	 * Checks if file exists
+	 * 
+	 * @param file
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	protected boolean fileExistenceChecker(File file) throws FileNotFoundException {
 		@SuppressWarnings("unchecked")
 		Set<String> allFiles = (Set<String>) ImageFileChooser.getAllFiles(file);
@@ -1552,7 +1589,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		return rootPaneCheckingEnabled;
 	}
 
-	/*
+	/**
 	 * Set color from JColorChooser
 	 */
 	private void setPaintColor() {
@@ -1561,7 +1598,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		currColor = color;
 	}
 
-	/*
+	/**
 	 * Fill background
 	 */
 	private void setBackgroundColor() {
@@ -1581,7 +1618,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		dialog.setVisible(true);
 	}
 
-	/* load the image to the canvas */
+	/**
+	 * load the image to the canvas
+	 */
 	private void loadImage() {
 		JFileChooser imageSelector = new JFileChooser(System.getProperty("user.dir"));
 		imageSelector.setDialogTitle("Select Image");
@@ -1601,6 +1640,11 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		this.enableToolBarButtons();
 	}
 
+	/**
+	 * get the name of the saved file
+	 * 
+	 * @return fileExist
+	 */
 	public String getSaveFileName() {
 		return this.fileExist;
 	}
@@ -1618,8 +1662,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw Rectangle
+	 * 
 	 */
 	public static void paintRect(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1637,8 +1682,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw filled rectangle
+	 * 
 	 */
 	public static void paintRectFill(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1657,8 +1703,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
+	 * 
 	 * Draw a circle
+	 * 
 	 */
 	public static void paintCircle(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1676,8 +1724,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw filled circle
+	 * 
 	 */
 	public static void paintFillCircle(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1696,8 +1745,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw round edged rectangle
+	 * 
 	 */
 	public static void paintRoundRectangle(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1714,8 +1764,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw transparent rectangle
+	 * 
 	 */
 	public static void paintTransRectangle(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1736,8 +1787,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw transparent round edged rectangle
+	 * 
 	 */
 	public static void paintTransRoundRectangle(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1757,8 +1809,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw a transparent circle
+	 * 
 	 */
 	public static void paintTransCircle(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1779,8 +1832,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw a straight line
+	 * 
 	 */
 	public static void paintLine(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1799,8 +1853,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw a thicker line
+	 * 
 	 */
 	public static void paintLine2(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1819,8 +1874,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw the thickest line
+	 * 
 	 */
 	public static void paintLine3(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1839,8 +1895,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
-	/*
+	/**
 	 * Draw a filled round edged rectangle
+	 * 
+	 * 
 	 */
 	public static void paintRoundRectangleFill(Graphics g) {
 		gr = (Graphics2D) g;
@@ -1859,32 +1917,90 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 	}
 
+	/**
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return Rectangle2D
+	 */
 	public static Rectangle2D.Float createRect(int x1, int y1, int x2, int y2) {
 		return new Rectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
 	}
+
+	/**
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return Ellipse2D
+	 */
 
 	public static Ellipse2D.Float createCircle(int x1, int y1, int x2, int y2) {
 		return new Ellipse2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
 	}
 
+	/**
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return Rectanle2D
+	 */
+
 	public static Rectangle2D.Float createFillRect(int x1, int y1, int x2, int y2) {
 		return new Rectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
 	}
 
+	/**
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return Ellipse2D
+	 */
 	public static Ellipse2D.Float createFillCircle(int x1, int y1, int x2, int y2) {
 		return new Ellipse2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2));
 	}
 
+	/**
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return RoundRectangle2D
+	 */
 	public static RoundRectangle2D.Float createRoundRect(int x1, int y1, int x2, int y2) {
 		return new RoundRectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2), 50,
 				50);
 	}
 
+	/**
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return RoundRectangle2D
+	 */
 	public static RoundRectangle2D.Float createRoundRectFill(int x1, int y1, int x2, int y2) {
 		return new RoundRectangle2D.Float(Math.min(x1, x2), Math.min(y1, y2), Math.abs(x1 - x2), Math.abs(y1 - y2), 50,
 				50);
 	}
 
+	/**
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return Line2D
+	 */
 	public static Line2D.Float createLine(int x1, int y1, int x2, int y2) {
 		return new Line2D.Float(x1, y1, x2, y2);
 	}

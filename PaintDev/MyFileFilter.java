@@ -7,21 +7,27 @@
 
 import java.io.File;
 
-import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
 public class MyFileFilter extends FileFilter {
 	/**
-	 * 
+	 * to ignore java warnings
 	 */
 	private static final long serialVersionUID = 1L;
 	private String array[];
 
+	/**
+	 * 
+	 * @param extensions
+	 */
 	public MyFileFilter(String[] extensions) {
 		// TODO Auto-generated constructor stub
 		array = extensions;
 	}
 
+	/**
+	 * @param f
+	 */
 	@Override
 	public boolean accept(File f) {
 		// TODO Auto-generated method stub
@@ -37,6 +43,9 @@ public class MyFileFilter extends FileFilter {
 		return false;
 	}
 
+	/**
+	 * @return tmp
+	 */
 	@Override
 	public String getDescription() {
 		// TODO Auto-generated method stub

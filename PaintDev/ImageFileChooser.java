@@ -1,3 +1,4 @@
+
 /**
  * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
  * @course EECS3461 
@@ -21,12 +22,22 @@ public class ImageFileChooser extends JFileChooser {
 	private File file;
 	private String path;
 
+	/**
+	 * Chooses the image
+	 * 
+	 * @param temp
+	 * 
+	 */
+
 	public ImageFileChooser(String temp) {
 		super(temp);
 		setAcceptAllFileFilterUsed(false);
 		configExtensions();
 	}
 
+	/**
+	 * configures the type of extension of file
+	 */
 	private void configExtensions() {
 		this.addChoosableFileFilter(
 				new FileNameExtensionFilter("JPEG (*.jpg;*.jpeg;*.jpe;*.jfif)", "jpg", "jpeg", "jpe", "jfif"));
@@ -57,9 +68,11 @@ public class ImageFileChooser extends JFileChooser {
 		return file;
 	}
 
-	/*
+	/**
 	 * An extended implementation of file I/O operation to check for existing
 	 * files
+	 * 
+	 * @return set
 	 */
 	public static Set<?> getAllFiles(File file) throws FileNotFoundException {
 		File[] filesList = file.listFiles(); // find a way to list all directory

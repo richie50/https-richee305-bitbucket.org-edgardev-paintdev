@@ -1,3 +1,4 @@
+
 /**
  * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
  * @course EECS3461 
@@ -20,17 +21,43 @@ public class Entity {
 	private int width;
 	private int height;
 
+	/**
+	 * 
+	 * @param ent
+	 * @param typeArg
+	 * @param xArg
+	 * @param yArg
+	 *            default method for Entity
+	 */
+
 	Entity(Object ent, int typeArg, int xArg, int yArg) {
 		entity = ent;
 		type = typeArg;
 		x = xArg;
 		y = yArg;
 	}
+
+	/**
+	 * 
+	 * @param ent
+	 * @param typeArg
+	 */
 	Entity(Object ent, int typeArg) {
 		entity = ent;
 		type = typeArg;
 	}
-	Entity(Object ent, int typeArg, int xArg, int yArg ,Font tempf, Color back , Color fore) {
+
+	/**
+	 * 
+	 * @param ent
+	 * @param typeArg
+	 * @param xArg
+	 * @param yArg
+	 * @param tempf
+	 * @param back
+	 * @param fore
+	 */
+	Entity(Object ent, int typeArg, int xArg, int yArg, Font tempf, Color back, Color fore) {
 		entity = ent;
 		type = typeArg;
 		x = xArg;
@@ -40,39 +67,85 @@ public class Entity {
 		foreColor = fore;
 	}
 
+	/**
+	 * Default constructor
+	 * 
+	 * @return entity
+	 */
 	public Object Entity() {
 		return entity;
 	}
+
+	/**
+	 * 
+	 * @return type
+	 */
 
 	public int getType() {
 		return type;
 	}
 
+	/**
+	 * 
+	 * @return x
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * 
+	 * @return y
+	 */
 	public int getY() {
 		return y;
 	}
+
+	/**
+	 * 
+	 * @return width
+	 */
 	public int getWidth() {
 		return width;
 	}
 
+	/**
+	 * 
+	 * @return height
+	 */
+
 	public int getHeight() {
 		return height;
 	}
-	public Font getFont(){
+
+	/**
+	 * 
+	 * @return font
+	 */
+	public Font getFont() {
 		return font;
 	}
-	public Color getForeColor(){
+
+	/**
+	 * 
+	 * @return foreColor
+	 */
+	public Color getForeColor() {
 		return foreColor;
 	}
-	public Color getBackColor(){
+
+	/**
+	 * 
+	 * @return backColor
+	 */
+	public Color getBackColor() {
 		return backColor;
 	}
-	public String toString(){
-		return "Object type " + entity.getClass() +"-->"+ font.getName();
+
+	/**
+	 * toString method return String
+	 */
+	public String toString() {
+		return "Object type " + entity.getClass() + "-->" + font.getName();
 	}
 }
-

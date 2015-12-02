@@ -1,3 +1,4 @@
+
 /**
  * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
  * @course EECS3461 
@@ -5,7 +6,6 @@
  */
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,6 +26,14 @@ import javax.swing.KeyStroke;
 public class Help extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+
+	/**
+	 * Creates the help window in the toolbar
+	 * 
+	 * @param parent
+	 * @param title
+	 * @param message
+	 */
 
 	public Help(JFrame parent, String title, String message) {
 		super(parent, title);
@@ -59,9 +67,11 @@ public class Help extends JDialog {
 		setVisible(true);
 	}
 
-	// override the createRootPane inherited by the JDialog, to create the
-	// rootPane.
-	// create functionality to close the window when "Escape" button is pressed
+	/**
+	 * @return rootPane override the createRootPane inherited by the JDialog, to
+	 *         create the rootPane. create functionality to close the window
+	 *         when "Escape" button is pressed
+	 */
 	public JRootPane createRootPane() {
 		JRootPane rootPane = new JRootPane();
 		KeyStroke stroke = KeyStroke.getKeyStroke("ESCAPE");
@@ -81,8 +91,12 @@ public class Help extends JDialog {
 		return rootPane;
 	}
 
-	// an action listener to be used when an action is performed
-	// (e.g. button is pressed)
+	/**
+	 * an action listener to be used when an action is performed (e.g. button is
+	 * pressed)
+	 * 
+	 *
+	 */
 	class MyActionListener implements ActionListener {
 
 		// close and dispose of the window.

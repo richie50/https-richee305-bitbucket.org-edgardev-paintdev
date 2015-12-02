@@ -1,3 +1,4 @@
+
 /**
  * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
  * @course EECS3461 
@@ -18,10 +19,17 @@ public class Printer implements Printable, ImageObserver {
 	private Graphics2D g2d;
 	private Image image;
 
+	/**
+	 * 
+	 * @param TempImage
+	 */
 	public Printer(Image TempImage) {
 		this.image = TempImage;
 	}
 
+	/**
+	 * Print painting
+	 */
 	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 		/* if the page wants to print more than one page */
@@ -35,14 +43,25 @@ public class Printer implements Printable, ImageObserver {
 		return 0;
 	}
 
+	/**
+	 * 
+	 * @return image
+	 */
 	public Image getImage() {
 		return this.image;
 	}
 
+	/**
+	 * 
+	 * @param g
+	 */
 	public void paintComponent(Graphics g) {
 		g.drawImage(image, 0, 0, this);
 	}
 
+	/**
+	 * Update the image
+	 */
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 		if ((infoflags & ALLBITS) != 0) {
