@@ -1731,6 +1731,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			int w = image.getWidth(this);
 			setPreferredSize(new Dimension(w, h));
 			paintPanel.addImage(image);
+			paintPanel.customDrawImage(image, Entity.IMAGE, w, h);
 			// System.out.println(paintPanel);
 		}
 		this.enableToolBarButtons();
