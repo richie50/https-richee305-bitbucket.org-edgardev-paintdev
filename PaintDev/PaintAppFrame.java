@@ -149,8 +149,44 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		sampleCount = 0;
 
 		stroke = new Point[MAX_SAMPLES];
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent ev){
+				Component parentComponent = null;
+				int reply = JOptionPane.showConfirmDialog(parentComponent, "Do you want to save file before exiting?", EXTENSIONS,
+						JOptionPane.YES_NO_OPTION);
+				if (reply == JOptionPane.NO_OPTION) {
+					System.exit(0);
+				}
+				if (reply == JOptionPane.YES_OPTION) {
+					imageChooser = new ImageFileChooser(System.getProperty("user.dir"));
+					// the the list of files in the current directory
+					int returnVal = imageChooser.showSaveDialog(parentComponent);
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						try {
+							/*
+							 * Make sure the where ever you want to save the
+							 * file is consistent and you are resetting the FILE
+							 * POINTER every time you click on this button
+							 */
+							if (fileExistenceChecker(new File(System.getProperty("user.dir")))) {
+								file = imageChooser.getSelectedFileWithExtension();
+								EXTENSIONS = ((FileNameExtensionFilter) imageChooser.getFileFilter())
+										.getExtensions()[0];
+								fileExist = file.getName();
+								SaveFile(file, EXTENSIONS);
+								save.setEnabled(true);
+							} else {
+							}
+						} catch (FileNotFoundException e) {
 
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		});
 		/*
 		 * Init buttons, load icons, and add action listeners.
 		 */
