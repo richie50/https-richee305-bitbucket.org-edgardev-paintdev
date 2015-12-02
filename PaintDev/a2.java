@@ -1,3 +1,9 @@
+/**
+ * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
+ * @course EECS3461 
+ * @title a2
+ */
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;

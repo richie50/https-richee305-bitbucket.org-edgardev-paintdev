@@ -1,4 +1,10 @@
 
+/**
+ * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
+ * @course EECS3461 
+ * @title PaintPanel
+ */
+
 import javax.swing.*;
 
 import java.awt.*;
@@ -9,16 +15,17 @@ import java.util.*;
 
 public class PaintPanel extends JPanel {
 	static final long serialVersionUID = 1L;
-	Graphics2D g2; // only possible way i could get a reference to the image we
-					// draw
+	Graphics2D g2;
+	/* initthe strokes */
 	private Stroke THIN_LINE_STROKE = new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 	private Stroke THICK_LINE_STROKE = new BasicStroke(4.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 	private Stroke THICK_LINE_STROKE3 = new BasicStroke(7.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 	private Stroke THICK_LINE_STROKE4 = new BasicStroke(9.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
 	private Stroke ERASER_STROKE = new BasicStroke(10.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND);
-
+	/* default black line color */
 	static Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
+	/* Data structures for the strokes */
 	private Vector<Entity> vectorForString;
 	private Vector<Entity> vectorForImages;
 	private Vector<Entity> redoString;
@@ -38,6 +45,7 @@ public class PaintPanel extends JPanel {
 	final int INC = 10;
 
 	public PaintPanel() {
+		// init strokes & background
 		redoAllStrokes = new Vector<LineSegment>();
 		vectorForString = new Vector<Entity>();
 		vectorForImages = new Vector<Entity>();
@@ -51,30 +59,51 @@ public class PaintPanel extends JPanel {
 		yOffset = 0;
 	}
 
+	/*
+	 * return the color
+	 */
 	public static Color getColor() {
 		return LINE_COLOR;
 	}
 
+	/*
+	 * set the color
+	 */
 	public void setColor(Color color) {
 		PaintPanel.LINE_COLOR = color;
 	}
 
+	/*
+	 * set the brush to the thick brush
+	 */
 	public void setThickBrush() {
 		this.LINE_STROKE = this.THICK_LINE_STROKE;
 	}
 
+	/*
+	 * set the brush to level 3 thickness
+	 */
 	public void setThickBrush3() {
 		this.LINE_STROKE = this.THICK_LINE_STROKE3;
 	}
 
+	/*
+	 * set the brush to level 4 thickness
+	 */
 	public void setThickBrush4() {
 		this.LINE_STROKE = this.THICK_LINE_STROKE4;
 	}
 
+	/*
+	 * use the pencil/thin brush
+	 */
 	public void setThinBrush() {
 		this.LINE_STROKE = this.THIN_LINE_STROKE;
 	}
 
+	/*
+	 * set the eraser
+	 */
 	public void setEraser() {
 		this.LINE_STROKE = this.ERASER_STROKE;
 	}
@@ -83,11 +112,8 @@ public class PaintPanel extends JPanel {
 	 * Paint all the line segments stored in the vector
 	 */
 	private void paintInkStrokes(Graphics g) {
-
 		Graphics2D g2 = (Graphics2D) g;
-
 		g2.setColor(LINE_COLOR);
-
 		Stroke s = g2.getStroke(); // save current stroke
 		g2.setStroke(LINE_STROKE); // set desired stroke
 
@@ -99,27 +125,21 @@ public class PaintPanel extends JPanel {
 
 	private void paintEraser(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
-
 		// set the inking color
 		g2.setColor(Color.WHITE);
-
 		// set the stroke thickness, and cap and join attributes ('round')
 		Stroke s = g2.getStroke(); // save current stroke
 		g2.setStroke(LINE_STROKE); // set desired stroke
-
 		// retrive each line segment and draw it
 		for (LineSegment s1 : allStrokes) {
 			s1.draw(g2);
 		}
-
 		g2.setStroke(s); // restore stroke
 	}
 
 	public void drawEraser(int x1, int y1, int x2, int y2) {
-
 		// get graphics context
 		g2 = (Graphics2D) this.getGraphics();
-
 		// create the line
 		Line2D.Double inkSegment = new Line2D.Double(x1, y1, x2, y2);
 		g2.setColor(Color.WHITE); // set the inking color
@@ -134,7 +154,6 @@ public class PaintPanel extends JPanel {
 	public void drawInk(int x1, int y1, int x2, int y2) {
 		// get graphics context
 		g2 = (Graphics2D) this.getGraphics();
-
 		// create the line
 		Line2D.Double inkSegment = new Line2D.Double(x1, y1, x2, y2);
 		g2.setColor(LINE_COLOR); // set the inking color
@@ -145,13 +164,12 @@ public class PaintPanel extends JPanel {
 		allStrokes.add(new LineSegment(inkSegment, LINE_COLOR, LINE_STROKE));
 	}
 
-
 	public Shape getImage() {
 		Shape paint = g2.getClip();
 		return paint.getBounds2D();
-
 	}
 
+	/* clear method removes everything */
 	public void clear() {
 		allStrokes.clear();
 		this.setBackground(Color.white);
@@ -191,17 +209,14 @@ public class PaintPanel extends JPanel {
 		if (!PaintAppFrame.roundRectTransStruct.isEmpty()) {
 			PaintAppFrame.roundRectTransStruct.clear();
 		}
-
 		if (!eraserStrokes.isEmpty()) {
 			eraserStrokes.clear();
-		}
-		if (PaintPanel.getColor() != Color.WHITE) {
-
 		}
 		clearImage();
 		this.repaint();
 	}
 
+	/* remove image loaded */
 	public void clearImage() {
 		Graphics2D graphics = (Graphics2D) this.getGraphics();
 		graphics.clearRect(x, y, width, height);
@@ -286,6 +301,7 @@ public class PaintPanel extends JPanel {
 		this.repaint();
 	}
 
+	/* reset image to original size */
 	public void resetImage() {
 		Component frame = null;
 		if (img != null) {
@@ -304,6 +320,7 @@ public class PaintPanel extends JPanel {
 		}
 	}
 
+	/* method to rotate images */
 	public void rotateImage(double degrees, ImageObserver obs) {
 		Component frame = null;
 		if (this.img == null) {
@@ -322,8 +339,8 @@ public class PaintPanel extends JPanel {
 		}
 	}
 
+	/* undo method, usually by removing last element from data structures */
 	public void undo() {
-		/* undo method for rectStruct */
 		if (!allStrokes.isEmpty()) {
 			for (int i = 0; i < allStrokes.size(); i++) {
 				redoAllStrokes.addElement(allStrokes.elementAt(i));
@@ -361,9 +378,7 @@ public class PaintPanel extends JPanel {
 			int size = PaintAppFrame.rectTransStruct.size() - 1;
 			PaintAppFrame.rectTransStruct.remove(size);
 			repaint();
-		}
-
-		else if (!PaintAppFrame.circFillStruct.isEmpty()) {
+		} else if (!PaintAppFrame.circFillStruct.isEmpty()) {
 			for (int i = 0; i < PaintAppFrame.circFillStruct.size(); i++) {
 				redoStruct.add(PaintAppFrame.circFillStruct.get(i));
 			}
@@ -377,9 +392,7 @@ public class PaintPanel extends JPanel {
 			int size = PaintAppFrame.circTransStruct.size() - 1;
 			PaintAppFrame.circTransStruct.remove(size);
 			repaint();
-		}
-
-		else if (!PaintAppFrame.roundRectStruct.isEmpty()) {
+		} else if (!PaintAppFrame.roundRectStruct.isEmpty()) {
 			for (int i = 0; i < PaintAppFrame.roundRectStruct.size(); i++) {
 				redoStruct.add(PaintAppFrame.roundRectStruct.get(i));
 			}
@@ -400,9 +413,7 @@ public class PaintPanel extends JPanel {
 			int size = PaintAppFrame.roundRectTransStruct.size() - 1;
 			PaintAppFrame.roundRectTransStruct.remove(size);
 			repaint();
-		}
-
-		else if (!PaintAppFrame.lineStruct.isEmpty()) {
+		} else if (!PaintAppFrame.lineStruct.isEmpty()) {
 			for (int i = 0; i < PaintAppFrame.lineStruct.size(); i++) {
 				redoStruct.add(PaintAppFrame.lineStruct.get(i));
 			}
@@ -423,9 +434,7 @@ public class PaintPanel extends JPanel {
 			int size = PaintAppFrame.lineStruct3.size() - 1;
 			PaintAppFrame.lineStruct3.remove(size);
 			repaint();
-		}
-
-		else if (!eraserStrokes.isEmpty()) {
+		} else if (!eraserStrokes.isEmpty()) {
 			for (int i = 0; i < eraserStrokes.size(); i++) {
 				redoAllStrokes.addElement(eraserStrokes.elementAt(i));
 			}
@@ -438,9 +447,12 @@ public class PaintPanel extends JPanel {
 			vectorForString.remove(size);
 			repaint();
 		}
-
 	}
 
+	/*
+	 * redo method, if a move is undone it is stored into a redo data structure,
+	 * and then it is restored when pressed redo button
+	 */
 	public void redo() {
 		if (!PaintAppFrame.rectStruct.isEmpty()) {
 			for (int i = 0; i < redoStruct.size(); i++) {
@@ -490,17 +502,13 @@ public class PaintPanel extends JPanel {
 			}
 			redoStruct.clear();
 			repaint();
-		}
-
-		else if (!PaintAppFrame.lineStruct3.isEmpty()) {
+		} else if (!PaintAppFrame.lineStruct3.isEmpty()) {
 			for (int i = 0; i < redoStruct.size(); i++) {
 				PaintAppFrame.lineStruct3.add(redoStruct.get(i));
 			}
 			redoStruct.clear();
 			repaint();
-		}
-
-		else if (!allStrokes.isEmpty() && !redoAllStrokes.isEmpty()) {
+		} else if (!allStrokes.isEmpty() && !redoAllStrokes.isEmpty()) {
 			for (int i = 0; i < redoAllStrokes.size(); i++) {
 				allStrokes.addElement(redoAllStrokes.elementAt(i));
 			}
@@ -531,6 +539,9 @@ public class PaintPanel extends JPanel {
 		}
 	}
 
+	/*
+	 * insert text
+	 */
 	public void addWordArt(String s) {
 		Graphics2D g = (Graphics2D) this.getGraphics();
 		g.drawString(s, x, y);
@@ -540,6 +551,8 @@ public class PaintPanel extends JPanel {
 		vectorForString.addElement(new Entity(obj, type, x, y, f, b, c));
 		this.repaint();
 	}
+
+	/* load an image */
 	public Image addImage(Image image) {
 		img = image;
 		MediaTracker mt = new MediaTracker(this);
@@ -551,10 +564,13 @@ public class PaintPanel extends JPanel {
 		Graphics2D g2 = (Graphics2D) this.getGraphics();
 		return img;
 	}
-	public void customDrawImage(Object obj , int type ,int width , int height){
-		vectorForImages.add(new Entity(obj,type));
+
+	/* draw over images */
+	public void customDrawImage(Object obj, int type, int width, int height) {
+		vectorForImages.add(new Entity(obj, type));
 		this.repaint();
 	}
+
 	private void paintEntities(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		for (int i = 0; i < vectorForString.size(); i++) {
@@ -570,59 +586,47 @@ public class PaintPanel extends JPanel {
 				break;
 			}
 		}
-		//draw images 
-		for(int j = 0 ; j < vectorForImages.size();j++){
+		// draw images
+		for (int j = 0; j < vectorForImages.size(); j++) {
 			System.out.println("SIZE OF IMAGE VECTOR ->" + vectorForImages.size());
 			Entity img = vectorForImages.elementAt(j);
 			this.img = (Image) img.Entity();
 			int w = this.img.getWidth(this);
 			int h = this.img.getHeight(this);
-			switch(img.getType()){
-				case Entity.IMAGE:
-					x = this.getWidth() / 2 - width / 2 + xOffset / 2;
-					y = this.getHeight() / 2 - height / 2 + yOffset / 2;
-					System.out.println("In Images x => y " + w +" " + h);
-					g2.drawImage(this.img, x, y, w, h , new ImageObserver() {
-						// i had to click the panel for image Observer to listener
-						// had to do this do know what was causing the problem
-						@Override
-						public boolean imageUpdate(Image img, int flags, int x, int y,
-								int width, int height) {
-							// TODO Auto-generated method stub
-
-					        if ( (flags & HEIGHT) !=0 ) 
-					            System.out.println("Image height = " + height ); 
-					 
-					        if ( (flags & WIDTH ) !=0 ) 
-					            System.out.println("Image width = " + width ); 
-					         
-					        if ( (flags & FRAMEBITS) != 0 ) 
-					            System.out.println("Another frame finished."); 
-					 
-					        if ( (flags & SOMEBITS) != 0 ) 
-					            System.out.println("Image section :" 
-					                         + new Rectangle( x, y, width, height ) ); 
-					 
-					        if ( (flags & ALLBITS) != 0 ) { 
-					            System.out.println("Image finished!"); 
-					            return false;  
-					        } 
-					 
-					        if ( (flags & ABORT) != 0 )  { 
-					            System.out.println("Image load aborted..."); 
-					            return false;  
-					        }
-					            return true; 
+			switch (img.getType()) {
+			case Entity.IMAGE:
+				x = this.getWidth() / 2 - width / 2 + xOffset / 2;
+				y = this.getHeight() / 2 - height / 2 + yOffset / 2;
+				System.out.println("In Images x => y " + w + " " + h);
+				g2.drawImage(this.img, x, y, w, h, new ImageObserver() {
+					@Override
+					public boolean imageUpdate(Image img, int flags, int x, int y, int width, int height) {
+						if ((flags & HEIGHT) != 0)
+							System.out.println("Image height = " + height);
+						if ((flags & WIDTH) != 0)
+							System.out.println("Image width = " + width);
+						if ((flags & FRAMEBITS) != 0)
+							System.out.println("Another frame finished.");
+						if ((flags & SOMEBITS) != 0)
+							System.out.println("Image section :" + new Rectangle(x, y, width, height));
+						if ((flags & ALLBITS) != 0) {
+							System.out.println("Image finished!");
+							return false;
 						}
-					});	// how do i receive notification ant the image
-					//with observer because you have click on the panel for the observer to listener for any image changes
-					//try repaint()
-					repaint();
-					break;
-			}			
+						if ((flags & ABORT) != 0) {
+							System.out.println("Image load aborted...");
+							return false;
+						}
+						return true;
+					}
+				});
+				repaint();
+				break;
+			}
 		}
 	}
 
+	/* empty word art */
 	public void clearWordArt() {
 		vectorForString.clear();
 		this.repaint();

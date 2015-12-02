@@ -1,4 +1,8 @@
-
+/**
+ * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
+ * @course EECS3461 
+ * @title Printer
+ */
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -20,16 +24,14 @@ public class Printer implements Printable, ImageObserver {
 
 	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-		// TODO Auto-generated method stub
 		/* if the page wants to print more than one page */
 		g2d = (Graphics2D) graphics;
 		if (pageIndex > 0) {
 			return NO_SUCH_PAGE;
 		}
 		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
-		// graphics.drawImage(image, image.getHeight(this),
-		// image.getWidth(this), this);
-		graphics.drawImage(image, 50, 50 ,50, 50, 50, 50, 50 , 50, null);
+
+		graphics.drawImage(image, 50, 50, 50, 50, 50, 50, 50, 50, null);
 		return 0;
 	}
 
@@ -43,7 +45,6 @@ public class Printer implements Printable, ImageObserver {
 
 	@Override
 	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
-		// TODO Auto-generated method stub
 		if ((infoflags & ALLBITS) != 0) {
 			return false;
 		}

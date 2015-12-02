@@ -1,3 +1,8 @@
+/**
+ * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
+ * @course EECS3461 
+ * @title LineSegment
+ */
 import java.awt.*;
 import java.awt.geom.Line2D;
 

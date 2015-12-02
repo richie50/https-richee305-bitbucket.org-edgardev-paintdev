@@ -1,3 +1,10 @@
+
+/**
+ * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
+ * @course EECS3461 
+ * @title MyFileFilter
+ */
+
 import java.io.File;
 
 import javax.swing.JFileChooser;

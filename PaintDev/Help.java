@@ -1,3 +1,9 @@
+/**
+ * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
+ * @course EECS3461 
+ * @title Help
+ */
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Point;

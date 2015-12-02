@@ -1,3 +1,9 @@
+/**
+ * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
+ * @course EECS3461 
+ * @title ImageFileChooser
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;

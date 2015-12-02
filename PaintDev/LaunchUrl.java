@@ -1,3 +1,9 @@
+/**
+ * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
+ * @course EECS3461 
+ * @title LaunchUrl
+ */
+
 public class LaunchUrl {
 
     public static void launchURL(String s) {

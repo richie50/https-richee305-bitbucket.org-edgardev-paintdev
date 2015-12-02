@@ -1,3 +1,8 @@
+/**
+ * @author Edgar Zaganjori, Daniyal Javed, Richmond Frimpong
+ * @course EECS3461 
+ * @title WordArtCustomDialog
+ */
 
 import java.awt.Color;
 import java.awt.Component;
