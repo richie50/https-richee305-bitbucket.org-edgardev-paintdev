@@ -20,6 +20,7 @@ public class PaintPanel extends JPanel {
 	static Color LINE_COLOR = new Color(0, 0, 0);
 	private Stroke LINE_STROKE = this.THIN_LINE_STROKE;
 	private Vector<Entity> vectorForString;
+	private Vector<Entity> vectorForImages;
 	private Vector<Entity> redoString;
 	private Vector<LineSegment> allStrokes;
 	private Vector<LineSegment> eraserStrokes;
@@ -39,6 +40,7 @@ public class PaintPanel extends JPanel {
 	public PaintPanel() {
 		redoAllStrokes = new Vector<LineSegment>();
 		vectorForString = new Vector<Entity>();
+		vectorForImages = new Vector<Entity>();
 		allStrokes = new Vector<LineSegment>();
 		eraserStrokes = new Vector<LineSegment>();
 		this.setBackground(Color.WHITE);
@@ -143,17 +145,6 @@ public class PaintPanel extends JPanel {
 		allStrokes.add(new LineSegment(inkSegment, LINE_COLOR, LINE_STROKE));
 	}
 
-	public void addImage(Image image) {
-		img = image;
-		MediaTracker mt = new MediaTracker(this);
-		try {
-			mt.waitForAll();
-		} catch (InterruptedException e) {
-			System.out.printf("Failed to print image: %s\n", image.toString());
-		}
-		Graphics2D g2 = (Graphics2D) this.getGraphics();
-		g2.drawImage(image, 0, 0, width, height, this);
-	}
 
 	public Shape getImage() {
 		Shape paint = g2.getClip();
@@ -553,7 +544,21 @@ public class PaintPanel extends JPanel {
 		vectorForString.addElement(new Entity(obj, type, x, y, f, b, c));
 		this.repaint();
 	}
-
+	public Image addImage(Image image) {
+		img = image;
+		MediaTracker mt = new MediaTracker(this);
+		try {
+			mt.waitForAll();
+		} catch (InterruptedException e) {
+			System.out.printf("Failed to print image: %s\n", image.toString());
+		}
+		Graphics2D g2 = (Graphics2D) this.getGraphics();
+		return img;
+	}
+	public void customDrawImage(Object obj , int type ,int width , int height){
+		vectorForImages.add(new Entity(obj,type));
+		this.repaint();
+	}
 	private void paintEntities(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		for (int i = 0; i < vectorForString.size(); i++) {
@@ -568,6 +573,57 @@ public class PaintPanel extends JPanel {
 				g2.drawString((String) e.Entity(), x, y);
 				break;
 			}
+		}
+		//draw images 
+		for(int j = 0 ; j < vectorForImages.size();j++){
+			System.out.println("SIZE OF IMAGE VECTOR ->" + vectorForImages.size());
+			Entity img = vectorForImages.elementAt(j);
+			this.img = (Image) img.Entity();
+			int w = this.img.getWidth(this);
+			int h = this.img.getHeight(this);
+			switch(img.getType()){
+				case Entity.IMAGE:
+					x = this.getWidth() / 2 - width / 2 + xOffset / 2;
+					y = this.getHeight() / 2 - height / 2 + yOffset / 2;
+					System.out.println("In Images x => y " + w +" " + h);
+					g2.drawImage(this.img, x, y, w, h , new ImageObserver() {
+						// i had to click the panel for image Observer to listener
+						// had to do this do know what was causing the problem
+						@Override
+						public boolean imageUpdate(Image img, int flags, int x, int y,
+								int width, int height) {
+							// TODO Auto-generated method stub
+
+					        if ( (flags & HEIGHT) !=0 ) 
+					            System.out.println("Image height = " + height ); 
+					 
+					        if ( (flags & WIDTH ) !=0 ) 
+					            System.out.println("Image width = " + width ); 
+					         
+					        if ( (flags & FRAMEBITS) != 0 ) 
+					            System.out.println("Another frame finished."); 
+					 
+					        if ( (flags & SOMEBITS) != 0 ) 
+					            System.out.println("Image section :" 
+					                         + new Rectangle( x, y, width, height ) ); 
+					 
+					        if ( (flags & ALLBITS) != 0 ) { 
+					            System.out.println("Image finished!"); 
+					            return false;  
+					        } 
+					 
+					        if ( (flags & ABORT) != 0 )  { 
+					            System.out.println("Image load aborted..."); 
+					            return false;  
+					        }
+					            return true; 
+						}
+					});	// how do i receive notification ant the image
+					//with observer because you have click on the panel for the observer to listener for any image changes
+					//try repaint()
+					repaint();
+					break;
+			}			
 		}
 	}
 
