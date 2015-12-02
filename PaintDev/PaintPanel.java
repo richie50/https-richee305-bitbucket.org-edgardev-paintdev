@@ -226,10 +226,6 @@ public class PaintPanel extends JPanel {
 		PaintAppFrame.paintTransRectangle(g);
 		PaintAppFrame.paintTransRoundRectangle(g);
 		paintEntities(g);
-
-		x = this.getWidth() / 2 - width / 2 + xOffset / 2;
-		y = this.getHeight() / 2 - height / 2 + yOffset / 2;
-		g.drawImage(img, x, y, width, height, this);
 	}
 
 	public void makeBigger() {
