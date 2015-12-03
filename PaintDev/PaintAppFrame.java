@@ -48,7 +48,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private int textX;
 	private int textY;
 	final String TITLE = "DemoFileMenu";
-	final int MAX_SAMPLES = 500;
+	final int MAX_SAMPLES = 500000;
 	final String[] BUTTON_ICONS = { "icons/bigger.png", "icons/smaller.png", "icons/wider.png", "icons/narrow.png",
 			"icons/taller.png", "icons/shorter.png", "icons/up.png", "icons/down.png", "icons/left.png",
 			"icons/right.png", "icons/resetimage.png", "icons/wordart.png" };
@@ -1505,15 +1505,22 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			LaunchUrl.launchURL("https://bitbucket.org/edgardev/paintdev/overview");
 		} else if (source == rotate90) {
 			paintPanel.rotateImage(90.0, new ImageObserver() {
+				
 				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+				public boolean imageUpdate(Image img, int infoflags, int x, int y,
+						int width, int height) {
+					// TODO Auto-generated method stub
 					return false;
 				}
 			});
+			
 		} else if (source == rotate180) {
-			paintPanel.rotateImage(180.0, new ImageObserver() {
+			paintPanel.rotateImage(180.0,new ImageObserver() {
+				
 				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+				public boolean imageUpdate(Image img, int infoflags, int x, int y,
+						int width, int height) {
+					// TODO Auto-generated method stub
 					return false;
 				}
 			});
@@ -1671,7 +1678,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			int w = image.getWidth(this);
 			setPreferredSize(new Dimension(w, h));
 			paintPanel.addImage(image);
-			paintPanel.customDrawImage(image, Entity.IMAGE, w, h);
+			//paintPanel.customDrawImage(image, Entity.IMAGE, w, h);
 		}
 		this.enableToolBarButtons();
 	}
