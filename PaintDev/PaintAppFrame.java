@@ -1437,6 +1437,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			if (ok) {
 				file = fileChooser.getSelectedFile();
 				openFile(file);
+				this.enableToolBarButtons();
+
 			}
 		} else if (source == newFile) {
 			paintCanvas.remove(paintPanel);
@@ -1588,6 +1590,14 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	 */
 	protected void openFile(File file2) {
 		this.setTitle(file2.getName() + " - " + TITLE);
+		File imageFile = file2.getAbsoluteFile();
+		//System.out.println(imageFile.getName());
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		image = toolkit.getImage(imageFile.getAbsolutePath());
+		int h = image.getHeight(this);
+		int w = image.getWidth(this);
+		setPreferredSize(new Dimension(w, h));
+		paintPanel.addImage(image);
 		save.setEnabled(true);
 		saveAs.setEnabled(true);
 		return;
