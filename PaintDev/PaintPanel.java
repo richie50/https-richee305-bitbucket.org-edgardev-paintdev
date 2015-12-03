@@ -275,6 +275,11 @@ public class PaintPanel extends JPanel {
 		PaintAppFrame.paintTransRectangle(g);
 		PaintAppFrame.paintTransRoundRectangle(g);
 		paintEntities(g);
+		//
+		x = this.getWidth() / 2 - width / 2 + xOffset / 2;
+		y = this.getHeight() / 2 - height / 2 + yOffset / 2;
+		g.drawImage(img, x, y, width, height, this);
+		//
 	}
 
 	/**
@@ -398,7 +403,7 @@ public class PaintPanel extends JPanel {
 			BufferedImage blankCanvas = new BufferedImage(icon.getIconWidth(), icon.getIconHeight(),
 					BufferedImage.TYPE_INT_ARGB);
 			/// now rotate graphics
-			System.out.println("HERE");
+			//System.out.println("HERE");
 			Graphics2D g2 = (Graphics2D) blankCanvas.getGraphics();
 			g2.rotate(Math.toRadians(degrees), icon.getIconWidth() / 2, icon.getIconHeight() / 2);
 			g2.drawImage(this.img, 0, 0, obs);
@@ -634,6 +639,8 @@ public class PaintPanel extends JPanel {
 			System.out.printf("Failed to print image: %s\n", image.toString());
 		}
 		Graphics2D g2 = (Graphics2D) this.getGraphics();
+		g2.drawImage(image, x , y, width, height, this);
+		this.repaint();
 		return img;
 	}
 
