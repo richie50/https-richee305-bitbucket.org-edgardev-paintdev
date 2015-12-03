@@ -4,7 +4,6 @@
  * @course EECS3461 
  * @title PaintPanel
  */
-
 import javax.swing.*;
 
 import java.awt.*;
