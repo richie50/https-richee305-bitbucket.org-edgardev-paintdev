@@ -53,8 +53,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			"icons/taller.png", "icons/shorter.png", "icons/up.png", "icons/down.png", "icons/left.png",
 			"icons/right.png", "icons/resetimage.png", "icons/wordart.png" };
 
-	final String[] BUTTON_NAMES = { "Bigger", "Smaller", "Wider", "Narrower", "Taller", "Shorter", "Up", "Down", "Left",
-			"Right", "Reset Image", "Insert Text" };
+	final String[] BUTTON_NAMES = { "Make Image Bigger", "Make Image Smaller", "Make Image Wider", 
+			"Make Image Narrower", "Make Image Taller", "Make Image Shorter", 
+			"Make Image Go Up", "Make Image Go Down", "Make Image Go Left",
+			"Make Image Go Right", "Reset Image", "Insert Text" };
 
 	final int[] MNEMONICS = { KeyEvent.VK_B, KeyEvent.VK_S, KeyEvent.VK_W, KeyEvent.VK_N, KeyEvent.VK_T, KeyEvent.VK_H,
 			KeyEvent.VK_U, KeyEvent.VK_D, KeyEvent.VK_L, KeyEvent.VK_R, KeyEvent.VK_CANCEL, KeyEvent.VK_P };
@@ -177,6 +179,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 								fileExist = file.getName();
 								SaveFile(file, EXTENSIONS);
 								save.setEnabled(true);
+								System.exit(0);
 							} else {
 							}
 						} catch (FileNotFoundException e) {
@@ -253,8 +256,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		// make this a toolbar and images
 		Icon roundRectIcon = new ImageIcon("icons/rectedge.png");
+		Icon roundRectMainIcon = new ImageIcon("icons/roundrectd.png");
 		Icon roundRectFillIcon = new ImageIcon("icons/fullrectedge.png");
-		Icon lineIcon = new ImageIcon("icons/line.png");
+		Icon lineMainIcon = new ImageIcon("icons/lined.png");
+		Icon lineIcon = new ImageIcon("icons/line-thick1.png");
 		Icon lineIcon2 = new ImageIcon("icons/line-thick2.png");
 		Icon lineIcon3 = new ImageIcon("icons/line-thick3.png");
 		Icon clearIcon = new ImageIcon("icons/clear.png");
@@ -539,7 +544,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 			}
 		});
-		temp3.setIcon(roundRectIcon);
+		temp3.setIcon(roundRectMainIcon);
 		temp3.setToolTipText("Draw a smooth edged rectangle");
 
 		circleButton = new JButton(circleIcon);
@@ -683,7 +688,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				lineButton3.setActionCommand("line3");
 			}
 		});
-		temp5.setIcon(lineIcon);
+		temp5.setIcon(lineMainIcon);
 
 		backgroundButton = new JButton(backgroundIcon);
 		backgroundButton.setActionCommand("background");
