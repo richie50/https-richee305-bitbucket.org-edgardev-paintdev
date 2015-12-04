@@ -1802,7 +1802,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 		if (flag == 4) {
 			if (mouseStart != null && mouseEnd != null) {
-				gr.setPaint(Color.RED);
+				gr.setPaint(Color.BLUE);
 				Shape r = createFillCircle(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
 				gr.draw(r);
 			}
@@ -1821,7 +1821,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 		if (flag == 5) {
 			if (mouseStart != null && mouseEnd != null) {
-				gr.setPaint(Color.RED);
+				gr.setPaint(Color.ORANGE);
 				Shape r = createRoundRect(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
 				gr.draw(r);
 			}
@@ -1844,7 +1844,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 		if (flag == 11) {
 			if (mouseStart != null && mouseEnd != null) {
-				gr.setPaint(Color.RED);
+				gr.setPaint(Color.ORANGE);
 				Shape r = createRect(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
 				gr.draw(r);
 			}
@@ -1866,7 +1866,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 		if (flag == 12) {
 			if (mouseStart != null && mouseEnd != null) {
-				gr.setPaint(Color.RED);
+				gr.setPaint(Color.ORANGE);
 				Shape r = createRoundRect(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
 				gr.draw(r);
 			}
@@ -1889,7 +1889,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 		if (flag == 13) {
 			if (mouseStart != null && mouseEnd != null) {
-				gr.setPaint(Color.RED);
+				gr.setPaint(Color.BLUE);
 				Shape r = createCircle(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
 				gr.draw(r);
 			}
@@ -1974,7 +1974,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		}
 		if (flag == 6) {
 			if (mouseStart != null && mouseEnd != null) {
-				gr.setPaint(Color.RED);
+				gr.setPaint(Color.ORANGE);
 				Shape r = createRoundRectFill(mouseStart.x, mouseStart.y, mouseEnd.x, mouseEnd.y);
 				gr.draw(r);
 			}
