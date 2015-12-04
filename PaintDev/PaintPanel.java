@@ -410,6 +410,7 @@ public class PaintPanel extends JPanel {
 			this.img = blankCanvas;
 			this.repaint();
 		}
+
 	}
 
 	/**
@@ -683,6 +684,7 @@ public class PaintPanel extends JPanel {
 			case Entity.IMAGE:
 				x = this.getWidth() / 2 - width / 2 + xOffset / 2;
 				y = this.getHeight() / 2 - height / 2 + yOffset / 2;
+
 				System.out.println("In Images x => y " + w + " " + h);
 				g2.drawImage(this.img, x, y, w, h, new ImageObserver() {
 					@Override

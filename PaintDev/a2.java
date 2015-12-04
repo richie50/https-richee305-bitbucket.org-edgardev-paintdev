@@ -7,6 +7,7 @@
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 
 /**
  * 
@@ -15,14 +16,22 @@ import javax.swing.*;
  */
 
 public class a2 {
+	private UIManager.LookAndFeelInfo[] laf;
+
 	public static void main(String[] args) {
+
 		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			String theme = "javax.swing.plaf.nimbus.NimbusLookAndFeel";
+			UIManager.setLookAndFeel(theme);
+
 		} catch (Exception e) {
 		}
+
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+
+					// UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 					PaintAppFrame paintFrame = new PaintAppFrame();
 					paintFrame.setTitle("Paint");
 					Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

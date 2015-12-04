@@ -91,6 +91,8 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private JButton undoButton;
 	private JButton redoButton;
 	private JButton backgroundButton;
+	private JButton rotateClock;
+	private JButton rotateCounterC;
 	private Point[] stroke;
 	private int sampleCount;
 	static Graphics2D gr;
@@ -154,10 +156,10 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent ev){
+			public void windowClosing(WindowEvent ev) {
 				Component parentComponent = null;
-				int reply = JOptionPane.showConfirmDialog(parentComponent, "Do you want to save file before exiting?", EXTENSIONS,
-						JOptionPane.YES_NO_OPTION);
+				int reply = JOptionPane.showConfirmDialog(parentComponent, "Do you want to save file before exiting?",
+						EXTENSIONS, JOptionPane.YES_NO_OPTION);
 				if (reply == JOptionPane.NO_OPTION) {
 					System.exit(0);
 				}
@@ -695,6 +697,16 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		backgroundButton.setToolTipText("Fill Background");
 		backgroundButton.addActionListener(this);
 
+		rotateClock = new JButton("Rotate Clock");
+		rotateClock.setActionCommand("Rotate");
+		rotateClock.setToolTipText("Rotate 90 degrees");
+		rotateClock.addActionListener(this);
+
+		rotateCounterC = new JButton("Rotate CClock");
+		rotateCounterC.setActionCommand("NRotate");
+		rotateCounterC.setToolTipText("Rotate -90 degrees");
+		rotateCounterC.addActionListener(this);
+
 		// add all the buttons to the side panel
 		JPanel buttons = new JPanel(new GridLayout());
 		buttons.setBorder(BorderFactory.createRaisedSoftBevelBorder());
@@ -750,7 +762,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		open = new JMenuItem("Open...", newFileImage);
 		open.setMnemonic(KeyEvent.VK_O);
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-		open.addActionListener(this);
+
 		fileMenu.add(open);
 		fileMenu.addSeparator();
 		// <save>
@@ -820,6 +832,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 								fileExist = file.getName();
 								SaveFile(file, EXTENSIONS);
 								save.setEnabled(true);
+								System.exit(0);
 							} else {
 							}
 						} catch (FileNotFoundException e) {
