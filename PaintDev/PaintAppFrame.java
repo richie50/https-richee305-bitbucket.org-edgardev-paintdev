@@ -53,10 +53,9 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			"icons/taller.png", "icons/shorter.png", "icons/up.png", "icons/down.png", "icons/left.png",
 			"icons/right.png", "icons/resetimage.png", "icons/wordart.png" };
 
-	final String[] BUTTON_NAMES = { "Make Image Bigger", "Make Image Smaller", "Make Image Wider", 
-			"Make Image Narrower", "Make Image Taller", "Make Image Shorter", 
-			"Make Image Go Up", "Make Image Go Down", "Make Image Go Left",
-			"Make Image Go Right", "Reset Image", "Insert Text" };
+	final String[] BUTTON_NAMES = { "Make Image Bigger", "Make Image Smaller", "Make Image Wider",
+			"Make Image Narrower", "Make Image Taller", "Make Image Shorter", "Make Image Go Up", "Make Image Go Down",
+			"Make Image Go Left", "Make Image Go Right", "Reset Image", "Insert Text" };
 
 	final int[] MNEMONICS = { KeyEvent.VK_B, KeyEvent.VK_S, KeyEvent.VK_W, KeyEvent.VK_N, KeyEvent.VK_T, KeyEvent.VK_H,
 			KeyEvent.VK_U, KeyEvent.VK_D, KeyEvent.VK_L, KeyEvent.VK_R, KeyEvent.VK_CANCEL, KeyEvent.VK_P };
@@ -91,8 +90,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	private JButton undoButton;
 	private JButton redoButton;
 	private JButton backgroundButton;
-	private JButton rotateClock;
-	private JButton rotateCounterC;
 	private Point[] stroke;
 	private int sampleCount;
 	static Graphics2D gr;
@@ -378,13 +375,13 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				}
 				isShown = !isShown;
 				thinBrush.setActionCommand("thin");
-				thinBrush.setToolTipText("Thin Brush");
+				thinBrush.setToolTipText("Thickness : 1");
 				thickBrush.setActionCommand("thick");
-				thickBrush.setToolTipText("Thick Brush - 1");
+				thickBrush.setToolTipText("Thickness : 2");
 				thickBrush3.setActionCommand("thick3");
-				thickBrush3.setToolTipText("Thick Brush - 2");
+				thickBrush3.setToolTipText("Thickness : 3");
 				thickBrush4.setActionCommand("thick4");
-				thickBrush4.setToolTipText("Thick Brush - 3");
+				thickBrush4.setToolTipText("Thickness : 4");
 
 			}
 		});
@@ -411,6 +408,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 
 		// trans
 		rectTransButton = new JButton(rectTransIcon);
+		rectTransButton.setToolTipText("Oqaque Rectangle");
 		rectTransButton.addActionListener(this);
 
 		roundRectTransButton = new JButton(roundRectTransIcon);
@@ -475,10 +473,12 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				rectfillButton.setActionCommand("rectanglefill");
 				rectfillButton.setToolTipText("Filled Rectangle");
 				rectTransButton.setActionCommand("transrectangle");
+				rectTransButton.setToolTipText("Opaque Rectangle");
+
 			}
 		});
 		temp2.setIcon(rectd);
-		temp2.setToolTipText("Draw a square");
+		temp2.setToolTipText("Draw Rectangle");
 
 		roundRectButton = new JButton(roundRectIcon);
 		roundRectButton.addActionListener(this);
@@ -542,7 +542,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				roundRectButton.setToolTipText("Smooth Edged Rectangle");
 				roundRectFillButton.setActionCommand("roundrectanglefill");
 				roundRectFillButton.setToolTipText("Filled Smooth Edged Rectangle");
-				roundRectTransButton.setToolTipText("Transparent Round Edged Rectangle");
+				roundRectTransButton.setToolTipText("Opaque Round Edged Rectangle");
 
 			}
 		});
@@ -611,6 +611,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				circleButton.setToolTipText("Circle");
 				circFillButton.setActionCommand("circlefill");
 				circFillButton.setToolTipText("Filled Circle");
+				circTransButton.setToolTipText("Opaque Circle");
 				circTransButton.setActionCommand("transcircle");
 			}
 
@@ -686,26 +687,21 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 				}
 				isShown = !isShown;
 				lineButton.setActionCommand("line");
+				lineButton.setToolTipText("Straight Line Thickness : 1");
 				lineButton2.setActionCommand("line2");
+				lineButton2.setToolTipText("Straight Line Thickness : 2");
 				lineButton3.setActionCommand("line3");
+				lineButton3.setToolTipText("Straight Line Thickness : 3");
+
 			}
 		});
 		temp5.setIcon(lineMainIcon);
+		temp5.setToolTipText("Draw a Straight Line");
 
 		backgroundButton = new JButton(backgroundIcon);
 		backgroundButton.setActionCommand("background");
 		backgroundButton.setToolTipText("Fill Background");
 		backgroundButton.addActionListener(this);
-
-		rotateClock = new JButton("Rotate Clock");
-		rotateClock.setActionCommand("Rotate");
-		rotateClock.setToolTipText("Rotate 90 degrees");
-		rotateClock.addActionListener(this);
-
-		rotateCounterC = new JButton("Rotate CClock");
-		rotateCounterC.setActionCommand("NRotate");
-		rotateCounterC.setToolTipText("Rotate -90 degrees");
-		rotateCounterC.addActionListener(this);
 
 		// add all the buttons to the side panel
 		JPanel buttons = new JPanel(new GridLayout());
@@ -755,14 +751,14 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 		newFile.addActionListener(this);
 		fileMenu.add(newFile);
 		// <open>
-		newFileImage = new ImageIcon("icons/openMenu.png");
+		newFileImage = new ImageIcon("icons/openm" + "enu.png");
 		img = newFileImage.getImage();
 		img = img.getScaledInstance(10, 10, java.awt.Image.SCALE_AREA_AVERAGING);
 		newFileImage = new ImageIcon(img);
 		open = new JMenuItem("Open...", newFileImage);
 		open.setMnemonic(KeyEvent.VK_O);
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-
+		open.addActionListener(this);
 		fileMenu.add(open);
 		fileMenu.addSeparator();
 		// <save>
@@ -832,7 +828,6 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 								fileExist = file.getName();
 								SaveFile(file, EXTENSIONS);
 								save.setEnabled(true);
-								System.exit(0);
 							} else {
 							}
 						} catch (FileNotFoundException e) {
@@ -1525,21 +1520,19 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			LaunchUrl.launchURL("https://bitbucket.org/edgardev/paintdev/overview");
 		} else if (source == rotate90) {
 			paintPanel.rotateImage(90.0, new ImageObserver() {
-				
+
 				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y,
-						int width, int height) {
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					// TODO Auto-generated method stub
 					return false;
 				}
 			});
-			
+
 		} else if (source == rotate180) {
-			paintPanel.rotateImage(180.0,new ImageObserver() {
-				
+			paintPanel.rotateImage(180.0, new ImageObserver() {
+
 				@Override
-				public boolean imageUpdate(Image img, int infoflags, int x, int y,
-						int width, int height) {
+				public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
 					// TODO Auto-generated method stub
 					return false;
 				}
@@ -1604,7 +1597,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 	protected void openFile(File file2) {
 		this.setTitle(file2.getName() + " - " + TITLE);
 		File imageFile = file2.getAbsoluteFile();
-		//System.out.println(imageFile.getName());
+		// System.out.println(imageFile.getName());
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		image = toolkit.getImage(imageFile.getAbsolutePath());
 		int h = image.getHeight(this);
@@ -1706,7 +1699,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			int w = image.getWidth(this);
 			setPreferredSize(new Dimension(w, h));
 			paintPanel.addImage(image);
-			//paintPanel.customDrawImage(image, Entity.IMAGE, w, h);
+			// paintPanel.customDrawImage(image, Entity.IMAGE, w, h);
 		}
 		this.enableToolBarButtons();
 	}
