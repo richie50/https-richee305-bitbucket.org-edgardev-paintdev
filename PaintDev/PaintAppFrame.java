@@ -156,7 +156,7 @@ public class PaintAppFrame extends JFrame implements MouseListener, MouseMotionL
 			public void windowClosing(WindowEvent ev) {
 				Component parentComponent = null;
 				int reply = JOptionPane.showConfirmDialog(parentComponent, "Do you want to save file before exiting?",
-						EXTENSIONS, JOptionPane.YES_NO_OPTION);
+						"Confirm Exit", JOptionPane.YES_NO_OPTION);
 				if (reply == JOptionPane.NO_OPTION) {
 					System.exit(0);
 				}
