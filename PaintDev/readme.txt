@@ -1,6 +1,6 @@
-cse23106, 211509551, Zaganjori, Edgar
-cse31034, #########, Javed, Daniyal
-cse23007, #########, Frimpong, Richmond
+ Zaganjori, Edgar
+Javed, Daniyal
+Frimpong, Richmond
 
 Welcome!
 -----------------------------------About---------------------------------------
